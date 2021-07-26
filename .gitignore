@@ -1,0 +1,34 @@
+*.h~
+*.swp
+*.cpp~
+*.un~
+*.orig
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Fortran module files
+*.mod
+*.smod
+
+# Executables
+*v15*
+*.exe
+*.out
+*.app
+*.log
+*.tlog
+*.pdb
+*.idb
+*.ilk
+*.idb
+*.ilk
+*.ini
+*.rar
