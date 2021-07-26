@@ -8,6 +8,7 @@
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
 #include "CAppEditer.h"
+#include <iostream>
 
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <GLES2/gl2.h>
@@ -113,6 +114,8 @@ int main(int, char**)
         return 1;
     }
 
+
+	CAppEditer *editerP = new CAppEditer;
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -159,10 +162,12 @@ int main(int, char**)
     bool show_demo_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-	CAppEditer *editerP = new CAppEditer;
+	
     // Main loop
     while (!glfwWindowShouldClose(window))
-    {
+    {	
+		GLenum  i = glGetError();
+	
         // Poll and handle events (inputs, window resize, etc.)
         // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
         // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
@@ -175,8 +180,7 @@ int main(int, char**)
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-		editerP->Update();
-		editerP->Draw();
+
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
@@ -213,7 +217,7 @@ int main(int, char**)
                 show_another_window = false;
             ImGui::End();
         }
-
+		editerP->Update();
         // Rendering
         ImGui::Render();
         int display_w, display_h;
@@ -221,6 +225,7 @@ int main(int, char**)
         glViewport(0, 0, display_w, display_h);
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
+		editerP->Draw();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     	
         // Update and Render additional Platform Windows
