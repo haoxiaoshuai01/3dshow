@@ -87,13 +87,14 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../..\imgui\libs\gl3w;../..\imgui\backends;../..\imgui\libs\glfw\include;../..\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../..\imgui\libs\gl3w;../..\imgui\backends;../..\imgui\libs\glfw\include;../..\imgui;../..\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>IMGUI_IMPL_OPENGL_LOADER_GL3W;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>../..\imgui\libs\glfw\lib-vc2010-64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../..\imgui\libs\glfw\lib-vc2010-64;../..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -140,6 +141,8 @@
     <ClInclude Include="..\..\imgui\libs\gl3w\GL\glcorearb.h" />
     <ClInclude Include="..\..\imgui\libs\glfw\include\GLFW\glfw3.h" />
     <ClInclude Include="..\..\imgui\libs\glfw\include\GLFW\glfw3native.h" />
+    <ClInclude Include="CAppEditer.h" />
+    <ClInclude Include="CObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\imgui\backends\imgui_impl_glfw.cpp" />
@@ -150,7 +153,14 @@
     <ClCompile Include="..\..\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\..\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\..\imgui\libs\gl3w\GL\gl3w.c" />
+    <ClCompile Include="..\..\includes\stb_image.cpp" />
     <ClCompile Include="..\..\main.cpp" />
+    <ClCompile Include="CAppEditer.cpp" />
+    <ClCompile Include="CObject.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\res\shader\1.model_loading.fs" />
+    <None Include="..\..\res\shader\1.model_loading.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
