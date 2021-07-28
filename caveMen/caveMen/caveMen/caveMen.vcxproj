@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -141,6 +141,9 @@
     <ClInclude Include="..\..\imgui\libs\gl3w\GL\glcorearb.h" />
     <ClInclude Include="..\..\imgui\libs\glfw\include\GLFW\glfw3.h" />
     <ClInclude Include="..\..\imgui\libs\glfw\include\GLFW\glfw3native.h" />
+    <ClInclude Include="..\..\includes\learnopengl\camera.h" />
+    <ClInclude Include="..\..\includes\learnopengl\model.h" />
+    <ClInclude Include="..\..\includes\learnopengl\shader_m.h" />
     <ClInclude Include="CAppEditer.h" />
     <ClInclude Include="CObject.h" />
   </ItemGroup>
@@ -157,6 +160,7 @@
     <ClCompile Include="..\..\main.cpp" />
     <ClCompile Include="CAppEditer.cpp" />
     <ClCompile Include="CObject.cpp" />
+    <ClCompile Include="model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\res\shader\1.model_loading.fs" />

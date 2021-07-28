@@ -11,6 +11,7 @@
 #include <imgui.h>
 
 
+
 void CAppEditer::init()
 {
 	camera = new Camera(glm::vec3(0.0f, 0.0f, 3.0f));
@@ -20,7 +21,12 @@ void CAppEditer::init()
 
 	// load models
 	// -----------
-	ourModel = new Model("../../res/objects/backpack/backpack.obj");
+	
+	Model*p  = new Model("../../res/objects/backpack/backpack.obj");
+	Model*p2 = new Model(*p);
+	drawModel.push_back(p);
+	drawModel.push_back(p2);
+	//p->modelMatrix = glm::translate(p->modelMatrix, glm::vec3(5.0f, 0.0f, 0.0f));
 }
 
 CAppEditer::CAppEditer()
@@ -43,33 +49,37 @@ void CAppEditer::Unload()
 
 void CAppEditer::Update()
 {
-	/*float cameraSpeed = 2.5 ;
+	if (ImGui::IsKeyPressed(GLFW_KEY_W))
+		camera->ProcessKeyboard(FORWARD, deltaTime);
 	if (ImGui::IsKeyPressed(GLFW_KEY_S))
-		cameraPos += cameraSpeed * cameraFront;*/
+		camera->ProcessKeyboard(BACKWARD, deltaTime);
+	if (ImGui::IsKeyPressed(GLFW_KEY_A))
+		camera->ProcessKeyboard(LEFT, deltaTime);
+	if (ImGui::IsKeyPressed(GLFW_KEY_D))
+		camera->ProcessKeyboard(RIGHT, deltaTime);
 }
 
-void CAppEditer::Draw()
+void CAppEditer::Draw(int w,int h)
 {
+	float currentFrame = glfwGetTime();
+	deltaTime = currentFrame - lastFrame;
+	lastFrame = currentFrame;
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// don't forget to enable shader before setting uniforms
 	ourShader->use();
 
 	// view/projection transformations
-	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)1280 / (float)720, 0.1f, 100.0f);
+	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)w / (float)h, 0.1f, 100.0f);
 	glm::mat4 view = camera->GetViewMatrix();
 	ourShader->setMat4("projection", projection);
 	ourShader->setMat4("view", view);
 
-	// render the loaded model
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	// it's a bit too big for our scene, so scale it down
-	ourShader->setMat4("model", model);
-	ourModel->Draw(*ourShader);
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	// it's a bit too big for our scene, so scale it down
-	ourShader->setMat4("model", model);
-	ourModel->Draw(*ourShader);
+	for (auto &itemModel : drawModel)
+	{
+		itemModel->modelMatrix = glm::translate(itemModel->modelMatrix, glm::vec3(5.0f, 0.0f, 0.0f));
+		ourShader->setMat4("model", itemModel->modelMatrix);
+		itemModel->Draw(*ourShader);
+		break;
+	}
 }

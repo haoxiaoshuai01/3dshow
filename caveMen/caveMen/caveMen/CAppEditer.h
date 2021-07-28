@@ -1,5 +1,6 @@
 #pragma once
-
+#include <iostream>
+#include <vector>
 class Camera; 
 class Shader;
 class Model;
@@ -12,10 +13,12 @@ public:
 	void Load();
 	void Unload();
 	void Update();
-	void Draw();
+	void Draw(int w,int h);
 private:
 	Camera *camera;
 	Shader *ourShader;
-	Model *ourModel;
+	std::vector<Model *> drawModel;
+	float deltaTime = 0.0f;
+	float lastFrame = 0.0f;
 };
 

@@ -72,6 +72,15 @@
     <ClInclude Include="CObject.h">
       <Filter>editer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\includes\learnopengl\camera.h">
+      <Filter>editer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\includes\learnopengl\model.h">
+      <Filter>editer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\includes\learnopengl\shader_m.h">
+      <Filter>editer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\imgui\imgui.cpp">
