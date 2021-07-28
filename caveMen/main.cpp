@@ -166,7 +166,6 @@ int main(int, char**)
     // Main loop
     while (!glfwWindowShouldClose(window))
     {	
-		GLenum  i = glGetError();
 	
         // Poll and handle events (inputs, window resize, etc.)
         // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
@@ -227,7 +226,6 @@ int main(int, char**)
         glClear(GL_COLOR_BUFFER_BIT);
 		editerP->Draw();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    	
         // Update and Render additional Platform Windows
         // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
         //  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
@@ -238,7 +236,7 @@ int main(int, char**)
             ImGui::RenderPlatformWindowsDefault();
             glfwMakeContextCurrent(backup_current_context);
         }
-
+		
         glfwSwapBuffers(window);
     }
 	delete editerP;

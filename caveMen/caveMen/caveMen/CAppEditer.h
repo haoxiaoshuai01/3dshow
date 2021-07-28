@@ -14,8 +14,8 @@ public:
 	void Update();
 	void Draw();
 private:
-	//Camera *camera;
-	//Shader *ourShader;
-	//Model *ourModel;
+	Camera *camera;
+	Shader *ourShader;
+	Model *ourModel;
 };
 
