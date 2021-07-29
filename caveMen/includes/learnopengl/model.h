@@ -19,11 +19,12 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include "CObject.h"
 using namespace std;
 
 unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);
 
-class Model 
+class Model :public CObject
 {
 public:
     // model data 
@@ -34,21 +35,17 @@ public:
 
 	Model(Model &other);
     // constructor, expects a filepath to a 3D model.
-    Model(string const &path, bool gamma = false) : gammaCorrection(gamma)
+    Model(string const &path, bool gamma = false):CObject(), gammaCorrection(gamma)
     {
-		modelMatrix = glm::mat4(1.0f);
-		
 		loadModel(path);
 	}
-	void setPosition(glm::vec3 pos);
     // draws the model, and thus all its meshes
     void Draw(Shader &shader)
     {
         for(unsigned int i = 0; i < meshes.size(); i++)
             meshes[i].Draw(shader);
     }
-	glm::mat4 modelMatrix;
-	glm::vec3 postion;
+
 private:
     // loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
     void loadModel(string const &path)

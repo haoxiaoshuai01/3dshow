@@ -81,6 +81,12 @@
     <ClInclude Include="..\..\includes\learnopengl\shader_m.h">
       <Filter>editer</Filter>
     </ClInclude>
+    <ClInclude Include="CMesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dataStruct.h">
+      <Filter>editer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\imgui\imgui.cpp">
@@ -119,12 +125,24 @@
     <ClCompile Include="..\..\includes\stb_image.cpp">
       <Filter>editer</Filter>
     </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>editer</Filter>
+    </ClCompile>
+    <ClCompile Include="CMesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\res\shader\1.model_loading.fs">
       <Filter>shader</Filter>
     </None>
     <None Include="..\..\res\shader\1.model_loading.vs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\..\res\shader\cmesh_shader.vs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\..\res\shader\cmesh_shader.fs">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

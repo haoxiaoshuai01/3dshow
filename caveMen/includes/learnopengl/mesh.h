@@ -10,6 +10,7 @@
 
 #include <string>
 #include <vector>
+#include <CObject.h>
 using namespace std;
 
 struct Vertex {
@@ -31,7 +32,7 @@ struct Texture {
     string path;
 };
 
-class Mesh {
+class Mesh:public CObject {
 public:
     // mesh Data
     vector<Vertex>       vertices;
@@ -40,7 +41,7 @@ public:
     unsigned int VAO;
 
     // constructor
-    Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures)
+    Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures):CObject()
     {
         this->vertices = vertices;
         this->indices = indices;

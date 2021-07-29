@@ -4,6 +4,7 @@
 class Camera; 
 class Shader;
 class Model;
+class CMesh;
 class CAppEditer
 {
 public:
@@ -13,11 +14,15 @@ public:
 	void Load();
 	void Unload();
 	void Update();
-	void Draw(int w,int h);
+	void Draw();
+	int windowsW;
+	int windowsH;
 private:
 	Camera *camera;
-	Shader *ourShader;
+	Shader *modelShader;
+	Shader *meshShader;
 	std::vector<Model *> drawModel;
+	std::vector<CMesh *> drawMesh;
 	float deltaTime = 0.0f;
 	float lastFrame = 0.0f;
 };

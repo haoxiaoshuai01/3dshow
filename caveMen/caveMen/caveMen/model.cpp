@@ -6,13 +6,10 @@ Model::Model(Model & other)
 	this->meshes = other.meshes;
 	this->directory = other.directory;
 	this->gammaCorrection = other.gammaCorrection;
+	this->modelMatrix = other.modelMatrix;
+	this->postion = other.postion;
 }
 
-void Model::setPosition(glm::vec3 pos)
-{
-	postion = pos;
-	modelMatrix[3] = glm::vec4(postion,1);
-}
 unsigned int TextureFromFile(const char *path, const string &directory, bool gamma)
 {
 	string filename = string(path);

@@ -6,19 +6,20 @@
 #include <learnopengl/camera.h>
 #include <learnopengl/model.h>
 #include "stb_image.h"
-
+#include "CMesh.h"
 #include <iostream>
 #include <imgui.h>
 
+using namespace glm;
 
 
 void CAppEditer::init()
 {
-	camera = new Camera(glm::vec3(0.0f, 0.0f, 3.0f));
+	camera = new Camera(glm::vec3(0.0f, 0.0f, 20.0f));
 	stbi_set_flip_vertically_on_load(true);
 
-	ourShader = new Shader("../../res/shader/1.model_loading.vs", "../../res/shader/1.model_loading.fs");
-
+	modelShader = new Shader("../../res/shader/1.model_loading.vs", "../../res/shader/1.model_loading.fs");
+	meshShader = new Shader("../../res/shader/cmesh_shader.vs", "../../res/shader/cmesh_shader.fs");
 	// load models
 	// -----------
 	
@@ -26,12 +27,29 @@ void CAppEditer::init()
 	Model*p2 = new Model(*p);
 	drawModel.push_back(p);
 	drawModel.push_back(p2);
-	//p->modelMatrix = glm::translate(p->modelMatrix, glm::vec3(5.0f, 0.0f, 0.0f));
+	p->modelMatrix = glm::translate(p->modelMatrix, glm::vec3(0.0f, 0.0f, 0.0f));
+	p2->modelMatrix = glm::translate(p2->modelMatrix, glm::vec3(3.0f, 0.0f, 0.0f));
+
+
+	std::vector<SVertex> vertexVectors;
+	vertexVectors.push_back(SVertex(vec3(10, 10, 3), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(10, -10, 3), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(-10, -10, 3), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(-10, 10, 3), vec3(0.5, 0.5, 0.5)));
+	std::vector<unsigned int> indices;
+	indices.push_back(0);
+	indices.push_back(1);
+	indices.push_back(3);
+	indices.push_back(1);
+	indices.push_back(2);
+	indices.push_back(3);
+	CMesh *mesh = new CMesh(vertexVectors, indices);
+	drawMesh.push_back(mesh);
 }
 
 CAppEditer::CAppEditer()
 {
-	init();
+	
 }
 
 CAppEditer::~CAppEditer()
@@ -57,9 +75,22 @@ void CAppEditer::Update()
 		camera->ProcessKeyboard(LEFT, deltaTime);
 	if (ImGui::IsKeyPressed(GLFW_KEY_D))
 		camera->ProcessKeyboard(RIGHT, deltaTime);
+
+
+	static  ImVec2 lastPos;
+
+	if (ImGui::IsMouseDown(ImGuiMouseButton_Right))
+	{
+		float xoffset = ImGui::GetMousePos().x - lastPos.x;
+		float yoffset = lastPos.y - ImGui::GetMousePos().y;
+
+		camera->ProcessMouseMovement(xoffset, yoffset);
+	}
+	lastPos = ImGui::GetMousePos();
+	//std::cout << "deltaTime %" << deltaTime<<"\n";
 }
 
-void CAppEditer::Draw(int w,int h)
+void CAppEditer::Draw()
 {
 	float currentFrame = glfwGetTime();
 	deltaTime = currentFrame - lastFrame;
@@ -67,19 +98,27 @@ void CAppEditer::Draw(int w,int h)
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// don't forget to enable shader before setting uniforms
-	ourShader->use();
+	modelShader->use();
 
 	// view/projection transformations
-	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)w / (float)h, 0.1f, 100.0f);
+	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)windowsW / (float)windowsH, 0.1f, 100.0f);
 	glm::mat4 view = camera->GetViewMatrix();
-	ourShader->setMat4("projection", projection);
-	ourShader->setMat4("view", view);
+	modelShader->setMat4("projection", projection);
+	modelShader->setMat4("view", view);
 
 	for (auto &itemModel : drawModel)
 	{
-		itemModel->modelMatrix = glm::translate(itemModel->modelMatrix, glm::vec3(5.0f, 0.0f, 0.0f));
-		ourShader->setMat4("model", itemModel->modelMatrix);
-		itemModel->Draw(*ourShader);
-		break;
+		modelShader->setMat4("model", itemModel->modelMatrix);
+		itemModel->Draw(*modelShader);
+	}
+
+	meshShader->use();
+	meshShader->setMat4("projection", projection);
+	meshShader->setMat4("view", view);
+
+	for (auto &itemMesh : drawMesh)
+	{
+		meshShader->setMat4("model", itemMesh->modelMatrix);
+		itemMesh->Draw();
 	}
 }
