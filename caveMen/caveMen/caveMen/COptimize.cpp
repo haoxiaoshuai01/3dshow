@@ -2,4 +2,5 @@
 
 COptimize::COptimize()
 {
+
 }

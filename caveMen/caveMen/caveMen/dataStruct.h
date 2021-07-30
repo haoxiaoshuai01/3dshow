@@ -14,3 +14,13 @@ struct SVertex
 	// Color
 	glm::vec3 Color;
 };
+struct Point
+{
+	Point(float x, float y)
+	{
+		this->x = x;
+		this->y = y;
+	}
+	float x;
+	float y;
+};

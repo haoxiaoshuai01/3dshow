@@ -87,6 +87,12 @@
     <ClInclude Include="dataStruct.h">
       <Filter>editer</Filter>
     </ClInclude>
+    <ClInclude Include="COptimize.h">
+      <Filter>editer</Filter>
+    </ClInclude>
+    <ClInclude Include="CLIne.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\imgui\imgui.cpp">
@@ -129,6 +135,12 @@
       <Filter>editer</Filter>
     </ClCompile>
     <ClCompile Include="CMesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="COptimize.cpp">
+      <Filter>editer</Filter>
+    </ClCompile>
+    <ClCompile Include="CLIne.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

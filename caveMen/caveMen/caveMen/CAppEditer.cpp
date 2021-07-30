@@ -9,6 +9,7 @@
 #include "CMesh.h"
 #include <iostream>
 #include <imgui.h>
+#include "CLIne.h"
 
 using namespace glm;
 
@@ -22,15 +23,24 @@ void CAppEditer::init()
 	meshShader = new Shader("../../res/shader/cmesh_shader.vs", "../../res/shader/cmesh_shader.fs");
 	// load models
 	// -----------
+	addModel();
 	
-	Model*p  = new Model("../../res/objects/backpack/backpack.obj");
-	Model*p2 = new Model(*p);
-	drawModel.push_back(p);
-	drawModel.push_back(p2);
-	p->modelMatrix = glm::translate(p->modelMatrix, glm::vec3(0.0f, 0.0f, 0.0f));
-	p2->modelMatrix = glm::translate(p2->modelMatrix, glm::vec3(3.0f, 0.0f, 0.0f));
+	addMesh();
+	addLine();
+}
 
+CAppEditer::CAppEditer()
+{
+	
+}
 
+CAppEditer::~CAppEditer()
+{
+	
+}
+
+void CAppEditer::addMesh()
+{
 	std::vector<SVertex> vertexVectors;
 	vertexVectors.push_back(SVertex(vec3(10, 10, 3), vec3(0.5, 0.5, 0.5)));
 	vertexVectors.push_back(SVertex(vec3(10, -10, 3), vec3(0.5, 0.5, 0.5)));
@@ -47,14 +57,20 @@ void CAppEditer::init()
 	drawMesh.push_back(mesh);
 }
 
-CAppEditer::CAppEditer()
+void CAppEditer::addLine()
 {
-	
+	CLine *line = new CLine(vec2(0, -10), vec2(0, 10));
+	drawLine.push_back(line);
 }
 
-CAppEditer::~CAppEditer()
+void CAppEditer::addModel()
 {
-	
+	Model*p = new Model("../../res/objects/backpack/backpack.obj");
+	Model*p2 = new Model(*p);
+	drawModel.push_back(p);
+	drawModel.push_back(p2);
+	p->modelMatrix = glm::translate(p->modelMatrix, glm::vec3(0.0f, 0.0f, 0.0f));
+	p2->modelMatrix = glm::translate(p2->modelMatrix, glm::vec3(3.0f, 0.0f, 0.0f));
 }
 
 void CAppEditer::Load()
@@ -67,6 +83,8 @@ void CAppEditer::Unload()
 
 void CAppEditer::Update()
 {
+	
+
 	if (ImGui::IsKeyPressed(GLFW_KEY_W))
 		camera->ProcessKeyboard(FORWARD, deltaTime);
 	if (ImGui::IsKeyPressed(GLFW_KEY_S))
@@ -121,4 +139,10 @@ void CAppEditer::Draw()
 		meshShader->setMat4("model", itemMesh->modelMatrix);
 		itemMesh->Draw();
 	}
+
+	for (auto &itemline : drawLine)
+	{
+		itemline->Draw();
+	}
+	
 }
