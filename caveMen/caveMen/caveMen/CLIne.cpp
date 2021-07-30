@@ -4,6 +4,8 @@ CLine::CLine(glm::vec2 startv, glm::vec2 endv)
 {
 	start = startv;
 	endP = endv;
+	vertices.resize(4);
+	indices.resize(6);
 	updateVertex();
 	// create buffers/arrays
 	glGenVertexArrays(1, &VAO);
@@ -69,7 +71,7 @@ void CLine::updateVertex()
 void CLine::Draw()
 {
 	// draw mesh
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(SVertex), &vertices[0], GL_STATIC_DRAW);
+	//glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(SVertex), &vertices[0], GL_STATIC_DRAW);
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);

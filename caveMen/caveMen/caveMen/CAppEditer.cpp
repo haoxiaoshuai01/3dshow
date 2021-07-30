@@ -23,10 +23,11 @@ void CAppEditer::init()
 	meshShader = new Shader("../../res/shader/cmesh_shader.vs", "../../res/shader/cmesh_shader.fs");
 	// load models
 	// -----------
-	addModel();
+	//addModel();
 	
-	addMesh();
+	
 	addLine();
+	addMesh();
 }
 
 CAppEditer::CAppEditer()
@@ -55,12 +56,20 @@ void CAppEditer::addMesh()
 	indices.push_back(3);
 	CMesh *mesh = new CMesh(vertexVectors, indices);
 	drawMesh.push_back(mesh);
+	
 }
 
 void CAppEditer::addLine()
 {
 	CLine *line = new CLine(vec2(0, -10), vec2(0, 10));
 	drawLine.push_back(line);
+	line = new CLine(vec2(-10, 0), vec2(10, 0));
+	drawLine.push_back(line);
+
+	/*line = new CLine(vec2(0, 0), vec2(10, 10));
+	drawLine.push_back(line);
+	line = new CLine(vec2(0, 0), vec2(-10, 10));
+	drawLine.push_back(line);*/
 }
 
 void CAppEditer::addModel()
@@ -93,6 +102,10 @@ void CAppEditer::Update()
 		camera->ProcessKeyboard(LEFT, deltaTime);
 	if (ImGui::IsKeyPressed(GLFW_KEY_D))
 		camera->ProcessKeyboard(RIGHT, deltaTime);
+	if (ImGui::IsKeyPressed(GLFW_KEY_Q))
+		camera->ProcessKeyboard(Down, deltaTime);
+	if (ImGui::IsKeyPressed(GLFW_KEY_E))
+		camera->ProcessKeyboard(UP, deltaTime);
 
 
 	static  ImVec2 lastPos;
@@ -142,6 +155,7 @@ void CAppEditer::Draw()
 
 	for (auto &itemline : drawLine)
 	{
+		meshShader->setMat4("model", itemline->modelMatrix);
 		itemline->Draw();
 	}
 	

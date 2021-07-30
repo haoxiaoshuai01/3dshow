@@ -7,6 +7,9 @@
 #include <GL/gl3w.h>
 struct SVertex
 {
+	SVertex()
+	{
+	}
 	SVertex(glm::vec3 Position, glm::vec3 Color):Position(Position), Color(Color)
 	{}
 	// position
