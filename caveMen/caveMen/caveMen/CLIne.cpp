@@ -51,14 +51,14 @@ void CLine::updateVertex()
 	}
 
 	
-	vertices.push_back(SVertex(glm::vec3(start.x-Lwidth/2* glm::cos(consRad), 
-		start.y + Lwidth / 2 * glm::sin(consRad), z), glm::vec3(0.6, 0.6, 0.2)));
-	vertices.push_back(SVertex(glm::vec3(endP.x - Lwidth / 2 * glm::cos(consRad),
-		endP.y + Lwidth / 2 * glm::sin(consRad), z), glm::vec3(0.6, 0.6, 0.2)));
-	vertices.push_back(SVertex(glm::vec3(start.x + Lwidth / 2 * glm::cos(consRad),
-		start.y - Lwidth / 2 * glm::sin(consRad), z), glm::vec3(0.6, 0.6, 0.2)));
-	vertices.push_back(SVertex(glm::vec3(endP.x + Lwidth / 2 * glm::cos(consRad),
-		endP.y - Lwidth / 2 * glm::sin(consRad), z), glm::vec3(0.6, 0.6, 0.2)));
+	vertices.push_back(SVertex(glm::vec3(start.x-Lwidth/2* glm::sin(angleRad),
+		start.y + Lwidth / 2 * glm::cos(angleRad), z), glm::vec3(0.6, 0.6, 0.2)));
+	vertices.push_back(SVertex(glm::vec3(endP.x - Lwidth / 2 * glm::sin(angleRad),
+		endP.y + Lwidth / 2 * glm::cos(angleRad), z), glm::vec3(0.6, 0.6, 0.2)));
+	vertices.push_back(SVertex(glm::vec3(start.x + Lwidth / 2 * glm::sin(angleRad),
+		start.y - Lwidth / 2 * glm::cos(angleRad), z), glm::vec3(0.6, 0.6, 0.2)));
+	vertices.push_back(SVertex(glm::vec3(endP.x + Lwidth / 2 * glm::sin(angleRad),
+		endP.y - Lwidth / 2 * glm::cos(angleRad), z), glm::vec3(0.6, 0.6, 0.2)));
 	
 	indices.push_back(0);
 	indices.push_back(1);

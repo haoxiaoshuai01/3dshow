@@ -6,6 +6,7 @@ class Shader;
 class Model;
 class CMesh;
 class CLine;
+class CPointCloud;
 class CAppEditer
 {
 public:
@@ -14,6 +15,7 @@ public:
 	void addMesh();
 	void addLine();
 	void addModel();
+	void addPoint();
 	void init();
 	void Load();
 	void Unload();
@@ -28,6 +30,7 @@ private:
 	std::vector<Model *> drawModel;
 	std::vector<CMesh *> drawMesh;
 	std::vector<CLine *> drawLine;
+	CPointCloud *pointCould;
 	float deltaTime = 0.0f;
 	float lastFrame = 0.0f;
 };

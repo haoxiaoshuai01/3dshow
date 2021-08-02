@@ -10,6 +10,7 @@
 #include <iostream>
 #include <imgui.h>
 #include "CLIne.h"
+#include "CPointCloud.h"
 
 using namespace glm;
 
@@ -28,6 +29,7 @@ void CAppEditer::init()
 	
 	addLine();
 	addMesh();
+	addPoint();
 }
 
 CAppEditer::CAppEditer()
@@ -63,13 +65,9 @@ void CAppEditer::addLine()
 {
 	CLine *line = new CLine(vec2(0, -10), vec2(0, 10));
 	drawLine.push_back(line);
-	line = new CLine(vec2(-10, 0), vec2(10, 0));
-	drawLine.push_back(line);
+	CLine *line2 = new CLine(vec2(-10, 0), vec2(10, 0));
+	drawLine.push_back(line2);
 
-	/*line = new CLine(vec2(0, 0), vec2(10, 10));
-	drawLine.push_back(line);
-	line = new CLine(vec2(0, 0), vec2(-10, 10));
-	drawLine.push_back(line);*/
 }
 
 void CAppEditer::addModel()
@@ -80,6 +78,16 @@ void CAppEditer::addModel()
 	drawModel.push_back(p2);
 	p->modelMatrix = glm::translate(p->modelMatrix, glm::vec3(0.0f, 0.0f, 0.0f));
 	p2->modelMatrix = glm::translate(p2->modelMatrix, glm::vec3(3.0f, 0.0f, 0.0f));
+}
+
+void CAppEditer::addPoint()
+{
+	std::vector<glm::vec2> poss;
+	poss.push_back({2,2});
+	poss.push_back({ 3,3 });
+	poss.push_back({ 4,4 });
+	poss.push_back({ 5,5 });
+	pointCould = new CPointCloud(poss);
 }
 
 void CAppEditer::Load()
@@ -158,5 +166,7 @@ void CAppEditer::Draw()
 		meshShader->setMat4("model", itemline->modelMatrix);
 		itemline->Draw();
 	}
-	
+
+	meshShader->setMat4("model", pointCould->modelMatrix);
+	pointCould->Draw();
 }

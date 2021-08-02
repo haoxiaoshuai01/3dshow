@@ -2,8 +2,6 @@
 #include "CObject.h"
 #include "dataStruct.h"
 
-
-
 class CMesh :
 	public CObject
 {
@@ -19,6 +17,5 @@ public:
 
 	// initializes all the buffer objects/arrays
 	void setupMesh();
-	
 };
 
