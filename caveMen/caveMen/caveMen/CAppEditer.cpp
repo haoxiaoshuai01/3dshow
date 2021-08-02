@@ -22,6 +22,7 @@ void CAppEditer::init()
 
 	modelShader = new Shader("../../res/shader/1.model_loading.vs", "../../res/shader/1.model_loading.fs");
 	meshShader = new Shader("../../res/shader/cmesh_shader.vs", "../../res/shader/cmesh_shader.fs");
+	lineShader = new Shader("../../res/shader/line.vs", "../../res/shader/line.fs");
 	// load models
 	// -----------
 	//addModel();
@@ -67,6 +68,9 @@ void CAppEditer::addLine()
 	drawLine.push_back(line);
 	CLine *line2 = new CLine(vec2(-10, 0), vec2(10, 0));
 	drawLine.push_back(line2);
+
+	CLinewidth1 *linwidth1 = new CLinewidth1(vec3(-10,0,4),vec3(10,0,4));
+	drawLineWidth1s.push_back(linwidth1);
 
 }
 
@@ -126,7 +130,13 @@ void CAppEditer::Update()
 		camera->ProcessMouseMovement(xoffset, yoffset);
 	}
 	lastPos = ImGui::GetMousePos();
-	//std::cout << "deltaTime %" << deltaTime<<"\n";
+	if (ImGui::IsMouseDown(ImGuiMouseButton_Left))
+	{
+		glm::vec4 posWorld =  getScreenWordPos({ ImGui::GetMousePos().x, ImGui::GetMousePos().y });
+
+		CLinewidth1 *line = new CLinewidth1(vec3(camera->Position.x, camera->Position.y, camera->Position.z-1),vec3(posWorld.x,posWorld.y,posWorld.z));
+		drawLineWidth1s.push_back(line);
+	}
 }
 
 void CAppEditer::Draw()
@@ -140,7 +150,7 @@ void CAppEditer::Draw()
 	modelShader->use();
 
 	// view/projection transformations
-	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)windowsW / (float)windowsH, 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(camera->Zoom), (float)windowsW / (float)windowsH, 0.1f, 100.0f);
 	glm::mat4 view = camera->GetViewMatrix();
 	modelShader->setMat4("projection", projection);
 	modelShader->setMat4("view", view);
@@ -169,4 +179,35 @@ void CAppEditer::Draw()
 
 	meshShader->setMat4("model", pointCould->modelMatrix);
 	pointCould->Draw();
+
+	lineShader->use();
+	lineShader->setMat4("projection", projection);
+	lineShader->setMat4("view", view);
+	for (auto &itemline : drawLineWidth1s)
+	{
+		lineShader->setMat4("model", itemline->modelMatrix);
+		itemline->Draw();
+	}
+	
+}
+
+glm::vec4 CAppEditer::getScreenWordPos(glm::vec2 pos)
+{
+
+	float x = (2.0f * pos.x) / windowsW - 1.0f;
+	float y = 1.0f - (2.0f * pos.y) / windowsH;
+	float z = 1.0f;
+	//vec3 ray_nds = vec3(x, y, z);
+	vec4 ray_clip = vec4(x, y, z, 1.0);
+	vec4 ray_eye = glm::inverse(projection) * ray_clip;
+	vec4 ray_world = glm::inverse(camera->GetViewMatrix()) * ray_eye;
+	if (ray_world.w != 0.0)
+	{
+		ray_world.x /= ray_world.w;
+		ray_world.y /= ray_world.w;
+		ray_world.z /= ray_world.w;
+	}
+
+	return ray_world;
+	
 }

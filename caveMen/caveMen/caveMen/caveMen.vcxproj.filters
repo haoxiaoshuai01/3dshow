@@ -163,5 +163,11 @@
     <None Include="..\..\res\shader\cmesh_shader.fs">
       <Filter>shader</Filter>
     </None>
+    <None Include="..\..\res\shader\line.fs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\..\res\shader\line.vs">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

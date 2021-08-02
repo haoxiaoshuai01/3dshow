@@ -176,6 +176,8 @@
     <None Include="..\..\res\shader\1.model_loading.vs" />
     <None Include="..\..\res\shader\cmesh_shader.fs" />
     <None Include="..\..\res\shader\cmesh_shader.vs" />
+    <None Include="..\..\res\shader\line.fs" />
+    <None Include="..\..\res\shader\line.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
