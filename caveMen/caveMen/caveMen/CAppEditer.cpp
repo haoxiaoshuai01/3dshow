@@ -130,11 +130,11 @@ void CAppEditer::Update()
 		camera->ProcessMouseMovement(xoffset, yoffset);
 	}
 	lastPos = ImGui::GetMousePos();
-	if (ImGui::IsMouseDown(ImGuiMouseButton_Left))
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
-		glm::vec4 posWorld =  getScreenWordPos({ ImGui::GetMousePos().x, ImGui::GetMousePos().y });
-
-		CLinewidth1 *line = new CLinewidth1(vec3(camera->Position.x, camera->Position.y, camera->Position.z-1),vec3(posWorld.x,posWorld.y,posWorld.z));
+		glm::vec3 posWorld =  getScreenWordPos({ ImGui::GetMousePos().x, ImGui::GetMousePos().y });
+		
+		CLinewidth1 *line = new CLinewidth1(vec3(camera->Position.x, camera->Position.y, camera->Position.z), posWorld);
 		drawLineWidth1s.push_back(line);
 	}
 }
@@ -191,23 +191,23 @@ void CAppEditer::Draw()
 	
 }
 
-glm::vec4 CAppEditer::getScreenWordPos(glm::vec2 pos)
+glm::vec3 CAppEditer::getScreenWordPos(glm::vec2 pos)
 {
 
 	float x = (2.0f * pos.x) / windowsW - 1.0f;
-	float y = 1.0f - (2.0f * pos.y) / windowsH;
+	float y = 1.0f - (2.0f * pos.y / windowsH);
 	float z = 1.0f;
-	//vec3 ray_nds = vec3(x, y, z);
-	vec4 ray_clip = vec4(x, y, z, 1.0);
+	vec3 ray_nds = vec3(x, y, z);
+	vec4 ray_clip = vec4(ray_nds.x, ray_nds.y, ray_nds.z, 1.0);
 	vec4 ray_eye = glm::inverse(projection) * ray_clip;
 	vec4 ray_world = glm::inverse(camera->GetViewMatrix()) * ray_eye;
+	vec3 xyz;
 	if (ray_world.w != 0.0)
 	{
-		ray_world.x /= ray_world.w;
-		ray_world.y /= ray_world.w;
-		ray_world.z /= ray_world.w;
+		xyz.x= ray_world.x /ray_world.w;
+		xyz.y= ray_world.y /ray_world.w;
+		xyz.z= ray_world.z /ray_world.w;
 	}
 
-	return ray_world;
-	
+	return xyz;	
 }

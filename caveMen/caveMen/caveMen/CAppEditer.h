@@ -25,7 +25,7 @@ public:
 	void Unload();
 	void Update();
 	void Draw();
-	glm::vec4 getScreenWordPos(glm::vec2 pos);
+	glm::vec3 getScreenWordPos(glm::vec2 pos);
 	int windowsW;
 	int windowsH;
 private:
