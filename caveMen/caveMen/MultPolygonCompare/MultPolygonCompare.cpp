@@ -13,7 +13,6 @@ using type_func_constraint = std::function<void(void)>;
 using type_polygon = std::vector<type_pt2d>;
 
 
-
 enum class  EPolygonStatus
 {
 	Einside = 0,
@@ -62,18 +61,19 @@ float multiply(type_pt2d sp, type_pt2d ep, type_pt2d op)
 
 bool isparallel(Lineseg u, Lineseg v)
 {
+	return false;
 }
 bool isLineOverlap(type_pt2d u, type_pt2d v)
 {
-
+	return false;
 }
-enum EIntersectStatus
+enum class EIntersectStatus
 {
-	EIntersectVectex,
-	EIntersectInside,
+	EIntersectHasVectex,
+	EIntersectNonVectex,
 	EnonIntersect
 };
-// 判断线段是否相交
+// 判断线段是否相交 
 EIntersectStatus intersect(Lineseg u, Lineseg v)
 {
 	//auto[x_us, y_us] = u.s;
@@ -87,7 +87,7 @@ EIntersectStatus intersect(Lineseg u, Lineseg v)
 	//	(multiply(v.s, u.e, u.s) * multiply(u.e, v.e, u.s) >= 0) &&         //跨立实验 
 	//	(multiply(u.s, v.e, v.s) * multiply(v.e, u.e, v.s) >= 0));
 
-	return EIntersectStatus::EIntersectInside;
+	return EIntersectStatus::EIntersectNonVectex;
 }
 bool isPointInsidePolygon(type_polygon polygon2d, type_pt2d point)
 {
@@ -98,11 +98,10 @@ type_pt2d getCenterPoint(type_polygon polygon2d)
 	return type_pt2d();
 }
 // 检测多边形是否与box相交
-EPolygonStatus isIntersect(type_polygon polygon, Box box)
+EPolygonStatus polygonIntersect(type_polygon polygon, Box box)
 {
-	bool hasSegmentIntersect = false;
-	bool hasSegmentParallel = false;
-	bool isBoxCenterInside = false;
+	bool hasIntersectHasVectex = false;
+	
 	// polygon-box
 	const auto polygon_box = std::move(box.toPolygon2d());
 	for (size_t i = 0; i < polygon.size(); i++)
@@ -111,33 +110,21 @@ EPolygonStatus isIntersect(type_polygon polygon, Box box)
 		for (size_t j = 0; j < polygon_box.size(); j++)
 		{
 			EIntersectStatus status = intersect(seg_1, Lineseg(polygon_box[j], polygon_box[(j + 1) % polygon_box.size()]));
-			if (status == EIntersectInside)
+			if (status == EIntersectStatus::EIntersectNonVectex)
 			{
 				return EPolygonStatus::Eintersect;
 			}
 
-			if (status == EIntersectVectex)
+			if (status == EIntersectStatus::EIntersectHasVectex)
 			{
-				hasSegmentIntersect = true;
+				hasIntersectHasVectex = true;
 				break;
 			}
 		}
 	}
-	for (size_t i = 0; i < polygon.size(); i++)
-	{
-		Lineseg seg_1{ polygon[i],polygon[(i + 1) % polygon.size()] };
-		for (size_t j = 0; j < polygon_box.size(); j++)
-		{
-			if (isparallel(seg_1, Lineseg(polygon_box[j], polygon_box[(j + 1) % polygon_box.size()])))
-			{
-				hasSegmentParallel = true;
-				break;
-			}
-		}
-	}
+	bool isBoxCenterInside = false;
 	isBoxCenterInside = isPointInsidePolygon(polygon, getCenterPoint(polygon_box));
-
-	if (!hasSegmentIntersect)
+	if (!hasIntersectHasVectex)
 	{
 		if (isBoxCenterInside)
 		{
@@ -148,10 +135,99 @@ EPolygonStatus isIntersect(type_polygon polygon, Box box)
 			return EPolygonStatus::Eexternal;
 		}
 	}
-	else
+	// down context is all Intersect is vectex 
+	//
+	//bool hasSegmentParallel = false;
+	for (size_t i = 0; i < polygon.size(); i++)
 	{
-		
+		Lineseg seg_1{ polygon[i],polygon[(i + 1) % polygon.size()] };
+		for (size_t j = 0; j < polygon_box.size(); j++)
+		{
+			if (isparallel(seg_1, Lineseg(polygon_box[j], polygon_box[(j + 1) % polygon_box.size()])))
+			{
+				bool conditionNextSeg = intersect(seg_1, Lineseg(polygon_box[(j + 1) % polygon_box.size()],
+					polygon_box[(j + 2) % polygon_box.size()]))
+					== EIntersectStatus::EIntersectHasVectex;
+				if (conditionNextSeg)
+				{
+					if (isBoxCenterInside)
+					{
+						return EPolygonStatus::EparallelInside;
+					}
+					else
+					{
+						return EPolygonStatus::EparallelExternal;
+					}
+				}
+				size_t lastIndex = 0;
+				if ((j - 1) < 0)
+				{
+					lastIndex = polygon_box.size() - 1;
+				}
+				else
+				{
+					lastIndex = j - 1;
+				}
+				bool conditionlastSeg2 = intersect(seg_1, Lineseg(polygon_box[lastIndex] ,
+					polygon_box[(j) % polygon_box.size()]))
+					== EIntersectStatus::EIntersectHasVectex;
+				if (conditionlastSeg2)
+				{
+					if (isBoxCenterInside)
+					{
+						return EPolygonStatus::EparallelInside;
+					}
+					else
+					{
+						return EPolygonStatus::EparallelExternal;
+					}
+				}
+
+				bool conditionNextSeg3 = intersect(Lineseg(polygon[(i + 1) % polygon.size()],
+					polygon[(i + 2) % polygon.size()]),
+					Lineseg(polygon_box[j],polygon_box[(j + 1) % polygon_box.size()]))
+					== EIntersectStatus::EIntersectHasVectex;
+				if (conditionNextSeg3)
+				{
+					if (isBoxCenterInside)
+					{
+						return EPolygonStatus::EparallelInside;
+					}
+					else
+					{
+						return EPolygonStatus::EparallelExternal;
+					}
+				}
+				if ((i - 1) < 0)
+				{
+					lastIndex = polygon_box.size() - 1;
+				}
+				else
+				{
+					lastIndex = i - 1;
+				}
+				bool conditionlastSeg4 = intersect(Lineseg(polygon[lastIndex],
+					polygon[i]),
+					Lineseg(polygon_box[j], polygon_box[(j + 1) % polygon_box.size()]))
+					== EIntersectStatus::EIntersectHasVectex;
+				if (conditionlastSeg4)
+				{
+					if (isBoxCenterInside)
+					{
+						return EPolygonStatus::EparallelInside;
+					}
+					else
+					{
+						return EPolygonStatus::EparallelExternal;
+					}
+				}
+
+			}
+		}
 	}
+	
+
+	
 
 
 }
