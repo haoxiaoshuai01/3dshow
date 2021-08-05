@@ -136,6 +136,8 @@ void CAppEditer::Update()
 		
 		CLinewidth1 *line = new CLinewidth1(vec3(camera->Position.x, camera->Position.y, camera->Position.z), posWorld);
 		drawLineWidth1s.push_back(line);
+		vec3(camera->Position.x, camera->Position.y, camera->Position.z), 
+
 	}
 }
 
