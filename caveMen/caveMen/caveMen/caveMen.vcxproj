@@ -151,6 +151,7 @@
     <ClInclude Include="COptimize.h" />
     <ClInclude Include="CPointCloud.h" />
     <ClInclude Include="dataStruct.h" />
+    <ClInclude Include="geometry.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\imgui\backends\imgui_impl_glfw.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="COptimize.cpp" />
     <ClCompile Include="CPointCloud.cpp" />
+    <ClCompile Include="geometry.cpp" />
     <ClCompile Include="model.cpp" />
   </ItemGroup>
   <ItemGroup>
