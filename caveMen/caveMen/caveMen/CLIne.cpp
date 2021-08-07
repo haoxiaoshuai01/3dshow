@@ -110,6 +110,12 @@ CLinewidth1::CLinewidth1(glm::vec3 start, glm::vec3 endP):start(start), endP(end
 	glBindVertexArray(0);
 }
 
+void CLinewidth1::update()
+{
+	CObject::update();
+	updateVertex();
+}
+
 void CLinewidth1::updateVertex()
 {
 	vertices.clear();

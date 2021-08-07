@@ -152,6 +152,7 @@
     <ClInclude Include="CPointCloud.h" />
     <ClInclude Include="dataStruct.h" />
     <ClInclude Include="geometry.h" />
+    <ClInclude Include="testdata.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\imgui\backends\imgui_impl_glfw.cpp" />
@@ -172,6 +173,7 @@
     <ClCompile Include="CPointCloud.cpp" />
     <ClCompile Include="geometry.cpp" />
     <ClCompile Include="model.cpp" />
+    <ClCompile Include="testdata.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\res\shader\1.model_loading.fs" />

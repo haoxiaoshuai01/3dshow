@@ -29,6 +29,7 @@ class CLinewidth1 :
 		std::vector<float> vertices;
 		unsigned int VAO;
 		unsigned int VBO,EBO;
+		void update();
 		void updateVertex();
 		void Draw();
 		glm::vec3 start;

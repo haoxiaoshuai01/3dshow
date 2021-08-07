@@ -99,7 +99,7 @@ int main(int, char**)
 	CAppEditer *editerP = new CAppEditer;
 	app = editerP;
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(0); // Enable vsync
+    glfwSwapInterval(1); // Enable vsync
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     // Initialize OpenGL loader

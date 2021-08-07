@@ -7,6 +7,7 @@ CMesh::CMesh(std::vector<SVertex> vertices, std::vector<unsigned int> indices):C
 	setupMesh();
 }
 
+
 void CMesh::Draw()
 {
 	// draw mesh

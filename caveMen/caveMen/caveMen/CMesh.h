@@ -8,6 +8,7 @@ class CMesh :
 public: 
 	CMesh(std::vector<SVertex> vertices, std::vector<unsigned int> indices );
 	void Draw();
+	
 	// mesh Data
 	std::vector<SVertex>       vertices;
 	std::vector<unsigned int>  indices;

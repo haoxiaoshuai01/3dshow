@@ -12,7 +12,13 @@ class CObject
 	
 public:
 	CObject();
+	virtual void update();
+	virtual void Draw();
 	glm::mat4 modelMatrix;
+	void updateMatrix();
 	glm::vec3 postion;
+	glm::mat3 R;
+	glm::vec3 S;
+	bool flagUpdateActived = false;
 };
 

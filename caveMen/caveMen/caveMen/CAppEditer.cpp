@@ -11,8 +11,11 @@
 #include <imgui.h>
 #include "CLIne.h"
 #include "CPointCloud.h"
+#include "geometry.h"
+#include "testdata.h"
 
 using namespace glm;
+
 
 
 void CAppEditer::init()
@@ -25,12 +28,11 @@ void CAppEditer::init()
 	lineShader = new Shader("../../res/shader/line.vs", "../../res/shader/line.fs");
 	// load models
 	// -----------
-	//addModel();
+	addModel();
 	
-	
-	addLine();
-	addMesh();
-	addPoint();
+	//addLine();
+	//addMesh();
+	//addPoint();
 }
 
 CAppEditer::CAppEditer()
@@ -80,14 +82,14 @@ void CAppEditer::addModel()
 	Model*p2 = new Model(*p);
 	drawModel.push_back(p);
 	drawModel.push_back(p2);
-	p->modelMatrix = glm::translate(p->modelMatrix, glm::vec3(0.0f, 0.0f, 0.0f));
-	p2->modelMatrix = glm::translate(p2->modelMatrix, glm::vec3(3.0f, 0.0f, 0.0f));
+	p2->postion = glm::vec3(5.0f, 0.0f, 0.0f);
+	p2->update();
 }
 
 void CAppEditer::addPoint()
 {
 	std::vector<glm::vec2> poss;
-	poss.push_back({2,2});
+	poss.push_back({ 2,2 });
 	poss.push_back({ 3,3 });
 	poss.push_back({ 4,4 });
 	poss.push_back({ 5,5 });
@@ -136,9 +138,18 @@ void CAppEditer::Update()
 		
 		CLinewidth1 *line = new CLinewidth1(vec3(camera->Position.x, camera->Position.y, camera->Position.z), posWorld);
 		drawLineWidth1s.push_back(line);
-		vec3(camera->Position.x, camera->Position.y, camera->Position.z), 
+		//vec3(camera->Position.x, camera->Position.y, camera->Position.z),
+		float v = glm::dot(vec2(1, 0), vec2(0, 1));
+		
+		
+		for (auto item:Testdata:: rayINDatas)
+		{
+			bool isintersect = Geomery::intersectRayPolygon(item.o,item.dir,item.point1,item.point2,item.point3);
+			int i = 0;
+		}
 
 	}
+
 }
 
 void CAppEditer::Draw()
@@ -146,6 +157,8 @@ void CAppEditer::Draw()
 	float currentFrame = glfwGetTime();
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
+
+	//std::cout << deltaTime;
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// don't forget to enable shader before setting uniforms
@@ -179,14 +192,15 @@ void CAppEditer::Draw()
 		itemline->Draw();
 	}
 
-	meshShader->setMat4("model", pointCould->modelMatrix);
-	pointCould->Draw();
+	//meshShader->setMat4("model", pointCould->modelMatrix);
+	//pointCould->Draw();
 
 	lineShader->use();
 	lineShader->setMat4("projection", projection);
 	lineShader->setMat4("view", view);
 	for (auto &itemline : drawLineWidth1s)
 	{
+		//glm::translate() itemline->modelMatrix
 		lineShader->setMat4("model", itemline->modelMatrix);
 		itemline->Draw();
 	}

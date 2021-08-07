@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <GL/gl3w.h>
+using namespace glm;
 struct SVertex
 {
 	SVertex()
