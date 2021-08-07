@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "CObject.h"
-
+time_t getTimeStamp();
 class Camera; 
 class Shader;
 class Model;

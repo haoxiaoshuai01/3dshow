@@ -14,8 +14,17 @@
 #include "geometry.h"
 #include "testdata.h"
 
-using namespace glm;
+#include <time.h>
+#include <chrono>  
+#include <iostream> 
 
+using namespace glm;
+time_t getTimeStamp()
+{
+	std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds> tp = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now());//获取当前时间点
+	time_t timestamp = tp.time_since_epoch().count(); //计算距离1970-1-1,00:00的时间长度
+	return timestamp;
+}
 
 
 void CAppEditer::init()
@@ -106,21 +115,20 @@ void CAppEditer::Unload()
 
 void CAppEditer::Update()
 {
-	
+	ImGuiIO& io = ImGui::GetIO();
 
-	if (ImGui::IsKeyPressed(GLFW_KEY_W))
+	if (io.KeysDown[GLFW_KEY_W])
 		camera->ProcessKeyboard(FORWARD, deltaTime);
-	if (ImGui::IsKeyPressed(GLFW_KEY_S))
+	if (io.KeysDown[GLFW_KEY_S])
 		camera->ProcessKeyboard(BACKWARD, deltaTime);
-	if (ImGui::IsKeyPressed(GLFW_KEY_A))
+	if (io.KeysDown[GLFW_KEY_A])
 		camera->ProcessKeyboard(LEFT, deltaTime);
-	if (ImGui::IsKeyPressed(GLFW_KEY_D))
+	if (io.KeysDown[GLFW_KEY_D])
 		camera->ProcessKeyboard(RIGHT, deltaTime);
-	if (ImGui::IsKeyPressed(GLFW_KEY_Q))
+	if (io.KeysDown[GLFW_KEY_Q])
 		camera->ProcessKeyboard(Down, deltaTime);
-	if (ImGui::IsKeyPressed(GLFW_KEY_E))
+	if (io.KeysDown[GLFW_KEY_E])
 		camera->ProcessKeyboard(UP, deltaTime);
-
 
 	static  ImVec2 lastPos;
 
