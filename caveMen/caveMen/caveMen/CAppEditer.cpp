@@ -39,9 +39,9 @@ void CAppEditer::init()
 	// -----------
 	addModel();
 	
-	//addLine();
-	//addMesh();
-	//addPoint();
+	addLine();
+	addMesh();
+	addPoint();
 }
 
 CAppEditer::CAppEditer()
@@ -56,11 +56,40 @@ CAppEditer::~CAppEditer()
 
 void CAppEditer::addMesh()
 {
+
+
 	std::vector<SVertex> vertexVectors;
-	vertexVectors.push_back(SVertex(vec3(10, 10, 3), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(10, -10, 3), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(-10, -10, 3), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(-10, 10, 3), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(-5.0f, -5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(5.0f, -5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(5.0f, 5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(-5.0f, 5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
+
+	vertexVectors.push_back(SVertex(vec3(-5.0f, -5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(5.0f, -5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(5.0f, 5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(-5.0f, 5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
+
+	vertexVectors.push_back(SVertex(vec3(-5.0f, 5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(-5.0f, 5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(-5.0f, -5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(-5.0f, -5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
+
+	vertexVectors.push_back(SVertex(vec3(5.0f, 5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(5.0f, 5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(5.0f, -5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(5.0f, -5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
+
+	vertexVectors.push_back(SVertex(vec3(-5.0f, -5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(5.0f, -5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(5.0f, -5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(-5.0f, -5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
+
+	vertexVectors.push_back(SVertex(vec3(-5.0f, 5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(5.0f, 5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(5.0f, 5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
+	vertexVectors.push_back(SVertex(vec3(-5.0f, 5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
+
+
 	std::vector<unsigned int> indices;
 	indices.push_back(0);
 	indices.push_back(1);
@@ -68,9 +97,46 @@ void CAppEditer::addMesh()
 	indices.push_back(1);
 	indices.push_back(2);
 	indices.push_back(3);
+
+	indices.push_back(0+4);
+	indices.push_back(1+4);
+	indices.push_back(3+4);
+	indices.push_back(1+4);
+	indices.push_back(2+4);
+	indices.push_back(3+4);
+
+	indices.push_back(0+8);
+	indices.push_back(1+8);
+	indices.push_back(3+8);
+	indices.push_back(1+8);
+	indices.push_back(2+8);
+	indices.push_back(3+8);
+
+	indices.push_back(0+12);
+	indices.push_back(1+12);
+	indices.push_back(3+12);
+	indices.push_back(1+12);
+	indices.push_back(2+12);
+	indices.push_back(3+12);
+
+	indices.push_back(0+16);
+	indices.push_back(1+16);
+	indices.push_back(3+16);
+	indices.push_back(1+16);
+	indices.push_back(2+16);
+	indices.push_back(3+16);
+
+	indices.push_back(0+20);
+	indices.push_back(1+20);
+	indices.push_back(3+20);
+	indices.push_back(1+20);
+	indices.push_back(2+20);
+	indices.push_back(3+20);
+
 	CMesh *mesh = new CMesh(vertexVectors, indices);
 	drawMesh.push_back(mesh);
-	
+	mesh->postion = vec3(10.0f, 0.0f, 0.0f);
+	mesh->update();
 }
 
 void CAppEditer::addLine()
@@ -91,7 +157,8 @@ void CAppEditer::addModel()
 	Model*p2 = new Model(*p);
 	drawModel.push_back(p);
 	drawModel.push_back(p2);
-	p2->postion = glm::vec3(5.0f, 0.0f, 0.0f);
+	p2->postion = glm::vec3(-5.0f, 0.0f, 0.0f);
+	p2->S = vec3(0.5f, 0.5f, 0.5f);
 	p2->update();
 }
 
@@ -178,6 +245,7 @@ void CAppEditer::Draw()
 	modelShader->setMat4("projection", projection);
 	modelShader->setMat4("view", view);
 
+
 	for (auto &itemModel : drawModel)
 	{
 		modelShader->setMat4("model", itemModel->modelMatrix);
@@ -187,7 +255,6 @@ void CAppEditer::Draw()
 	meshShader->use();
 	meshShader->setMat4("projection", projection);
 	meshShader->setMat4("view", view);
-
 	for (auto &itemMesh : drawMesh)
 	{
 		meshShader->setMat4("model", itemMesh->modelMatrix);
@@ -208,7 +275,6 @@ void CAppEditer::Draw()
 	lineShader->setMat4("view", view);
 	for (auto &itemline : drawLineWidth1s)
 	{
-		//glm::translate() itemline->modelMatrix
 		lineShader->setMat4("model", itemline->modelMatrix);
 		itemline->Draw();
 	}

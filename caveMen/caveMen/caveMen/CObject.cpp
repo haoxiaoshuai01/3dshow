@@ -41,5 +41,4 @@ void CObject::updateMatrix()
 	modelMatrix[2][1] = R[2][1] ;
 	modelMatrix[2][2] = R[2][2] * S[2];
 
-
 }
