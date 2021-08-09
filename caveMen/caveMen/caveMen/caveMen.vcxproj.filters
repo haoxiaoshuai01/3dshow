@@ -28,6 +28,9 @@
     <Filter Include="shader">
       <UniqueIdentifier>{3e107b68-4677-4527-960d-7101d878a7a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="eigen">
+      <UniqueIdentifier>{c00b5ee2-2408-4e3e-bdd4-2f1a689ffa1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\imgui\imconfig.h">
@@ -181,5 +184,97 @@
     <None Include="..\..\res\shader\line.vs">
       <Filter>shader</Filter>
     </None>
+    <None Include="..\..\includes\Eigen\Cholesky">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\CholmodSupport">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\Core">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\Dense">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\Eigen">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\Eigenvalues">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\Geometry">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\Householder">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\IterativeLinearSolvers">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\Jacobi">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\LU">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\MetisSupport">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\OrderingMethods">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\PardisoSupport">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\PaStiXSupport">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\QR">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\QtAlignedMalloc">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\Sparse">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\SparseCholesky">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\SparseCore">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\SparseLU">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\SparseQR">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\SPQRSupport">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\StdDeque">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\StdList">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\StdVector">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\SuperLUSupport">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\SVD">
+      <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\includes\Eigen\UmfPackSupport">
+      <Filter>eigen</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\includes\Eigen\CMakeLists.txt">
+      <Filter>eigen</Filter>
+    </Text>
   </ItemGroup>
 </Project>

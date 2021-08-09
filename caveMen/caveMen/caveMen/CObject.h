@@ -7,6 +7,8 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include "Eigen/Core"
+#include <Eigen/Geometry>
 class CObject
 {
 	
@@ -16,8 +18,11 @@ public:
 	virtual void Draw();
 	glm::mat4 modelMatrix;
 	void updateMatrix();
+	Eigen::Matrix3f eulerAngle2RMatix(glm::vec3 e);
 	glm::vec3 postion;
-	glm::mat3 R;
+	Eigen::Matrix3f R;
+	//glm::vec4 quaternion;
+	glm::vec3 eulerAngle;
 	glm::vec3 S;
 	bool flagUpdateActived = false;
 };

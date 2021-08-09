@@ -158,7 +158,8 @@ void CAppEditer::addModel()
 	drawModel.push_back(p);
 	drawModel.push_back(p2);
 	p2->postion = glm::vec3(-5.0f, 0.0f, 0.0f);
-	p2->S = vec3(0.5f, 0.5f, 0.5f);
+	p2->S = vec3(0.5f, 1.0f, 0.5f);
+	p2->eulerAngle = vec3(0.0f, 0.0f,45.0f );
 	p2->update();
 }
 

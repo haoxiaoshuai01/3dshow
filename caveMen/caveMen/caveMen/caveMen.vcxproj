@@ -176,12 +176,44 @@
     <ClCompile Include="testdata.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\includes\Eigen\Cholesky" />
+    <None Include="..\..\includes\Eigen\CholmodSupport" />
+    <None Include="..\..\includes\Eigen\Core" />
+    <None Include="..\..\includes\Eigen\Dense" />
+    <None Include="..\..\includes\Eigen\Eigen" />
+    <None Include="..\..\includes\Eigen\Eigenvalues" />
+    <None Include="..\..\includes\Eigen\Geometry" />
+    <None Include="..\..\includes\Eigen\Householder" />
+    <None Include="..\..\includes\Eigen\IterativeLinearSolvers" />
+    <None Include="..\..\includes\Eigen\Jacobi" />
+    <None Include="..\..\includes\Eigen\LU" />
+    <None Include="..\..\includes\Eigen\MetisSupport" />
+    <None Include="..\..\includes\Eigen\OrderingMethods" />
+    <None Include="..\..\includes\Eigen\PardisoSupport" />
+    <None Include="..\..\includes\Eigen\PaStiXSupport" />
+    <None Include="..\..\includes\Eigen\QR" />
+    <None Include="..\..\includes\Eigen\QtAlignedMalloc" />
+    <None Include="..\..\includes\Eigen\Sparse" />
+    <None Include="..\..\includes\Eigen\SparseCholesky" />
+    <None Include="..\..\includes\Eigen\SparseCore" />
+    <None Include="..\..\includes\Eigen\SparseLU" />
+    <None Include="..\..\includes\Eigen\SparseQR" />
+    <None Include="..\..\includes\Eigen\SPQRSupport" />
+    <None Include="..\..\includes\Eigen\StdDeque" />
+    <None Include="..\..\includes\Eigen\StdList" />
+    <None Include="..\..\includes\Eigen\StdVector" />
+    <None Include="..\..\includes\Eigen\SuperLUSupport" />
+    <None Include="..\..\includes\Eigen\SVD" />
+    <None Include="..\..\includes\Eigen\UmfPackSupport" />
     <None Include="..\..\res\shader\1.model_loading.fs" />
     <None Include="..\..\res\shader\1.model_loading.vs" />
     <None Include="..\..\res\shader\cmesh_shader.fs" />
     <None Include="..\..\res\shader\cmesh_shader.vs" />
     <None Include="..\..\res\shader\line.fs" />
     <None Include="..\..\res\shader\line.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\includes\Eigen\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
