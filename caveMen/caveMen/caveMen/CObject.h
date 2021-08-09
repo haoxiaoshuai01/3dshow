@@ -11,13 +11,13 @@
 #include <Eigen/Geometry>
 class CObject
 {
-	
 public:
 	CObject();
 	virtual void update();
 	virtual void Draw();
 	glm::mat4 modelMatrix;
 	void updateMatrix();
+	void genboundingbox(Eigen::Matrix<float, Eigen::Dynamic,3> vertexs);
 	Eigen::Matrix3f eulerAngle2RMatix(glm::vec3 e);
 	glm::vec3 postion;
 	Eigen::Matrix3f R;
@@ -25,5 +25,7 @@ public:
 	glm::vec3 eulerAngle;
 	glm::vec3 S;
 	bool flagUpdateActived = false;
+	Eigen::Vector3f boundingboxMin;
+	Eigen::Vector3f boundingboxMax;
 };
 

@@ -29,6 +29,30 @@ public:
     Model(string const &path, bool gamma = false):CObject(), gammaCorrection(gamma)
     {
 		loadModel(path);
+
+		Eigen::Matrix<float, Eigen::Dynamic, 3> m;
+		
+
+		int i = 0;
+		for (auto item : meshes)
+		{
+		    i= i+ item.vertices.size();
+		}
+		m.resize(i,3);
+
+		i = 0;
+		for (auto item : meshes)
+		{
+			for (auto v : item.vertices)
+			{
+				m(i, 0) = v.Position.x;
+				m(i, 1) = v.Position.y;
+				m(i, 2) = v.Position.z;
+				i++;
+			}
+		}
+
+		genboundingbox(m);
 	}
     // draws the model, and thus all its meshes
     void Draw(Shader &shader)
@@ -74,7 +98,6 @@ private:
         {
             processNode(node->mChildren[i], scene);
         }
-
     }
 
     Mesh processMesh(aiMesh *mesh, const aiScene *scene)

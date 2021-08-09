@@ -49,6 +49,16 @@ void CObject::updateMatrix()
 	modelMatrix[2][2] = R(2, 2) * S[2];
 
 }
+void CObject::genboundingbox(Eigen::Matrix<float, Eigen::Dynamic, 3> vertexs)
+{
+	boundingboxMin(0) = vertexs.col(0).minCoeff();
+	boundingboxMin(1) = vertexs.col(1).minCoeff();
+	boundingboxMin(2) = vertexs.col(2).minCoeff();
+
+	boundingboxMax(0) = vertexs.col(0).maxCoeff();
+	boundingboxMax(1) = vertexs.col(1).maxCoeff();
+	boundingboxMax(2) = vertexs.col(2).maxCoeff();
+}
 /*slam十四讲中提到的常用旋转顺序是Z-Y-X，
 对应rpy，指的就是内旋（绕自身轴）Z-Y-X顺序。
 而欧拉角转换成旋转矩阵（相对于世界坐标系的旋转矩阵）通常是按外旋方式（绕固定轴），

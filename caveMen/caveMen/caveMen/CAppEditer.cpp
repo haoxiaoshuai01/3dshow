@@ -154,6 +154,27 @@ void CAppEditer::addLine()
 void CAppEditer::addModel()
 {
 	Model*p = new Model("../../res/objects/backpack/backpack.obj");
+	Eigen::Vector3f min_=  p->boundingboxMin;
+	Eigen::Vector3f max_= p->boundingboxMax;
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), min_(1), min_(2)), vec3(max_(0), min_(1), min_(2))));
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), min_(1), min_(2)), vec3(min_(0), max_(1), min_(2))));
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), max_(1), min_(2)), vec3(max_(0), max_(1), min_(2))));
+
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), max_(1), min_(2)), vec3(max_(0), min_(1), min_(2))));
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), min_(1), min_(2)), vec3(min_(0), min_(1), max_(2))));
+
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), max_(1), max_(2)), vec3(max_(0), max_(1), min_(2))));
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), max_(1), max_(2)), vec3(min_(0), max_(1), max_(2))));
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), max_(1), max_(2)), vec3(max_(0), min_(1), max_(2))));
+
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), min_(1), max_(2)), vec3(min_(0), min_(1), max_(2))));
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), max_(1), max_(2)), vec3(min_(0), min_(1), max_(2))));
+
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), min_(1), max_(2)), vec3(max_(0), min_(1), min_(2))));
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), max_(1), max_(2)), vec3(min_(0), max_(1), min_(2))));
+
+
+
 	Model*p2 = new Model(*p);
 	drawModel.push_back(p);
 	drawModel.push_back(p2);
