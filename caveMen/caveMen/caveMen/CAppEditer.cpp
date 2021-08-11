@@ -174,14 +174,14 @@ void CAppEditer::addModel()
 	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), max_(1), max_(2)), vec3(min_(0), max_(1), min_(2))));
 
 
-
-	Model*p2 = new Model(*p);
 	drawModel.push_back(p);
-	drawModel.push_back(p2);
-	p2->postion = glm::vec3(-5.0f, 0.0f, 0.0f);
+	//Model*p2 = new Model(*p);
+	
+	//drawModel.push_back(p2);
+	/*p2->postion = glm::vec3(-5.0f, 0.0f, 0.0f);
 	p2->S = vec3(0.5f, 1.0f, 0.5f);
 	p2->eulerAngle = vec3(0.0f, 0.0f,45.0f );
-	p2->update();
+	p2->update();*/
 }
 
 void CAppEditer::addPoint()
@@ -235,15 +235,23 @@ void CAppEditer::Update()
 		
 		CLinewidth1 *line = new CLinewidth1(vec3(camera->Position.x, camera->Position.y, camera->Position.z), posWorld);
 		drawLineWidth1s.push_back(line);
-		//vec3(camera->Position.x, camera->Position.y, camera->Position.z),
-		float v = glm::dot(vec2(1, 0), vec2(0, 1));
 		
-		
-		for (auto item:Testdata:: rayINDatas)
+		for (auto item : drawModel)
 		{
-			bool isintersect = Geomery::intersectRayPolygon(item.o,item.dir,item.point1,item.point2,item.point3);
+			float distens = 0.0f;
+			bool flag = Geomery::TestRayOBBIntersection(camera->Position,glm::normalize(camera->Position - posWorld) ,
+				vec3(item->boundingboxMin.x(), item->boundingboxMin.y(), item->boundingboxMin.z()),
+				vec3(item->boundingboxMax.x(), item->boundingboxMax.y(), item->boundingboxMax.z()), item->modelMatrix, distens);
 			int i = 0;
 		}
+
+		
+		
+			/*for (auto item:Testdata:: rayINDatas)
+			{
+				bool isintersect = Geomery::intersectRayPolygon(item.o,item.dir,item.point1,item.point2,item.point3);
+				int i = 0;
+			}*/
 
 	}
 
