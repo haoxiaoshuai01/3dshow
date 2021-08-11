@@ -239,9 +239,9 @@ void CAppEditer::Update()
 		for (auto item : drawModel)
 		{
 			float distens = 0.0f;
-			bool flag = Geomery::TestRayOBBIntersection(camera->Position,glm::normalize(camera->Position - posWorld) ,
+			bool flag = Geomery::TestRayAABBInterSection(camera->Position,glm::normalize(posWorld-camera->Position) ,
 				vec3(item->boundingboxMin.x(), item->boundingboxMin.y(), item->boundingboxMin.z()),
-				vec3(item->boundingboxMax.x(), item->boundingboxMax.y(), item->boundingboxMax.z()), item->modelMatrix, distens);
+				vec3(item->boundingboxMax.x(), item->boundingboxMax.y(), item->boundingboxMax.z()), item->modelMatrix);
 			int i = 0;
 		}
 

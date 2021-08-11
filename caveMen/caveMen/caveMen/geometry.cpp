@@ -1,6 +1,11 @@
 ﻿#include "geometry.h"
+#include <algorithm>
+#include "Eigen/Core"
+#include <Eigen/Geometry>
+#define EPSINON  0.0001f
 namespace Geomery
 {
+	
 	/*
 	P=O+tD
 	(v1−P)⋅n=0
@@ -50,6 +55,7 @@ namespace Geomery
 		return isInTrangle(point1, point2, point3, p);
 
 	}
+
 	bool TestRayOBBIntersection(
 		glm::vec3 ray_origin,        // Ray origin, in world space
 		glm::vec3 ray_direction,     // Ray direction (NOT target position!), in world space. Must be normalize()'d.
@@ -167,6 +173,51 @@ namespace Geomery
 		intersection_distance = tMin;
 		return true;
 
+	}
+
+	bool TestRayAABBInterSection(glm::vec3 ray_origin, glm::vec3 ray_direction, glm::vec3 aabb_min, glm::vec3 aabb_max, glm::mat4 ModelMatrix)
+	{
+		int ret = false;
+		vec4 aabbMin = ModelMatrix * glm::vec4(aabb_min,1.0f);
+		vec4 aabbMax = ModelMatrix * glm::vec4(aabb_max,1.0f);
+
+		//y-z plane
+		{
+			{
+				float txnear = -FLT_MAX;
+				float txFar = FLT_MAX;
+				float tynear = -FLT_MAX;
+				float tyFar = FLT_MAX;
+				float tznear = -FLT_MAX;
+				float tzFar = FLT_MAX;
+				if (std::abs(ray_direction.x) > EPSINON)
+				{
+					txnear = (aabbMin.x - ray_origin.x) / ray_direction.x;
+					txFar = (aabbMax.x - ray_origin.x) / ray_direction.x;
+				}
+				if (std::abs(ray_direction.y) > EPSINON)
+				{
+					//tynear = (aabbMin.y - ray_origin.y) / ray_direction.y;
+					//tyFar = (aabbMax.y - ray_origin.y) / ray_direction.y;
+				}
+
+				if (std::abs(ray_direction.z) > EPSINON)
+				{
+					tznear = (aabbMin.z - ray_origin.z) / ray_direction.z;
+					tzFar = (aabbMax.z - ray_origin.z) / ray_direction.z;
+				}
+
+				
+				float t0 = Eigen::Vector3f(txnear, tynear, tznear).maxCoeff();
+				float t1 = Eigen::Vector3f(txFar,tyFar,tzFar).minCoeff();
+				if (t0 < t1)
+				{
+					ret = true;
+				}
+			}
+		}
+
+		return ret;
 	}
 
 
