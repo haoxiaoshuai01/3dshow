@@ -11,6 +11,8 @@
 #include <map>
 #include <vector>
 #include "CObject.h"
+#include "CLIne.h"
+
 using namespace std;
 
 unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);
@@ -23,11 +25,18 @@ public:
     vector<Mesh>    meshes;
     string directory;
     bool gammaCorrection;
-
+	glm::mat4 *mProject;
+	glm::mat4 *mLookat;
+	Shader* mShader;
+	Shader* mlineShader;
 	Model(Model &other);
     // constructor, expects a filepath to a 3D model.
-    Model(string const &path, bool gamma = false):CObject(), gammaCorrection(gamma)
+    Model(string const &path, Shader* shader, Shader* lineshader, glm::mat4 *project,glm::mat4 *lookat, bool gamma = false):CObject(), gammaCorrection(gamma)
     {
+		mShader = shader;
+		mLookat = lookat;
+		mProject = project;
+		mlineShader = lineshader;
 		loadModel(path);
 
 		Eigen::Matrix<float, Eigen::Dynamic, 3> m;
@@ -54,13 +63,13 @@ public:
 
 		genboundingbox(m);
 	}
-    // draws the model, and thus all its meshes
-    void Draw(Shader &shader)
-    {
-        for(unsigned int i = 0; i < meshes.size(); i++)
-            meshes[i].Draw(shader);
-    }
+	void update();
 
+    // draws the model, and thus all its meshes
+	void Draw();
+	void showBox();
+private:
+	std::vector< CLinewidth1 *> drawLineWidth1s;
 private:
     // loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
     void loadModel(string const &path)

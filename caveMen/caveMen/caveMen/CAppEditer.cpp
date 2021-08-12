@@ -37,11 +37,11 @@ void CAppEditer::init()
 	lineShader = new Shader("../../res/shader/line.vs", "../../res/shader/line.fs");
 	// load models
 	// -----------
+
 	addModel();
-	
-	addLine();
+	//addLine();
 	addMesh();
-	addPoint();
+	//addPoint();
 }
 
 CAppEditer::CAppEditer()
@@ -56,8 +56,6 @@ CAppEditer::~CAppEditer()
 
 void CAppEditer::addMesh()
 {
-
-
 	std::vector<SVertex> vertexVectors;
 	vertexVectors.push_back(SVertex(vec3(-5.0f, -5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
 	vertexVectors.push_back(SVertex(vec3(5.0f, -5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
@@ -145,7 +143,6 @@ void CAppEditer::addLine()
 	drawLine.push_back(line);
 	CLine *line2 = new CLine(vec2(-10, 0), vec2(10, 0));
 	drawLine.push_back(line2);
-
 	CLinewidth1 *linwidth1 = new CLinewidth1(vec3(-10,0,4),vec3(10,0,4));
 	drawLineWidth1s.push_back(linwidth1);
 
@@ -153,28 +150,13 @@ void CAppEditer::addLine()
 
 void CAppEditer::addModel()
 {
-	Model*p = new Model("../../res/objects/backpack/backpack.obj");
-	Eigen::Vector3f min_=  p->boundingboxMin;
-	Eigen::Vector3f max_= p->boundingboxMax;
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), min_(1), min_(2)), vec3(max_(0), min_(1), min_(2))));
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), min_(1), min_(2)), vec3(min_(0), max_(1), min_(2))));
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), max_(1), min_(2)), vec3(max_(0), max_(1), min_(2))));
-
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), max_(1), min_(2)), vec3(max_(0), min_(1), min_(2))));
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), min_(1), min_(2)), vec3(min_(0), min_(1), max_(2))));
-
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), max_(1), max_(2)), vec3(max_(0), max_(1), min_(2))));
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), max_(1), max_(2)), vec3(min_(0), max_(1), max_(2))));
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), max_(1), max_(2)), vec3(max_(0), min_(1), max_(2))));
-
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), min_(1), max_(2)), vec3(min_(0), min_(1), max_(2))));
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), max_(1), max_(2)), vec3(min_(0), min_(1), max_(2))));
-
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), min_(1), max_(2)), vec3(max_(0), min_(1), min_(2))));
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), max_(1), max_(2)), vec3(min_(0), max_(1), min_(2))));
-
-
+	Model*p = new Model("../../res/objects/backpack/backpack.obj",modelShader,lineShader,&projection,&view);
 	drawModel.push_back(p);
+	//p->postion = glm::vec3(-5.0f, 0.0f, 0.0f);
+	//p->S = vec3(0.5f, 1.0f, 0.5f);
+	//p->eulerAngle = vec3(0.0f, 0.0f, 45.0f);
+	p->update();
+	p->showBox();
 	//Model*p2 = new Model(*p);
 	
 	//drawModel.push_back(p2);
@@ -268,19 +250,14 @@ void CAppEditer::Draw()
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// don't forget to enable shader before setting uniforms
-	modelShader->use();
-
+	
 	// view/projection transformations
 	projection = glm::perspective(glm::radians(camera->Zoom), (float)windowsW / (float)windowsH, 0.1f, 100.0f);
-	glm::mat4 view = camera->GetViewMatrix();
-	modelShader->setMat4("projection", projection);
-	modelShader->setMat4("view", view);
-
+	view = camera->GetViewMatrix();
 
 	for (auto &itemModel : drawModel)
 	{
-		modelShader->setMat4("model", itemModel->modelMatrix);
-		itemModel->Draw(*modelShader);
+		itemModel->Draw();
 	}
 
 	meshShader->use();

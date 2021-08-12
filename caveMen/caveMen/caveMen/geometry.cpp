@@ -180,7 +180,10 @@ namespace Geomery
 		int ret = false;
 		vec4 aabbMin = ModelMatrix * glm::vec4(aabb_min,1.0f);
 		vec4 aabbMax = ModelMatrix * glm::vec4(aabb_max,1.0f);
+		
 
+		
+		
 		//y-z plane
 		{
 			{
