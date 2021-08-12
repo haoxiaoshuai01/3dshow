@@ -194,17 +194,39 @@ namespace Geomery
 				{
 					txnear = (aabbMin.x - ray_origin.x) / ray_direction.x;
 					txFar = (aabbMax.x - ray_origin.x) / ray_direction.x;
+
+					if (txnear > txFar)
+					{
+						float tmp = txnear;
+						txnear = txFar;
+						txFar = tmp;
+					}
+
 				}
 				if (std::abs(ray_direction.y) > EPSINON)
 				{
-					//tynear = (aabbMin.y - ray_origin.y) / ray_direction.y;
-					//tyFar = (aabbMax.y - ray_origin.y) / ray_direction.y;
+					tynear = (aabbMin.y - ray_origin.y) / ray_direction.y;
+					tyFar = (aabbMax.y - ray_origin.y) / ray_direction.y;
+
+					if (tynear > tyFar)
+					{
+						float tmp = tynear;
+						tynear = tyFar;
+						tyFar = tmp;
+					}
 				}
 
 				if (std::abs(ray_direction.z) > EPSINON)
 				{
 					tznear = (aabbMin.z - ray_origin.z) / ray_direction.z;
 					tzFar = (aabbMax.z - ray_origin.z) / ray_direction.z;
+
+					if (tznear > tzFar)
+					{
+						float tmp = tznear;
+						tznear = tzFar;
+						tzFar = tmp;
+					}
 				}
 
 				
