@@ -152,11 +152,12 @@ void CAppEditer::addModel()
 {
 	Model*p = new Model("../../res/objects/backpack/backpack.obj",modelShader,lineShader,&projection,&view);
 	drawModel.push_back(p);
-	//p->postion = glm::vec3(-5.0f, 0.0f, 0.0f);
+	p->postion = glm::vec3(-5.0f, 2.5f, 0.1f);
 	//p->S = vec3(0.5f, 1.0f, 0.5f);
-	//p->eulerAngle = vec3(0.0f, 0.0f, 45.0f);
-	p->update();
+	p->eulerAngle = vec3(45.0f, 0.0f,0.0f);
 	p->showBox();
+	p->update();
+	
 	//Model*p2 = new Model(*p);
 	
 	//drawModel.push_back(p2);
@@ -225,6 +226,8 @@ void CAppEditer::Update()
 			bool flag = Geomery::TestRayAABBInterSection(camera->Position,glm::normalize(posWorld-camera->Position) ,
 				vec3(item->boundingboxMin.x(), item->boundingboxMin.y(), item->boundingboxMin.z()),
 				vec3(item->boundingboxMax.x(), item->boundingboxMax.y(), item->boundingboxMax.z()), item->modelMatrix);
+			if (flag)
+				item->isSelet = true;
 			int i = 0;
 		}
 
@@ -284,6 +287,7 @@ void CAppEditer::Draw()
 	for (auto &itemline : drawLineWidth1s)
 	{
 		lineShader->setMat4("model", itemline->modelMatrix);
+		lineShader->setVec4("ourColor", vec4(1,1,1,1));
 		itemline->Draw();
 	}
 	

@@ -68,6 +68,7 @@ public:
     // draws the model, and thus all its meshes
 	void Draw();
 	void showBox();
+	bool isSelet = false;
 private:
 	std::vector< CLinewidth1 *> drawLineWidth1s;
 private:

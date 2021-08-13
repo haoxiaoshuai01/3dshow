@@ -41,8 +41,6 @@ void CLine::updateVertex()
 	vertices.clear();
 	indices.clear();
 
-
-
 	//x÷·”ÎœÚ¡ø÷·º–Ω«
 	float consRad = glm::dot(glm::normalize(endP - start), glm::normalize(glm::vec2(1, 0)));
 	float angleRad = glm::acos(consRad);

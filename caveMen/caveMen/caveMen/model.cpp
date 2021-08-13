@@ -29,6 +29,10 @@ void Model::Draw()
 	mlineShader->setMat4("projection", *mProject);
 	mlineShader->setMat4("view", *mLookat);
 	mlineShader->setMat4("model", modelMatrix);
+	if (isSelet)
+		mlineShader->setVec4("ourColor",vec4(0,1,0,1) );
+	else
+		mlineShader->setVec4("ourColor", vec4(1, 1, 1,1));
 	for (auto item : drawLineWidth1s)
 	{
 		item->Draw();
@@ -42,13 +46,13 @@ void Model::showBox()
 		for (auto item : drawLineWidth1s)
 			delete item;
 	}
-	glm::vec4 ming = modelMatrix * glm::vec4(boundingboxMin.x(),boundingboxMin.y(),boundingboxMin.z(),1.0f) ;
+	/*glm::vec4 ming = modelMatrix * glm::vec4(boundingboxMin.x(),boundingboxMin.y(),boundingboxMin.z(),1.0f) ;
 	glm::vec4 maxg = modelMatrix * glm::vec4(boundingboxMax.x(), boundingboxMax.y(), boundingboxMax.z(), 1.0f);
 
 	ming = ming / ming[3];
-	maxg = maxg / maxg[3];
-	Eigen::Vector3f min_(ming[0], ming[1],ming[2]);
-	Eigen::Vector3f max_(maxg[0], maxg[1], maxg[2]);
+	maxg = maxg / maxg[3];*/
+	Eigen::Vector3f min_(boundingboxMin[0], boundingboxMin[1], boundingboxMin[2]);
+	Eigen::Vector3f max_(boundingboxMax[0], boundingboxMax[1], boundingboxMax[2]);
 
 	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), min_(1), min_(2)), vec3(max_(0), min_(1), min_(2))));
 	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), min_(1), min_(2)), vec3(min_(0), max_(1), min_(2))));

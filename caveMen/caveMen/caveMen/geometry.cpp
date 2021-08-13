@@ -181,8 +181,8 @@ namespace Geomery
 		vec4 aabbMin = ModelMatrix * glm::vec4(aabb_min,1.0f);
 		vec4 aabbMax = ModelMatrix * glm::vec4(aabb_max,1.0f);
 		
-
-		
+		aabbMin = aabbMin / aabbMin[3];
+		aabbMax = aabbMax / aabbMax[3];
 		
 		//y-z plane
 		{
