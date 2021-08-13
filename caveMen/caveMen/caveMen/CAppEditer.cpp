@@ -159,7 +159,6 @@ void CAppEditer::addModel()
 	p->update();
 	
 	//Model*p2 = new Model(*p);
-	
 	//drawModel.push_back(p2);
 	/*p2->postion = glm::vec3(-5.0f, 0.0f, 0.0f);
 	p2->S = vec3(0.5f, 1.0f, 0.5f);
@@ -226,8 +225,7 @@ void CAppEditer::Update()
 			bool flag = Geomery::TestRayAABBInterSection(camera->Position,glm::normalize(posWorld-camera->Position) ,
 				vec3(item->boundingboxMin.x(), item->boundingboxMin.y(), item->boundingboxMin.z()),
 				vec3(item->boundingboxMax.x(), item->boundingboxMax.y(), item->boundingboxMax.z()), item->modelMatrix);
-			if (flag)
-				item->isSelet = true;
+				item->isSelet = flag;
 			int i = 0;
 		}
 

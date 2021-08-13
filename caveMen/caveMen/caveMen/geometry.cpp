@@ -178,12 +178,16 @@ namespace Geomery
 	bool TestRayAABBInterSection(glm::vec3 ray_origin, glm::vec3 ray_direction, glm::vec3 aabb_min, glm::vec3 aabb_max, glm::mat4 ModelMatrix)
 	{
 		int ret = false;
-		vec4 aabbMin = ModelMatrix * glm::vec4(aabb_min,1.0f);
-		vec4 aabbMax = ModelMatrix * glm::vec4(aabb_max,1.0f);
+		vec4 aabbMin_ = ModelMatrix * glm::vec4(aabb_min,1.0f);
+		vec4 aabbMax_ = ModelMatrix * glm::vec4(aabb_max,1.0f);
 		
-		aabbMin = aabbMin / aabbMin[3];
-		aabbMax = aabbMax / aabbMax[3];
+		aabbMin_ = aabbMin_ / aabbMin_[3];
+		aabbMax_ = aabbMax_ / aabbMax_[3];
 		
+		vec3 aabbMin(aabbMin_[0], aabbMin_[1], aabbMin_[2]);
+		vec3 aabbMax(aabbMax_[0], aabbMax_[1], aabbMax_[2]);
+
+		//vec3 mdot = ModelMatrix * ray_direction;
 		//y-z plane
 		{
 			{
@@ -193,10 +197,11 @@ namespace Geomery
 				float tyFar = FLT_MAX;
 				float tznear = -FLT_MAX;
 				float tzFar = FLT_MAX;
-				if (std::abs(ray_direction.x) > EPSINON)
+				vec3 nx = ModelMatrix[0];
+				if (std::fabs(glm::dot(ray_direction, nx)) > EPSINON)
 				{
-					txnear = (aabbMin.x - ray_origin.x) / ray_direction.x;
-					txFar = (aabbMax.x - ray_origin.x) / ray_direction.x;
+					txnear = glm::dot((aabbMin - ray_origin), nx)  / glm::dot(ray_direction, nx) ;
+					txFar = glm::dot((aabbMax - ray_origin), nx) / glm::dot(ray_direction, nx);
 
 					if (txnear > txFar)
 					{
@@ -206,10 +211,12 @@ namespace Geomery
 					}
 
 				}
-				if (std::abs(ray_direction.y) > EPSINON)
+				vec3 ny = ModelMatrix[1];
+				if (std::fabs(glm::dot(ray_direction, ny)) > EPSINON)
 				{
-					tynear = (aabbMin.y - ray_origin.y) / ray_direction.y;
-					tyFar = (aabbMax.y - ray_origin.y) / ray_direction.y;
+					
+					tynear = glm::dot((aabbMin - ray_origin), ny) / glm::dot(ray_direction, ny);
+					tyFar = glm::dot((aabbMax - ray_origin), ny) / glm::dot(ray_direction, ny);
 
 					if (tynear > tyFar)
 					{
@@ -218,11 +225,11 @@ namespace Geomery
 						tyFar = tmp;
 					}
 				}
-
-				if (std::abs(ray_direction.z) > EPSINON)
+				vec3 nz = ModelMatrix[2];
+				if (std::fabs(glm::dot(ray_direction, nz)) > EPSINON)
 				{
-					tznear = (aabbMin.z - ray_origin.z) / ray_direction.z;
-					tzFar = (aabbMax.z - ray_origin.z) / ray_direction.z;
+					tznear = glm::dot((aabbMin - ray_origin), nz) / glm::dot(ray_direction, nz);
+					tzFar = glm::dot((aabbMax - ray_origin), nz) / glm::dot(ray_direction, nz);
 
 					if (tznear > tzFar)
 					{
@@ -231,8 +238,6 @@ namespace Geomery
 						tzFar = tmp;
 					}
 				}
-
-				
 				float t0 = Eigen::Vector3f(txnear, tynear, tznear).maxCoeff();
 				float t1 = Eigen::Vector3f(txFar,tyFar,tzFar).minCoeff();
 				if (t0 < t1)
