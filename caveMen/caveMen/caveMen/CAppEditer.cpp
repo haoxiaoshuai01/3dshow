@@ -17,6 +17,8 @@
 #include <time.h>
 #include <chrono>  
 #include <iostream> 
+#include "boost/thread.hpp"
+
 
 using namespace glm;
 time_t getTimeStamp()
@@ -231,20 +233,21 @@ void CAppEditer::Update()
 		CLinewidth1 *line = new CLinewidth1(vec3(camera->Position.x, camera->Position.y, camera->Position.z), posWorld);
 		drawLineWidth1s.push_back(line);
 		
-		for (auto item : drawModel)
-		{
-			float distens = 0.0f;
-			//for(int i=0;i<10000;i++)
-			bool flag = Geomery::TestRayAABBInterSection(camera->Position,glm::normalize(posWorld-camera->Position) ,
-				vec3(item->boundingboxMin.x(), item->boundingboxMin.y(), item->boundingboxMin.z()),
-				vec3(item->boundingboxMax.x(), item->boundingboxMax.y(), item->boundingboxMax.z()), item->modelMatrix);
-				item->isSelet = flag;
-			int i = 0;
-		}
+		//for (auto item : drawModel)
+		//{
+		//	float distens = 0.0f;
+		//	//for(int i=0;i<10000;i++)
+		//	bool flag = Geomery::TestRayAABBInterSection(camera->Position,glm::normalize(posWorld-camera->Position) ,
+		//		vec3(item->boundingboxMin.x(), item->boundingboxMin.y(), item->boundingboxMin.z()),
+		//		vec3(item->boundingboxMax.x(), item->boundingboxMax.y(), item->boundingboxMax.z()), item->modelMatrix);
+		//		item->isSelet = flag;
+		//	int i = 0;
+		//}
 		
-		Geomery::gradientDecline(samperPoint, x1, x2);
-		drawLineWidth1s.push_back(new CLinewidth1(vec3(0, x2, 3.01f), vec3(10.0f, 10.0f*x1 + x2, 3.01f)));
+		/*Geomery::gradientDecline(samperPoint, x1, x2);
+		drawLineWidth1s.push_back(new CLinewidth1(vec3(0, x2, 3.01f), vec3(10.0f, 10.0f*x1 + x2, 3.01f)));*/
 		
+		boost::thread my_thread_1([]() {while (1) { std::cout << "hello\n"; }});
 		/*for (auto item:Testdata:: rayINDatas)
 		{
 			bool isintersect = Geomery::intersectRayPolygon(item.o,item.dir,item.point1,item.point2,item.point3);
