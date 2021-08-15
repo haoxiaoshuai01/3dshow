@@ -39,9 +39,9 @@ void CAppEditer::init()
 	// -----------
 
 	addModel();
-	//addLine();
+	addLine();
 	addMesh();
-	//addPoint();
+	addPoint();
 }
 
 CAppEditer::CAppEditer()
@@ -133,8 +133,22 @@ void CAppEditer::addMesh()
 
 	CMesh *mesh = new CMesh(vertexVectors, indices);
 	drawMesh.push_back(mesh);
-	mesh->postion = vec3(10.0f, 0.0f, 0.0f);
+	mesh->postion = vec3(15.0f, 0.0f, 0.0f);
 	mesh->update();
+
+	std::vector<SVertex> v;
+	v.push_back(SVertex(vec3(-10.0f, 10.0f, 3.0f), vec3(0.5, 0.6, 0.5)));
+	v.push_back(SVertex(vec3(10.0f, 10.0f, 3.0f), vec3(0.5, 0.6, 0.5)));
+	v.push_back(SVertex(vec3(10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5)));
+	v.push_back(SVertex(vec3(-10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5)));
+	std::vector<unsigned int> indices_;
+	indices_.push_back(0);
+	indices_.push_back(1);
+	indices_.push_back(3);
+	indices_.push_back(1);
+	indices_.push_back(2);
+	indices_.push_back(3);
+	drawMesh.push_back(new CMesh(v, indices));
 }
 
 void CAppEditer::addLine()
@@ -168,12 +182,11 @@ void CAppEditer::addModel()
 
 void CAppEditer::addPoint()
 {
-	std::vector<glm::vec2> poss;
-	poss.push_back({ 2,2 });
-	poss.push_back({ 3,3 });
-	poss.push_back({ 4,4 });
-	poss.push_back({ 5,5 });
-	pointCould = new CPointCloud(poss);
+	samperPoint.push_back({ 2,3.4 });
+	samperPoint.push_back({ 3,4.6 });
+	samperPoint.push_back({ 4,5.4 });
+	samperPoint.push_back({ 5,6.6 });
+	pointCould = new CPointCloud(samperPoint);
 }
 
 void CAppEditer::Load()
@@ -228,14 +241,15 @@ void CAppEditer::Update()
 				item->isSelet = flag;
 			int i = 0;
 		}
-
 		
+		Geomery::gradientDecline(samperPoint, x1, x2);
+		drawLineWidth1s.push_back(new CLinewidth1(vec3(0, x2, 3.01f), vec3(10.0f, 10.0f*x1 + x2, 3.01f)));
 		
-			/*for (auto item:Testdata:: rayINDatas)
-			{
-				bool isintersect = Geomery::intersectRayPolygon(item.o,item.dir,item.point1,item.point2,item.point3);
-				int i = 0;
-			}*/
+		/*for (auto item:Testdata:: rayINDatas)
+		{
+			bool isintersect = Geomery::intersectRayPolygon(item.o,item.dir,item.point1,item.point2,item.point3);
+			int i = 0;
+		}*/
 
 	}
 
@@ -276,8 +290,8 @@ void CAppEditer::Draw()
 		itemline->Draw();
 	}
 
-	//meshShader->setMat4("model", pointCould->modelMatrix);
-	//pointCould->Draw();
+	meshShader->setMat4("model", pointCould->modelMatrix);
+	pointCould->Draw();
 
 	lineShader->use();
 	lineShader->setMat4("projection", projection);

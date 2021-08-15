@@ -43,5 +43,10 @@ private:
 	float lastFrame = 0.0f;
 	glm::mat4 projection;
 	glm::mat4 view;
+
+
+	std::vector<glm::vec2> samperPoint;
+	double x1 = 0.0,
+		x2 = 0.0;
 };
 

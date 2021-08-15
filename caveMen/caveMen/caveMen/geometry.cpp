@@ -6,6 +6,63 @@
 namespace Geomery
 {
 	   
+	//https://blog.csdn.net/weixin_42882651/article/details/82227969
+
+
+	int gradientDecline(std::vector<vec2> points, double &x1, double &x2)
+	{
+		////set_a与set_b 分别存储x,y 轴的坐标
+		//double Train_set_x[17] = { 1.1, 2.4, 2.4, 3.1, 2.2, 4.42, 5.43, 4.5, 5.28, 7.35, 10, 8.27, 12.6, 12.8, 9.69, 15.0, 13.69 };
+		//double Train_set_y[17] = { 2.5, 1.7, 3, 4.0, 5.2, 6.53, 7.33, 8.7, 4.2, 5.8, 6.05, 8.05, 7.41, 8.89, 10.12, 9.72, 10.83 };
+		//double m = 17.00;       //共有17个点
+
+		double m = (double)points.size();
+		double alpha = 0.001;
+
+		int i;
+		double temp_1 = 0;
+		double temp_2 = 0;
+		double sum_1, sum_2;
+		//double x1 = 0;   // y=x1*x+x2  为所拟合出来的函数 先将x1 x2初始化为0
+		//double x2 = 0;
+
+
+		for (i = 1; ; i++)   //符合跳出条件后，会break跳出
+		{
+			sum_1 = 0;
+			sum_2 = 0;
+			for (int j = 0; j < points.size(); j++)
+			{
+				sum_1 += x2 + x1 * points[j].x - points[j].y;
+			}
+			for (int m = 0; m <points.size(); m++)
+			{
+				sum_2 += (x2 + x1 * points[m].x - points[m].y)*points[m].x;
+			}
+
+			temp_1 = x2 - alpha * (1 / m)*sum_1;
+			temp_2 = x1 - alpha * (1 / m)*sum_2;
+
+			if ((temp_1 == x2) && (temp_2 == x1))
+			{
+
+				break;
+			}
+
+			x2 = temp_1;
+			x1 = temp_2;
+
+
+		}
+		if ((x2 < 0.0001) && (x2 > -0.0001)) x2 = 0;
+
+		//std::cout << "拟合的结果为：  y=" << x1 << "x+" << x2 << std::endl;
+		//std::cout << "进行了" << i << "次" << std::endl;
+		return 0;
+	}
+
+
+
 	/*
 	P=O+tD
 	(v1−P)⋅n=0
