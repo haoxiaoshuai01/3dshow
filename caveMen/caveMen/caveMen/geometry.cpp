@@ -5,7 +5,7 @@
 #define EPSINON  0.0001f
 namespace Geomery
 {
-	
+	 
 	/*
 	P=O+tD
 	(v1−P)⋅n=0
