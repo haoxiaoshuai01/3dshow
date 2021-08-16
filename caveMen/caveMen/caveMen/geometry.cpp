@@ -219,7 +219,6 @@ namespace Geomery
 					tMin = t1;
 				if (tMin > tMax)
 					return false;
-
 			}
 			else {
 				if (-e + aabb_min.z > 0.0f || -e + aabb_max.z < 0.0f)

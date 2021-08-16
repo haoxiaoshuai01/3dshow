@@ -296,6 +296,7 @@ void CAppEditer::Draw()
 	meshShader->setMat4("model", pointCould->modelMatrix);
 	pointCould->Draw();
 
+	glDepthFunc(GL_ALWAYS);
 	lineShader->use();
 	lineShader->setMat4("projection", projection);
 	lineShader->setMat4("view", view);
@@ -305,7 +306,7 @@ void CAppEditer::Draw()
 		lineShader->setVec4("ourColor", vec4(1,1,1,1));
 		itemline->Draw();
 	}
-	
+	glDepthFunc(GL_LESS);
 }
 
 glm::vec3 CAppEditer::getScreenWordPos(glm::vec2 pos)
