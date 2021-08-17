@@ -39,6 +39,7 @@ using namespace gl;
 #endif
 
 // Include glfw3.h after our OpenGL definitions
+
 #include <GLFW/glfw3.h>
 
 // [Win32] Our example includes a copy of glfw3.lib pre-compiled with VS2010 to maximize ease of testing and compatibility with old VS compilers.
@@ -54,6 +55,10 @@ static void glfw_error_callback(int error, const char* description)
 }
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
+	if ((width == 0) || (height == 0))
+	{
+		return;
+	}
 	// make sure the viewport matches the new window dimensions; note that width and 
 	// height will be significantly larger than specified on retina displays.
 	glViewport(0, 0, width, height);
@@ -89,11 +94,12 @@ int main(int, char**)
     //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 #endif
-
+	
     // Create window with graphics context
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(1260, 700, "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
     if (window == NULL)
         return 1;
+	ShowWindow( (HWND)GetActiveWindow(), SW_MAXIMIZE);
 	CAppEditer *editerP = new CAppEditer;
 	app = editerP;
     glfwMakeContextCurrent(window);

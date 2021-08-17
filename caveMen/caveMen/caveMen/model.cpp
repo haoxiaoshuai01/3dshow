@@ -39,7 +39,7 @@ void Model::Draw()
 	}
 }
 
-void Model::showBox()
+void Model::addBox()
 {
 	if (drawLineWidth1s.size() > 0)
 	{

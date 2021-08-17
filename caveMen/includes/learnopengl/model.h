@@ -62,13 +62,17 @@ public:
 		}
 
 		genboundingbox(m);
+		addBox();
 	}
 	void update();
 
     // draws the model, and thus all its meshes
 	void Draw();
-	void showBox();
+	void addBox();
 	bool isSelet = false;
+	bool isSeletXAxies = false;
+	bool isSeletYAxies = false;
+	bool isSeletZAxies = false;
 private:
 	std::vector< CLinewidth1 *> drawLineWidth1s;
 private:

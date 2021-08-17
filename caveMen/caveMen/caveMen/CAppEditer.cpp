@@ -171,7 +171,7 @@ void CAppEditer::addModel()
 	p->postion = glm::vec3(-5.0f, 2.5f, 0.1f);
 	//p->S = vec3(0.5f, 1.0f, 0.5f);
 	p->eulerAngle = vec3(45.0f, 0.0f,0.0f);
-	p->showBox();
+	//p->showBox();
 	p->update();
 	
 	//Model*p2 = new Model(*p);
