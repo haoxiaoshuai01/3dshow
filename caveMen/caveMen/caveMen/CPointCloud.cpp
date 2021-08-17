@@ -15,7 +15,6 @@ void CPointCloud::updateVectorCloud()
 	for (int iPos=0; iPos <postions.size(); iPos++)
 	{
 		vertices.push_back(SVertex(glm::vec3(postions[iPos].x ,postions[iPos].y,z), glm::vec3(0.2, 0.4, 0.2)));
-		
 		for (int i = 0; i < triangleAmount; i++)
 		{
 			SVertex v( glm::vec3( postions[iPos].x + (radius * cos(i *  rad360 / triangleAmount)),
@@ -77,7 +76,6 @@ void CPointCloud::setupMesh()
 	// vertex normals
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(SVertex), (void*)offsetof(SVertex, Color));
-
 
 	glBindVertexArray(0);
 }

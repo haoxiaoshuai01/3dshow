@@ -41,9 +41,9 @@ void CAppEditer::init()
 	// -----------
 
 	addModel();
-	addLine();
-	addMesh();
-	addPoint();
+	//addLine();
+	//addMesh();
+	//addPoint();
 }
 
 CAppEditer::CAppEditer()
