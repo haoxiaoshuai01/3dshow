@@ -3,6 +3,11 @@
 CArrowsAxis::CArrowsAxis(Eigen::Vector3f sourcePoint, Eigen::Vector3f endPoint, 
 	Shader* lineshader, glm::mat4 *project, glm::mat4 *lookat):CObject()
 {
+	mlineshader = lineshader;
+	mproject = project;
+	mlookat = lookat;
+
+
 	addVertices(sourcePoint, endPoint);
 	setup();
 	Eigen::Matrix<float, Eigen::Dynamic, 3> m;
@@ -28,7 +33,8 @@ void CArrowsAxis::addVertices(Eigen::Vector3f sourcePoint, Eigen::Vector3f endPo
 	glm::vec3 color(0.2, 0.4, 0.2);
 	Eigen::Vector3f oldNormoal(0.0f, 0.0f, 1.0f);
 	float destinsAcrros = direction.norm()/5.0f;
-		//Eigen::Vector3f rotationAxis(Eigen::Cross());
+
+	Eigen::Vector3f rotationAxis(oldNormoal.cross(direction));
 	float iPos = 0;
 	
 	vertices.push_back(SVertex(glm::vec3(endPoint.x(), endPoint.y(), endPoint.z()), color));
@@ -39,19 +45,9 @@ void CArrowsAxis::addVertices(Eigen::Vector3f sourcePoint, Eigen::Vector3f endPo
 			endPoint.z()-destinsAcrros),
 			color);
 		vertices.push_back(v);
-		if (i > 0)
-		{
-			indices.push_back(iPos *  (triangleAmount + 1));
-			indices.push_back(iPos *  (triangleAmount + 1) + 1 + i - 1);
-			indices.push_back(iPos * (triangleAmount + 1) + 1 + i);
-
-		}
-		if (i == (triangleAmount - 1))
-		{
-			indices.push_back(iPos *  (triangleAmount + 1));
-			indices.push_back(iPos * (triangleAmount + 1) + 1 + i);
-			indices.push_back(iPos * (triangleAmount + 1) + 1);
-		}
+		indices.push_back(iPos *  (triangleAmount + 1));
+		indices.push_back(iPos * (triangleAmount + 1) + 1 + i);
+		indices.push_back(iPos *  (triangleAmount + 1) + 1 + (i + 1) % triangleAmount);
 	}
 	iPos = 1;
 	vertices.push_back(SVertex(glm::vec3(sourcePoint.x(), sourcePoint.y(), sourcePoint.z()), color));
@@ -62,19 +58,17 @@ void CArrowsAxis::addVertices(Eigen::Vector3f sourcePoint, Eigen::Vector3f endPo
 			sourcePoint.z()),
 			color);
 		vertices.push_back(v);
-		if (i > 0)
-		{
-			indices.push_back(iPos *  (triangleAmount + 1));
-			indices.push_back(iPos *  (triangleAmount + 1) + 1 + i - 1);
-			indices.push_back(iPos * (triangleAmount + 1) + 1 + i);
+		indices.push_back(iPos *  (triangleAmount + 1));
+		indices.push_back(iPos * (triangleAmount + 1) + 1 + i);
+		indices.push_back(iPos *  (triangleAmount + 1) + 1 + (i + 1)% triangleAmount);
+		
+		indices.push_back(iPos * (triangleAmount + 1) + 1 + i);
+		indices.push_back(iPos *  (triangleAmount + 1) + 1 + (i + 1) % triangleAmount);
+		indices.push_back((iPos-1) * (triangleAmount + 1) + 1 + i);
 
-		}
-		if (i == (triangleAmount - 1))
-		{
-			indices.push_back(iPos *  (triangleAmount + 1));
-			indices.push_back(iPos * (triangleAmount + 1) + 1 + i);
-			indices.push_back(iPos * (triangleAmount + 1) + 1);
-		}
+		indices.push_back((iPos - 1) * (triangleAmount + 1) + 1 + i);
+		indices.push_back((iPos - 1) * (triangleAmount + 1) + 1 + (i+1)% triangleAmount);
+		indices.push_back(iPos * (triangleAmount + 1) + 1 + (i + 1) % triangleAmount);
 	}
 	
 }
@@ -109,8 +103,14 @@ void CArrowsAxis::setup()
 	glBindVertexArray(0);
 }
 
-void CArrowsAxis::Draw()
+void CArrowsAxis::Draw(glm::mat4 *modelMat)
 {
+	mlineshader->use();
+	mlineshader->setMat4("projection", *mproject);
+	mlineshader->setMat4("view", *mlookat);
+	mlineshader->setMat4("model",* modelMat);
+
+	mlineshader->setVec4("ourColor", vec4(0, 1, 0, 1));
 	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

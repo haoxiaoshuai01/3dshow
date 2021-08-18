@@ -278,23 +278,23 @@ void CAppEditer::Draw()
 		itemModel->Draw();
 	}
 
-	meshShader->use();
-	meshShader->setMat4("projection", projection);
-	meshShader->setMat4("view", view);
-	for (auto &itemMesh : drawMesh)
-	{
-		meshShader->setMat4("model", itemMesh->modelMatrix);
-		itemMesh->Draw();
-	}
+	//meshShader->use();
+	//meshShader->setMat4("projection", projection);
+	//meshShader->setMat4("view", view);
+	//for (auto &itemMesh : drawMesh)
+	//{
+	//	meshShader->setMat4("model", itemMesh->modelMatrix);
+	//	itemMesh->Draw();
+	//}
 
-	for (auto &itemline : drawLine)
-	{
-		meshShader->setMat4("model", itemline->modelMatrix);
-		itemline->Draw();
-	}
+	//for (auto &itemline : drawLine)
+	//{
+	//	meshShader->setMat4("model", itemline->modelMatrix);
+	//	itemline->Draw();
+	//}
 
-	meshShader->setMat4("model", pointCould->modelMatrix);
-	pointCould->Draw();
+	//meshShader->setMat4("model", pointCould->modelMatrix);
+	//pointCould->Draw();
 
 	glDepthFunc(GL_ALWAYS);
 	lineShader->use();

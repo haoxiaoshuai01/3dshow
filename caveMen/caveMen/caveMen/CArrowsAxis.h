@@ -17,6 +17,10 @@ class CArrowsAxis :public CObject
 		void addVertices(Eigen::Vector3f sourcePoint, Eigen::Vector3f endPoint);
 		// initializes all the buffer objects/arrays
 		void setup();
-		void Draw();
+		void Draw(glm::mat4 *modelMat);
+
+		glm::mat4 *mproject;
+		glm::mat4 *mlookat;
+		Shader *mlineshader;
 };
 

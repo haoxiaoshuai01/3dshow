@@ -12,6 +12,7 @@
 #include <vector>
 #include "CObject.h"
 #include "CLIne.h"
+#include "CArrowsAxis.h"
 
 using namespace std;
 
@@ -30,52 +31,22 @@ public:
 	Shader* mShader;
 	Shader* mlineShader;
 	Model(Model &other);
+	Model(string const & path, Shader * shader, Shader * lineshader, glm::mat4 * project, glm::mat4 * lookat, bool gamma = false);
     // constructor, expects a filepath to a 3D model.
-    Model(string const &path, Shader* shader, Shader* lineshader, glm::mat4 *project,glm::mat4 *lookat, bool gamma = false):CObject(), gammaCorrection(gamma)
-    {
-		mShader = shader;
-		mLookat = lookat;
-		mProject = project;
-		mlineShader = lineshader;
-		loadModel(path);
-
-		Eigen::Matrix<float, Eigen::Dynamic, 3> m;
-		
-
-		int i = 0;
-		for (auto item : meshes)
-		{
-		    i= i+ item.vertices.size();
-		}
-		m.resize(i,3);
-
-		i = 0;
-		for (auto item : meshes)
-		{
-			for (auto v : item.vertices)
-			{
-				m(i, 0) = v.Position.x;
-				m(i, 1) = v.Position.y;
-				m(i, 2) = v.Position.z;
-				i++;
-			}
-		}
-
-		genboundingbox(m);
-		addBox();
-	}
-	void update();
-
+    void update();
+	
     // draws the model, and thus all its meshes
 	void Draw();
 	void addBox();
+	void addAxies();
 	bool isSelet = false;
 	bool isSeletXAxies = false;
 	bool isSeletYAxies = false;
 	bool isSeletZAxies = false;
 private:
 	std::vector< CLinewidth1 *> drawLineWidth1s;
-private:
+	std::vector< CArrowsAxis *> drawArrowAxis;
+ private:
     // loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
     void loadModel(string const &path)
     {

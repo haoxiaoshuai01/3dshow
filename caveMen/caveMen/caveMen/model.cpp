@@ -9,6 +9,40 @@ Model::Model(Model & other)
 	this->modelMatrix = other.modelMatrix;
 	this->postion = other.postion;
 }
+Model::Model(string const &path, Shader* shader, Shader* lineshader, glm::mat4 *project, glm::mat4 *lookat, bool gamma ) :CObject(), gammaCorrection(gamma)
+{
+	mShader = shader;
+	mLookat = lookat;
+	mProject = project;
+	mlineShader = lineshader;
+	loadModel(path);
+
+	Eigen::Matrix<float, Eigen::Dynamic, 3> m;
+
+
+	int i = 0;
+	for (auto item : meshes)
+	{
+		i = i + item.vertices.size();
+	}
+	m.resize(i, 3);
+
+	i = 0;
+	for (auto item : meshes)
+	{
+		for (auto v : item.vertices)
+		{
+			m(i, 0) = v.Position.x;
+			m(i, 1) = v.Position.y;
+			m(i, 2) = v.Position.z;
+			i++;
+		}
+	}
+
+	genboundingbox(m);
+	addBox();
+	addAxies();
+}
 
 void Model::update()
 {
@@ -37,6 +71,12 @@ void Model::Draw()
 	{
 		item->Draw();
 	}
+
+	for (auto item : drawArrowAxis)
+	{
+		item->Draw(&modelMatrix);
+	}
+
 }
 
 void Model::addBox()
@@ -70,6 +110,20 @@ void Model::addBox()
 
 	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), min_(1), max_(2)), vec3(max_(0), min_(1), min_(2))));
 	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), max_(1), max_(2)), vec3(min_(0), max_(1), min_(2))));
+}
+
+void Model::addAxies()
+{
+	Eigen::Vector3f min_(boundingboxMin[0], boundingboxMin[1], boundingboxMin[2]);
+	Eigen::Vector3f max_(boundingboxMax[0], boundingboxMax[1], boundingboxMax[2]);
+	CArrowsAxis *p1 = new CArrowsAxis(min_, Eigen::Vector3f(min_(0),min_(1), max_(2)),mlineShader,mProject,mLookat);
+	//CArrowsAxis *p2 = new CArrowsAxis(min_, Eigen::Vector3f(min_(0), max_(1), min_(2)), mlineShader, mProject, mLookat);
+	//CArrowsAxis *p3 = new CArrowsAxis(min_, Eigen::Vector3f(max_(0), max_(1), min_(2)), mlineShader, mProject, mLookat);
+
+	drawArrowAxis.push_back(p1);
+	//drawArrowAxis.push_back(p2);
+	//drawArrowAxis.push_back(p3);
+
 }
 
 unsigned int TextureFromFile(const char *path, const string &directory, bool gamma)
