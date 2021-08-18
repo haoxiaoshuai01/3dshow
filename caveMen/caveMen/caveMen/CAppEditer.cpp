@@ -31,6 +31,27 @@ time_t getTimeStamp()
 
 void CAppEditer::init()
 {
+	Eigen::Vector4f xyz(2,2,0,1);
+	Eigen::Vector3f center(0,2,0);
+	
+	Eigen::AngleAxisf rotation_vector(glm::pi<float>()/2, Eigen::Vector3f(0,0,1));
+	
+	Eigen::Matrix4f m = Eigen::Matrix4f().Identity();
+	m.block(0, 0, 3, 3) = rotation_vector.matrix();
+	//m.col(3) = Eigen::Vector4f(center.x(), center.y(), center.z(),1.0f);
+
+	cout << m << "\n";
+	Eigen::Matrix4f tmp = Eigen::Matrix4f().Identity();
+	tmp.col(3) = Eigen::Vector4f(-center.x(), -center.y(), -center.z(), 1.0f);
+
+	Eigen::Matrix4f tmp2 = Eigen::Matrix4f().Identity();
+	tmp2.col(3) = Eigen::Vector4f(center.x(), center.y(), center.z(), 1.0f);
+	m = tmp2 * m * tmp;
+	Eigen::Vector4f txyz = m * xyz;
+
+	//Eigen::Vector4f txyz = m * xyz;
+	cout << txyz << "\n";
+
 	camera = new Camera(glm::vec3(0.0f, 0.0f, 20.0f));
 	stbi_set_flip_vertically_on_load(true);
 

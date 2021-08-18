@@ -116,12 +116,12 @@ void Model::addAxies()
 {
 	Eigen::Vector3f min_(boundingboxMin[0], boundingboxMin[1], boundingboxMin[2]);
 	Eigen::Vector3f max_(boundingboxMax[0], boundingboxMax[1], boundingboxMax[2]);
-	CArrowsAxis *p1 = new CArrowsAxis(min_, Eigen::Vector3f(min_(0),min_(1), max_(2)),mlineShader,mProject,mLookat);
-	//CArrowsAxis *p2 = new CArrowsAxis(min_, Eigen::Vector3f(min_(0), max_(1), min_(2)), mlineShader, mProject, mLookat);
+	//CArrowsAxis *p1 = new CArrowsAxis(min_, Eigen::Vector3f(min_(0),min_(1), max_(2)),mlineShader,mProject,mLookat);
+	CArrowsAxis *p2 = new CArrowsAxis(min_, Eigen::Vector3f(min_(0), max_(1), min_(2)), mlineShader, mProject, mLookat);
 	//CArrowsAxis *p3 = new CArrowsAxis(min_, Eigen::Vector3f(max_(0), max_(1), min_(2)), mlineShader, mProject, mLookat);
 
-	drawArrowAxis.push_back(p1);
-	//drawArrowAxis.push_back(p2);
+	//drawArrowAxis.push_back(p1);
+	drawArrowAxis.push_back(p2);
 	//drawArrowAxis.push_back(p3);
 
 }

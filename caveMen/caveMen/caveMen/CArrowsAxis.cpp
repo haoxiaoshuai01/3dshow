@@ -34,10 +34,13 @@ void CArrowsAxis::addVertices(Eigen::Vector3f sourcePoint, Eigen::Vector3f endPo
 	Eigen::Vector3f oldNormoal(0.0f, 0.0f, 1.0f);
 	float destinsAcrros = direction.norm()/5.0f;
 
-	Eigen::Vector3f rotationAxis(oldNormoal.cross(direction));
+	Eigen::Vector3f rotationAxis(oldNormoal.cross(direction).normalized());
+	float rad = acosf(direction.normalized().dot(oldNormoal.normalized()));
+	Eigen::AngleAxisf rotation_vector(rad, rotationAxis);
+
 	float iPos = 0;
 	
-	vertices.push_back(SVertex(glm::vec3(endPoint.x(), endPoint.y(), endPoint.z()), color));
+	/*vertices.push_back(SVertex(glm::vec3(endPoint.x(), endPoint.y(), endPoint.z()), color));
 	for (int i = 0; i < triangleAmount; i++)
 	{
 		SVertex v(glm::vec3(endPoint.x() + (radius * cos(i *  rad360 / triangleAmount)),
@@ -48,8 +51,8 @@ void CArrowsAxis::addVertices(Eigen::Vector3f sourcePoint, Eigen::Vector3f endPo
 		indices.push_back(iPos *  (triangleAmount + 1));
 		indices.push_back(iPos * (triangleAmount + 1) + 1 + i);
 		indices.push_back(iPos *  (triangleAmount + 1) + 1 + (i + 1) % triangleAmount);
-	}
-	iPos = 1;
+	}*/
+	//iPos = 1;
 	vertices.push_back(SVertex(glm::vec3(sourcePoint.x(), sourcePoint.y(), sourcePoint.z()), color));
 	for (int i = 0; i < triangleAmount; i++)
 	{
@@ -62,15 +65,28 @@ void CArrowsAxis::addVertices(Eigen::Vector3f sourcePoint, Eigen::Vector3f endPo
 		indices.push_back(iPos * (triangleAmount + 1) + 1 + i);
 		indices.push_back(iPos *  (triangleAmount + 1) + 1 + (i + 1)% triangleAmount);
 		
-		indices.push_back(iPos * (triangleAmount + 1) + 1 + i);
+		/*indices.push_back(iPos * (triangleAmount + 1) + 1 + i);
 		indices.push_back(iPos *  (triangleAmount + 1) + 1 + (i + 1) % triangleAmount);
 		indices.push_back((iPos-1) * (triangleAmount + 1) + 1 + i);
 
 		indices.push_back((iPos - 1) * (triangleAmount + 1) + 1 + i);
 		indices.push_back((iPos - 1) * (triangleAmount + 1) + 1 + (i+1)% triangleAmount);
-		indices.push_back(iPos * (triangleAmount + 1) + 1 + (i + 1) % triangleAmount);
+		indices.push_back(iPos * (triangleAmount + 1) + 1 + (i + 1) % triangleAmount);*/
 	}
-	
+	int index = 0;
+	for (auto &item : vertices)
+	{
+		if ((index != 0))
+		{
+			Eigen::Vector3f v = rotation_vector.matrix() * Eigen::Vector3f(item.Position.x, item.Position.y, item.Position.z);
+
+			item.Position.x = v.x();
+			item.Position.y = v.y();
+			item.Position.z = v.z();
+		}
+		index++;
+	}
+
 }
 
 void CArrowsAxis::setup()
