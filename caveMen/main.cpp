@@ -100,7 +100,12 @@ int main(int, char**)
     if (window == NULL)
         return 1;
 	ShowWindow( (HWND)GetActiveWindow(), SW_MAXIMIZE);
+	int widthW;
+	int heightH;
+	glfwGetWindowSize(window, &widthW, &heightH);
 	CAppEditer *editerP = new CAppEditer;
+	editerP->windowsH = heightH;
+	editerP->windowsW = widthW;
 	app = editerP;
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
@@ -133,8 +138,6 @@ int main(int, char**)
 
 	
 	editerP->init();
-	editerP->windowsW = 1280;
-	editerP->windowsH = 720;
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();

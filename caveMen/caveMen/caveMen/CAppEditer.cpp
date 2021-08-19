@@ -31,28 +31,7 @@ time_t getTimeStamp()
 
 void CAppEditer::init()
 {
-	Eigen::Vector4f xyz(2,2,0,1);
-	Eigen::Vector3f center(0,2,0);
-	
-	Eigen::AngleAxisf rotation_vector(glm::pi<float>()/2, Eigen::Vector3f(0,0,1));
-	
-	Eigen::Matrix4f m = Eigen::Matrix4f().Identity();
-	m.block(0, 0, 3, 3) = rotation_vector.matrix();
-	//m.col(3) = Eigen::Vector4f(center.x(), center.y(), center.z(),1.0f);
-
-	cout << m << "\n";
-	Eigen::Matrix4f tmp = Eigen::Matrix4f().Identity();
-	tmp.col(3) = Eigen::Vector4f(-center.x(), -center.y(), -center.z(), 1.0f);
-
-	Eigen::Matrix4f tmp2 = Eigen::Matrix4f().Identity();
-	tmp2.col(3) = Eigen::Vector4f(center.x(), center.y(), center.z(), 1.0f);
-	m = tmp2 * m * tmp;
-	Eigen::Vector4f txyz = m * xyz;
-
-	//Eigen::Vector4f txyz = m * xyz;
-	cout << txyz << "\n";
-
-	camera = new Camera(glm::vec3(0.0f, 0.0f, 20.0f));
+	camera = new Camera(glm::vec3(0.0f, 3.0f, 20.0f));
 	stbi_set_flip_vertically_on_load(true);
 
 	modelShader = new Shader("../../res/shader/1.model_loading.vs", "../../res/shader/1.model_loading.fs");
@@ -62,7 +41,7 @@ void CAppEditer::init()
 	// -----------
 
 	addModel();
-	//addLine();
+	addGridLine();
 	//addMesh();
 	//addPoint();
 }
@@ -79,7 +58,7 @@ CAppEditer::~CAppEditer()
 
 void CAppEditer::addMesh()
 {
-	std::vector<SVertex> vertexVectors;
+	/*std::vector<SVertex> vertexVectors;
 	vertexVectors.push_back(SVertex(vec3(-5.0f, -5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
 	vertexVectors.push_back(SVertex(vec3(5.0f, -5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
 	vertexVectors.push_back(SVertex(vec3(5.0f, 5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
@@ -171,24 +150,26 @@ void CAppEditer::addMesh()
 	indices_.push_back(1);
 	indices_.push_back(2);
 	indices_.push_back(3);
-	drawMesh.push_back(new CMesh(v, indices));
+	drawMesh.push_back(new CMesh(v, indices));*/
 }
 
-void CAppEditer::addLine()
+void CAppEditer::addGridLine()
 {
-	CLine *line = new CLine(vec2(0, -10), vec2(0, 10));
-	drawLine.push_back(line);
-	CLine *line2 = new CLine(vec2(-10, 0), vec2(10, 0));
-	drawLine.push_back(line2);
-	CLinewidth1 *linwidth1 = new CLinewidth1(vec3(-10,0,4),vec3(10,0,4));
-	drawLineWidth1s.push_back(linwidth1);
+	for (int i = -50; i < 51; i++)
+	{
+		CLinewidth1 *linwidth1 = new CLinewidth1(vec3(-50, 0, (float)i), vec3(50,0, (float)i),lineShader,&projection,&view);
+		drawObject.push_back(linwidth1);
+		CLinewidth1 *linwidth2 = new CLinewidth1(vec3((float)i, 0, -50), vec3((float)i, 0, 50), lineShader, &projection, &view);
+		drawObject.push_back(linwidth2);
+	}
+
 
 }
 
 void CAppEditer::addModel()
 {
 	Model*p = new Model("../../res/objects/backpack/backpack.obj",modelShader,lineShader,&projection,&view);
-	drawModel.push_back(p);
+	drawObject.push_back(p);
 	p->postion = glm::vec3(-5.0f, 2.5f, 0.1f);
 	//p->S = vec3(0.5f, 1.0f, 0.5f);
 	p->eulerAngle = vec3(45.0f, 0.0f,0.0f);
@@ -205,11 +186,11 @@ void CAppEditer::addModel()
 
 void CAppEditer::addPoint()
 {
-	samperPoint.push_back({ 2,3.4 });
-	samperPoint.push_back({ 3,4.6 });
-	samperPoint.push_back({ 4,5.4 });
-	samperPoint.push_back({ 5,6.6 });
-	pointCould = new CPointCloud(samperPoint);
+	//samperPoint.push_back({ 2,3.4 });
+	//samperPoint.push_back({ 3,4.6 });
+	//samperPoint.push_back({ 4,5.4 });
+	//samperPoint.push_back({ 5,6.6 });
+	//pointCould = new CPointCloud(samperPoint);
 }
 
 void CAppEditer::Load()
@@ -251,29 +232,42 @@ void CAppEditer::Update()
 	{
 		glm::vec3 posWorld =  getScreenWordPos({ ImGui::GetMousePos().x, ImGui::GetMousePos().y });
 		
-		CLinewidth1 *line = new CLinewidth1(vec3(camera->Position.x, camera->Position.y, camera->Position.z), posWorld);
-		drawLineWidth1s.push_back(line);
+		CLinewidth1 *line = new CLinewidth1(vec3(camera->Position.x, camera->Position.y, camera->Position.z), posWorld, lineShader,
+			&projection, &view);
+		drawObject.push_back(line);
 		
-		//for (auto item : drawModel)
-		//{
-		//	float distens = 0.0f;
-		//	//for(int i=0;i<10000;i++)
-		//	bool flag = Geomery::TestRayAABBInterSection(camera->Position,glm::normalize(posWorld-camera->Position) ,
-		//		vec3(item->boundingboxMin.x(), item->boundingboxMin.y(), item->boundingboxMin.z()),
-		//		vec3(item->boundingboxMax.x(), item->boundingboxMax.y(), item->boundingboxMax.z()), item->modelMatrix);
-		//		item->isSelet = flag;
-		//	int i = 0;
-		//}
-		
-		/*Geomery::gradientDecline(samperPoint, x1, x2);
-		drawLineWidth1s.push_back(new CLinewidth1(vec3(0, x2, 3.01f), vec3(10.0f, 10.0f*x1 + x2, 3.01f)));*/
-		
-		boost::thread my_thread_1([]() {while (1) { std::cout << "hello\n"; }});
-		/*for (auto item:Testdata:: rayINDatas)
+		for (auto item : drawObject)
 		{
-			bool isintersect = Geomery::intersectRayPolygon(item.o,item.dir,item.point1,item.point2,item.point3);
-			int i = 0;
-		}*/
+			if (item->actorType == EActorType::eModel)
+			{
+				Model *p = (Model *)item;
+				float distens = 0.0f;
+				bool flag = Geomery::TestRayAABBInterSection(camera->Position, glm::normalize(posWorld - camera->Position),
+					vec3(item->boundingboxMin.x(), item->boundingboxMin.y(), item->boundingboxMin.z()),
+					vec3(item->boundingboxMax.x(), item->boundingboxMax.y(), item->boundingboxMax.z()), item->modelMatrix);
+				if (flag)
+				{
+					for (auto itemAcrrows : p->drawArrowAxis)
+					{
+						bool flag = Geomery::TestRayAABBInterSection(camera->Position, glm::normalize(posWorld - camera->Position),
+							vec3(itemAcrrows->boundingboxMin.x(), itemAcrrows->boundingboxMin.y(), itemAcrrows->boundingboxMin.z()),
+							vec3(itemAcrrows->boundingboxMax.x(), itemAcrrows->boundingboxMax.y(), itemAcrrows->boundingboxMax.z()), itemAcrrows->modelMatrix);
+						if (flag )
+						{
+							cout << "heello\n";
+						}
+					}
+
+				}
+
+			}
+
+		}
+		
+
+		
+		//boost::thread my_thread_1([]() {while (1) { std::cout << "hello\n"; }});
+
 
 	}
 
@@ -291,10 +285,10 @@ void CAppEditer::Draw()
 	// don't forget to enable shader before setting uniforms
 	
 	// view/projection transformations
-	projection = glm::perspective(glm::radians(camera->Zoom), (float)windowsW / (float)windowsH, 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(camera->Zoom), (float)windowsW / (float)windowsH, 0.1f, 1000.0f);
 	view = camera->GetViewMatrix();
 
-	for (auto &itemModel : drawModel)
+	for (auto &itemModel : drawObject)
 	{
 		itemModel->Draw();
 	}
@@ -317,7 +311,7 @@ void CAppEditer::Draw()
 	//meshShader->setMat4("model", pointCould->modelMatrix);
 	//pointCould->Draw();
 
-	glDepthFunc(GL_ALWAYS);
+	/*glDepthFunc(GL_ALWAYS);
 	lineShader->use();
 	lineShader->setMat4("projection", projection);
 	lineShader->setMat4("view", view);
@@ -327,7 +321,7 @@ void CAppEditer::Draw()
 		lineShader->setVec4("ourColor", vec4(1,1,1,1));
 		itemline->Draw();
 	}
-	glDepthFunc(GL_LESS);
+	glDepthFunc(GL_LESS);*/
 }
 
 glm::vec3 CAppEditer::getScreenWordPos(glm::vec2 pos)

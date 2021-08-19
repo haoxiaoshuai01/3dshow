@@ -1,6 +1,7 @@
 #pragma once
 #include "CObject.h"
 #include "dataStruct.h"
+#include "learnopengl/shader_m.h"
 class CLine :
 	public CObject
 {
@@ -25,7 +26,7 @@ class CLinewidth1 :
 
 {
 	public:
-		CLinewidth1(glm::vec3 start, glm::vec3 endP);
+		CLinewidth1(glm::vec3 start, glm::vec3 endP, Shader *lineShader, glm::mat4 *project,glm::mat4 *lookat);
 		std::vector<float> vertices;
 		unsigned int VAO;
 		unsigned int VBO,EBO;
@@ -34,5 +35,8 @@ class CLinewidth1 :
 		void Draw();
 		glm::vec3 start;
 		glm::vec3 endP;
+		Shader *mlineShader;
+		glm::mat4 *mProject;
+		glm::mat4 *mLookat;
 };
 

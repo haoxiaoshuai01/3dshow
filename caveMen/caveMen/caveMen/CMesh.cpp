@@ -4,6 +4,7 @@ CMesh::CMesh(std::vector<SVertex> vertices, std::vector<unsigned int> indices):C
 {
 	this->vertices = vertices;
 	this->indices = indices;
+	this->actorType = EActorType::eMesh;
 	setupMesh();
 }
 

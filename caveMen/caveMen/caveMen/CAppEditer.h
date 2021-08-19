@@ -17,7 +17,7 @@ public:
 	CAppEditer();
 	~CAppEditer();
 	void addMesh();
-	void addLine();
+	void addGridLine();
 	void addModel();
 	void addPoint();
 	void init();
@@ -33,12 +33,12 @@ private:
 	Shader *modelShader;
 	Shader *meshShader;
 	Shader *lineShader;
-	std::vector<Model *> drawModel;
-	std::vector<CMesh *> drawMesh;
-	std::vector<CLine *> drawLine;
-	std::vector<CLinewidth1 *> drawLineWidth1s;
+	std::vector<CObject *> drawObject;
+	//std::vector<CMesh *> drawMesh;
+	//std::vector<CLine *> drawLine;
+	//std::vector<CLinewidth1 *> drawLineWidth1s;
 	
-	CPointCloud *pointCould;
+	//CPointCloud *pointCould;
 	float deltaTime = 0.0f;
 	float lastFrame = 0.0f;
 	glm::mat4 projection;

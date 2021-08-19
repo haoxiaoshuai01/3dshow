@@ -8,6 +8,7 @@ Model::Model(Model & other)
 	this->gammaCorrection = other.gammaCorrection;
 	this->modelMatrix = other.modelMatrix;
 	this->postion = other.postion;
+	
 }
 Model::Model(string const &path, Shader* shader, Shader* lineshader, glm::mat4 *project, glm::mat4 *lookat, bool gamma ) :CObject(), gammaCorrection(gamma)
 {
@@ -15,6 +16,7 @@ Model::Model(string const &path, Shader* shader, Shader* lineshader, glm::mat4 *
 	mLookat = lookat;
 	mProject = project;
 	mlineShader = lineshader;
+	this->actorType = EActorType::eModel;
 	loadModel(path);
 
 	Eigen::Matrix<float, Eigen::Dynamic, 3> m;
@@ -42,12 +44,16 @@ Model::Model(string const &path, Shader* shader, Shader* lineshader, glm::mat4 *
 	genboundingbox(m);
 	addBox();
 	addAxies();
+	update();
 }
 
 void Model::update()
 {
 	CObject::update();
-	
+	for (auto item : drawArrowAxis)
+		item->modelMatrix = this->modelMatrix;
+	for (auto item : drawLineWidth1s)
+		item->modelMatrix = this->modelMatrix;
 }
 
 void Model::Draw()
@@ -59,24 +65,17 @@ void Model::Draw()
 	for (unsigned int i = 0; i < meshes.size(); i++)
 		meshes[i].Draw(*mShader);
 
-	mlineShader->use();
-	mlineShader->setMat4("projection", *mProject);
-	mlineShader->setMat4("view", *mLookat);
-	mlineShader->setMat4("model", modelMatrix);
-	if (isSelet)
-		mlineShader->setVec4("ourColor",vec4(0,1,0,1) );
-	else
-		mlineShader->setVec4("ourColor", vec4(1, 1, 1,1));
 	for (auto item : drawLineWidth1s)
 	{
+		
 		item->Draw();
 	}
-
+	glDepthFunc(GL_ALWAYS);
 	for (auto item : drawArrowAxis)
 	{
 		item->Draw(&modelMatrix);
 	}
-
+	glDepthFunc(GL_LESS);
 }
 
 void Model::addBox()
@@ -94,35 +93,42 @@ void Model::addBox()
 	Eigen::Vector3f min_(boundingboxMin[0], boundingboxMin[1], boundingboxMin[2]);
 	Eigen::Vector3f max_(boundingboxMax[0], boundingboxMax[1], boundingboxMax[2]);
 
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), min_(1), min_(2)), vec3(max_(0), min_(1), min_(2))));
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), min_(1), min_(2)), vec3(min_(0), max_(1), min_(2))));
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), max_(1), min_(2)), vec3(max_(0), max_(1), min_(2))));
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), min_(1), min_(2)), vec3(max_(0), min_(1), min_(2)),mlineShader,mProject,mLookat));
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), min_(1), min_(2)), vec3(min_(0), max_(1), min_(2)),mlineShader,mProject,mLookat));
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), max_(1), min_(2)), vec3(max_(0), max_(1), min_(2)),mlineShader,mProject,mLookat));
+																											 
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), max_(1), min_(2)), vec3(max_(0), min_(1), min_(2)),mlineShader,mProject,mLookat));
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), min_(1), min_(2)), vec3(min_(0), min_(1), max_(2)),mlineShader,mProject,mLookat));
+																											 
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), max_(1), max_(2)), vec3(max_(0), max_(1), min_(2)),mlineShader,mProject,mLookat));
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), max_(1), max_(2)), vec3(min_(0), max_(1), max_(2)),mlineShader,mProject,mLookat));
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), max_(1), max_(2)), vec3(max_(0), min_(1), max_(2)),mlineShader,mProject,mLookat));
+																											 
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), min_(1), max_(2)), vec3(min_(0), min_(1), max_(2)),mlineShader,mProject,mLookat));
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), max_(1), max_(2)), vec3(min_(0), min_(1), max_(2)),mlineShader,mProject,mLookat));
+																											  
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), min_(1), max_(2)), vec3(max_(0), min_(1), min_(2)),mlineShader,mProject,mLookat));
+	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), max_(1), max_(2)), vec3(min_(0), max_(1), min_(2)),mlineShader,mProject,mLookat));
 
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), max_(1), min_(2)), vec3(max_(0), min_(1), min_(2))));
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), min_(1), min_(2)), vec3(min_(0), min_(1), max_(2))));
 
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), max_(1), max_(2)), vec3(max_(0), max_(1), min_(2))));
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), max_(1), max_(2)), vec3(min_(0), max_(1), max_(2))));
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), max_(1), max_(2)), vec3(max_(0), min_(1), max_(2))));
-
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), min_(1), max_(2)), vec3(min_(0), min_(1), max_(2))));
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), max_(1), max_(2)), vec3(min_(0), min_(1), max_(2))));
-
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(max_(0), min_(1), max_(2)), vec3(max_(0), min_(1), min_(2))));
-	drawLineWidth1s.push_back(new CLinewidth1(vec3(min_(0), max_(1), max_(2)), vec3(min_(0), max_(1), min_(2))));
+	
 }
 
 void Model::addAxies()
 {
 	Eigen::Vector3f min_(boundingboxMin[0], boundingboxMin[1], boundingboxMin[2]);
 	Eigen::Vector3f max_(boundingboxMax[0], boundingboxMax[1], boundingboxMax[2]);
-	//CArrowsAxis *p1 = new CArrowsAxis(min_, Eigen::Vector3f(min_(0),min_(1), max_(2)),mlineShader,mProject,mLookat);
+	CArrowsAxis *p1 = new CArrowsAxis(min_, Eigen::Vector3f(min_(0),min_(1), max_(2)),mlineShader,mProject,mLookat);
+	p1->color = glm::vec4(0, 0, 1, 1);
 	CArrowsAxis *p2 = new CArrowsAxis(min_, Eigen::Vector3f(min_(0), max_(1), min_(2)), mlineShader, mProject, mLookat);
-	//CArrowsAxis *p3 = new CArrowsAxis(min_, Eigen::Vector3f(max_(0), max_(1), min_(2)), mlineShader, mProject, mLookat);
+	p2->color = glm::vec4(0, 1, 0, 1);
 
-	//drawArrowAxis.push_back(p1);
+	CArrowsAxis *p3 = new CArrowsAxis(min_, Eigen::Vector3f(max_(0), min_(1), min_(2)), mlineShader, mProject, mLookat);
+	p3->color = glm::vec4(1, 0, 0, 1);
+
+	drawArrowAxis.push_back(p1);
 	drawArrowAxis.push_back(p2);
-	//drawArrowAxis.push_back(p3);
+	drawArrowAxis.push_back(p3);
 
 }
 

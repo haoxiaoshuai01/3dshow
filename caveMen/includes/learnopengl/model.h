@@ -43,7 +43,6 @@ public:
 	bool isSeletXAxies = false;
 	bool isSeletYAxies = false;
 	bool isSeletZAxies = false;
-private:
 	std::vector< CLinewidth1 *> drawLineWidth1s;
 	std::vector< CArrowsAxis *> drawArrowAxis;
  private:

@@ -32,27 +32,51 @@ void CArrowsAxis::addVertices(Eigen::Vector3f sourcePoint, Eigen::Vector3f endPo
 	float rad360 = 2 * glm::pi<float>();
 	glm::vec3 color(0.2, 0.4, 0.2);
 	Eigen::Vector3f oldNormoal(0.0f, 0.0f, 1.0f);
-	float destinsAcrros = direction.norm()/5.0f;
+	float destinsAcrros = direction.norm()/10.0f;
 
 	Eigen::Vector3f rotationAxis(oldNormoal.cross(direction).normalized());
 	float rad = acosf(direction.normalized().dot(oldNormoal.normalized()));
 	Eigen::AngleAxisf rotation_vector(rad, rotationAxis);
 
+
+	Eigen::Matrix4f m = Eigen::Matrix4f().Identity();
+	m.block(0, 0, 3, 3) = rotation_vector.matrix();
+	//m.col(3) = Eigen::Vector4f(center.x(), center.y(), center.z(),1.0f);
+
+	Eigen::Matrix4f tmp = Eigen::Matrix4f().Identity();
+	tmp.col(3) = Eigen::Vector4f(-sourcePoint.x(), -sourcePoint.y(), -sourcePoint.z(), 1.0f);
+
+	Eigen::Matrix4f tmp2 = Eigen::Matrix4f().Identity();
+	tmp2.col(3) = Eigen::Vector4f(sourcePoint.x(), sourcePoint.y(), sourcePoint.z(), 1.0f);
+	Eigen::Matrix4f sourceMat = tmp2 * m * tmp;
+
+	Eigen::Matrix4f tmpend = Eigen::Matrix4f().Identity();
+	tmpend.col(3) = Eigen::Vector4f(-endPoint.x(), -endPoint.y(), -endPoint.z(), 1.0f);
+
+	Eigen::Matrix4f tmp2end = Eigen::Matrix4f().Identity();
+	tmp2end.col(3) = Eigen::Vector4f(endPoint.x(), endPoint.y(), endPoint.z(), 1.0f);
+	Eigen::Matrix4f endMat = tmp2end * m * tmpend;
+
 	float iPos = 0;
 	
-	/*vertices.push_back(SVertex(glm::vec3(endPoint.x(), endPoint.y(), endPoint.z()), color));
+	vertices.push_back(SVertex(glm::vec3(endPoint.x(), endPoint.y(), endPoint.z()), color));
 	for (int i = 0; i < triangleAmount; i++)
 	{
 		SVertex v(glm::vec3(endPoint.x() + (radius * cos(i *  rad360 / triangleAmount)),
 			endPoint.y() + (radius * sin(i * rad360 / triangleAmount)),
-			endPoint.z()-destinsAcrros),
+			endPoint.z() - destinsAcrros),
 			color);
+		Eigen::Vector4f vtmp = endMat * Eigen::Vector4f(v.Position.x, v.Position.y, v.Position.z, 1.0f);
+
+		v.Position.x = vtmp.hnormalized().x();
+		v.Position.y = vtmp.hnormalized().y();
+		v.Position.z = vtmp.hnormalized().z();
 		vertices.push_back(v);
 		indices.push_back(iPos *  (triangleAmount + 1));
 		indices.push_back(iPos * (triangleAmount + 1) + 1 + i);
 		indices.push_back(iPos *  (triangleAmount + 1) + 1 + (i + 1) % triangleAmount);
-	}*/
-	//iPos = 1;
+	}
+	iPos = 1;
 	vertices.push_back(SVertex(glm::vec3(sourcePoint.x(), sourcePoint.y(), sourcePoint.z()), color));
 	for (int i = 0; i < triangleAmount; i++)
 	{
@@ -60,32 +84,31 @@ void CArrowsAxis::addVertices(Eigen::Vector3f sourcePoint, Eigen::Vector3f endPo
 			sourcePoint.y() + (radius * sin(i * rad360 / triangleAmount)),
 			sourcePoint.z()),
 			color);
+
+		Eigen::Vector4f vtmp = sourceMat * Eigen::Vector4f(v.Position.x, v.Position.y, v.Position.z, 1.0f);
+
+		v.Position.x = vtmp.hnormalized().x();
+		v.Position.y = vtmp.hnormalized().y();
+		v.Position.z = vtmp.hnormalized().z();
+
 		vertices.push_back(v);
+
+
+
 		indices.push_back(iPos *  (triangleAmount + 1));
 		indices.push_back(iPos * (triangleAmount + 1) + 1 + i);
 		indices.push_back(iPos *  (triangleAmount + 1) + 1 + (i + 1)% triangleAmount);
 		
-		/*indices.push_back(iPos * (triangleAmount + 1) + 1 + i);
+
+		indices.push_back(iPos * (triangleAmount + 1) + 1 + i);
 		indices.push_back(iPos *  (triangleAmount + 1) + 1 + (i + 1) % triangleAmount);
-		indices.push_back((iPos-1) * (triangleAmount + 1) + 1 + i);
+		indices.push_back((iPos - 1) * (triangleAmount + 1) + 1 + i);
 
 		indices.push_back((iPos - 1) * (triangleAmount + 1) + 1 + i);
-		indices.push_back((iPos - 1) * (triangleAmount + 1) + 1 + (i+1)% triangleAmount);
-		indices.push_back(iPos * (triangleAmount + 1) + 1 + (i + 1) % triangleAmount);*/
+		indices.push_back((iPos - 1) * (triangleAmount + 1) + 1 + (i + 1) % triangleAmount);
+		indices.push_back(iPos * (triangleAmount + 1) + 1 + (i + 1) % triangleAmount);
 	}
-	int index = 0;
-	for (auto &item : vertices)
-	{
-		if ((index != 0))
-		{
-			Eigen::Vector3f v = rotation_vector.matrix() * Eigen::Vector3f(item.Position.x, item.Position.y, item.Position.z);
-
-			item.Position.x = v.x();
-			item.Position.y = v.y();
-			item.Position.z = v.z();
-		}
-		index++;
-	}
+	
 
 }
 
@@ -126,7 +149,7 @@ void CArrowsAxis::Draw(glm::mat4 *modelMat)
 	mlineshader->setMat4("view", *mlookat);
 	mlineshader->setMat4("model",* modelMat);
 
-	mlineshader->setVec4("ourColor", vec4(0, 1, 0, 1));
+	mlineshader->setVec4("ourColor", color);
 	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

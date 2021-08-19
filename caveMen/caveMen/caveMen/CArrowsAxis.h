@@ -18,7 +18,7 @@ class CArrowsAxis :public CObject
 		// initializes all the buffer objects/arrays
 		void setup();
 		void Draw(glm::mat4 *modelMat);
-
+		glm::vec4 color;
 		glm::mat4 *mproject;
 		glm::mat4 *mlookat;
 		Shader *mlineshader;

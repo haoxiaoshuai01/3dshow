@@ -9,6 +9,13 @@
 #include <assimp/postprocess.h>
 #include "Eigen/Core"
 #include <Eigen/Geometry>
+
+enum class EActorType
+{
+	eModel,
+	eLine,
+	eMesh
+};
 class CObject
 {
 public:
@@ -27,5 +34,7 @@ public:
 	bool flagUpdateActived = false;
 	Eigen::Vector3f boundingboxMin;
 	Eigen::Vector3f boundingboxMax;
+
+	EActorType actorType;
 };
 

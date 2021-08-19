@@ -69,16 +69,20 @@ void CLine::updateVertex()
 
 void CLine::Draw()
 {
-	// draw mesh
-	//glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(SVertex), &vertices[0], GL_STATIC_DRAW);
+	
+
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 
-CLinewidth1::CLinewidth1(glm::vec3 start, glm::vec3 endP):start(start), endP(endP)
+CLinewidth1::CLinewidth1(glm::vec3 start, glm::vec3 endP,Shader *lineShader,glm::mat4 *project, glm::mat4 *lookat):start(start), endP(endP)
 {
-	
+	mlineShader = lineShader;
+	mProject = project;
+	mLookat = lookat;
+	this->actorType = EActorType::eLine;
+
 	vertices.resize(6);
 	updateVertex();
 	// create buffers/arrays
@@ -128,6 +132,11 @@ void CLinewidth1::updateVertex()
 
 void CLinewidth1::Draw()
 {
+	mlineShader->use();
+	mlineShader->setMat4("projection", *mProject);
+	mlineShader->setMat4("view", *mLookat);
+	mlineShader->setMat4("model", modelMatrix);
+	mlineShader->setVec4("ourColor", vec4(1, 1, 1, 1));
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_LINES, 0, 2);
 	glBindVertexArray(0);
