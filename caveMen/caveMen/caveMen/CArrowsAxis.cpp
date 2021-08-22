@@ -6,7 +6,7 @@ CArrowsAxis::CArrowsAxis(Eigen::Vector3f sourcePoint, Eigen::Vector3f endPoint,
 	mlineshader = lineshader;
 	mproject = project;
 	mlookat = lookat;
-
+	actorType = EActorType::eSeleAixs;
 
 	addVertices(sourcePoint, endPoint);
 	setup();
@@ -142,16 +142,23 @@ void CArrowsAxis::setup()
 	glBindVertexArray(0);
 }
 
-void CArrowsAxis::Draw(glm::mat4 *modelMat)
+void CArrowsAxis::Draw()
 {
+	if (isHide)
+		return;
+
 	mlineshader->use();
 	mlineshader->setMat4("projection", *mproject);
 	mlineshader->setMat4("view", *mlookat);
-	mlineshader->setMat4("model",* modelMat);
+	mlineshader->setMat4("model",modelMatrix);
 
 	mlineshader->setVec4("ourColor", color);
 	// draw mesh
+	if(DrawAlwaydepthTest)
+	glDepthFunc(GL_ALWAYS);
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+	if(DrawAlwaydepthTest)
+	glDepthFunc(GL_LESS);
 }

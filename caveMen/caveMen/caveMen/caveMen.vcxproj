@@ -151,6 +151,7 @@
     <ClInclude Include="CObject.h" />
     <ClInclude Include="COptimize.h" />
     <ClInclude Include="CPointCloud.h" />
+    <ClInclude Include="CSkybox.h" />
     <ClInclude Include="dataStruct.h" />
     <ClInclude Include="geometry.h" />
     <ClInclude Include="testdata.h" />
@@ -173,6 +174,7 @@
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="COptimize.cpp" />
     <ClCompile Include="CPointCloud.cpp" />
+    <ClCompile Include="CSkybox.cpp" />
     <ClCompile Include="geometry.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="testdata.cpp" />
@@ -213,6 +215,8 @@
     <None Include="..\..\res\shader\cmesh_shader.vs" />
     <None Include="..\..\res\shader\line.fs" />
     <None Include="..\..\res\shader\line.vs" />
+    <None Include="..\..\res\shader\skybox.fs" />
+    <None Include="..\..\res\shader\skybox.vs" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\includes\Eigen\CMakeLists.txt" />

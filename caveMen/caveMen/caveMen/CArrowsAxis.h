@@ -2,6 +2,13 @@
 #include "learnopengl/shader_m.h"
 #include "dataStruct.h"
 #include "CObject.h"
+enum class ESeleArrowsType
+{
+	eNone,
+	eXArrow,
+	eYArrow,
+	eZArrow
+};
 
 class CArrowsAxis :public CObject
 {
@@ -17,10 +24,13 @@ class CArrowsAxis :public CObject
 		void addVertices(Eigen::Vector3f sourcePoint, Eigen::Vector3f endPoint);
 		// initializes all the buffer objects/arrays
 		void setup();
-		void Draw(glm::mat4 *modelMat);
+		void Draw();
 		glm::vec4 color;
 		glm::mat4 *mproject;
 		glm::mat4 *mlookat;
 		Shader *mlineshader;
+		CObject *model =nullptr;
+		bool DrawAlwaydepthTest = true;
+		ESeleArrowsType mseleArrowsType;
 };
 

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "CObject.h"
+#include "imgui.h"
 time_t getTimeStamp();
 class Camera; 
 class Shader;
@@ -17,23 +18,34 @@ public:
 	CAppEditer();
 	~CAppEditer();
 	void addMesh();
+	void addSkyBox();
 	void addGridLine();
 	void addModel();
+	void addseleAxis();
+	void addAxis();
 	void addPoint();
 	void init();
 	void Load();
 	void Unload();
 	void Update();
+	void showseleAixs(CObject *model);
+	void hideSeleAixs();
 	void Draw();
 	glm::vec3 getScreenWordPos(glm::vec2 pos);
 	int windowsW;
 	int windowsH;
 private:
+	glm::vec3 calcPlaneIntersectPoint(glm::vec2 mousePos, glm::vec3 normal, glm::vec3 sPoint, glm::vec3 point1Plane);
+	void eventAxis();
+private:
+
 	Camera *camera;
 	Shader *modelShader;
 	Shader *meshShader;
 	Shader *lineShader;
+	Shader *skyboxShader;
 	std::vector<CObject *> drawObject;
+	std::vector<CObject *> mselelaxis;
 	//std::vector<CMesh *> drawMesh;
 	//std::vector<CLine *> drawLine;
 	//std::vector<CLinewidth1 *> drawLineWidth1s;
@@ -41,12 +53,9 @@ private:
 	//CPointCloud *pointCould;
 	float deltaTime = 0.0f;
 	float lastFrame = 0.0f;
+	ImVec2 lastPos;
 	glm::mat4 projection;
 	glm::mat4 view;
-
-
-	std::vector<glm::vec2> samperPoint;
-	double x1 = 0.0,
-		x2 = 0.0;
+	
 };
 

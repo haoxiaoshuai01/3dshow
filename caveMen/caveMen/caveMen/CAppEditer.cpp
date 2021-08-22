@@ -18,7 +18,7 @@
 #include <chrono>  
 #include <iostream> 
 #include "boost/thread.hpp"
-
+#include "CSkybox.h"
 
 using namespace glm;
 time_t getTimeStamp()
@@ -32,16 +32,22 @@ time_t getTimeStamp()
 void CAppEditer::init()
 {
 	camera = new Camera(glm::vec3(0.0f, 3.0f, 20.0f));
-	stbi_set_flip_vertically_on_load(true);
+	
 
 	modelShader = new Shader("../../res/shader/1.model_loading.vs", "../../res/shader/1.model_loading.fs");
 	meshShader = new Shader("../../res/shader/cmesh_shader.vs", "../../res/shader/cmesh_shader.fs");
 	lineShader = new Shader("../../res/shader/line.vs", "../../res/shader/line.fs");
+	skyboxShader = new Shader("../../res/shader/skybox.vs", "../../res/shader/skybox.fs");
+	
+	
 	// load models
 	// -----------
-
+	addSkyBox();
+	stbi_set_flip_vertically_on_load(true);
 	addModel();
 	addGridLine();
+	addAxis();
+	addseleAxis();
 	//addMesh();
 	//addPoint();
 }
@@ -153,6 +159,87 @@ void CAppEditer::addMesh()
 	drawMesh.push_back(new CMesh(v, indices));*/
 }
 
+void CAppEditer::addSkyBox()
+{
+	/*std::vector<vec3> vertexVectors;
+	vertexVectors.push_back(vec3(-5.0f, -5.0f, -5.0f));
+	vertexVectors.push_back(vec3(5.0f, -5.0f, -5.0f));
+	vertexVectors.push_back(vec3(5.0f, 5.0f, -5.0f));
+	vertexVectors.push_back(vec3(-5.0f, 5.0f, -5.0f));
+
+	vertexVectors.push_back(vec3(-5.0f, -5.0f, 5.0f));
+	vertexVectors.push_back(vec3(5.0f, -5.0f, 5.0f));
+	vertexVectors.push_back(vec3(5.0f, 5.0f, 5.0f));
+	vertexVectors.push_back(vec3(-5.0f, 5.0f, 5.0f));
+
+	vertexVectors.push_back(vec3(-5.0f, 5.0f, 5.0f));
+	vertexVectors.push_back(vec3(-5.0f, 5.0f, -5.0f));
+	vertexVectors.push_back(vec3(-5.0f, -5.0f, -5.0f));
+	vertexVectors.push_back(vec3(-5.0f, -5.0f, 5.0f));
+
+	vertexVectors.push_back(vec3(5.0f, 5.0f, 5.0f));
+	vertexVectors.push_back(vec3(5.0f, 5.0f, -5.0f));
+	vertexVectors.push_back(vec3(5.0f, -5.0f, -5.0f));
+	vertexVectors.push_back(vec3(5.0f, -5.0f, 5.0f));
+
+	vertexVectors.push_back(vec3(-5.0f, -5.0f, -5.0f));
+	vertexVectors.push_back(vec3(5.0f, -5.0f, -5.0f));
+	vertexVectors.push_back(vec3(5.0f, -5.0f, 5.0f));
+	vertexVectors.push_back(vec3(-5.0f, -5.0f, 5.0f));
+
+	vertexVectors.push_back(vec3(-5.0f, 5.0f, -5.0f));
+	vertexVectors.push_back(vec3(5.0f, 5.0f, -5.0f));
+	vertexVectors.push_back(vec3(5.0f, 5.0f, 5.0f));
+	vertexVectors.push_back(vec3(-5.0f, 5.0f, 5.0f));
+
+	std::vector<unsigned int> indices;
+	indices.push_back(0);
+	indices.push_back(1);
+	indices.push_back(3);
+	indices.push_back(1);
+	indices.push_back(2);
+	indices.push_back(3);
+
+	indices.push_back(0 + 4);
+	indices.push_back(1 + 4);
+	indices.push_back(3 + 4);
+	indices.push_back(1 + 4);
+	indices.push_back(2 + 4);
+	indices.push_back(3 + 4);
+
+	indices.push_back(0 + 8);
+	indices.push_back(1 + 8);
+	indices.push_back(3 + 8);
+	indices.push_back(1 + 8);
+	indices.push_back(2 + 8);
+	indices.push_back(3 + 8);
+
+	indices.push_back(0 + 12);
+	indices.push_back(1 + 12);
+	indices.push_back(3 + 12);
+	indices.push_back(1 + 12);
+	indices.push_back(2 + 12);
+	indices.push_back(3 + 12);
+
+	indices.push_back(0 + 16);
+	indices.push_back(1 + 16);
+	indices.push_back(3 + 16);
+	indices.push_back(1 + 16);
+	indices.push_back(2 + 16);
+	indices.push_back(3 + 16);
+
+	indices.push_back(0 + 20);
+	indices.push_back(1 + 20);
+	indices.push_back(3 + 20);
+	indices.push_back(1 + 20);
+	indices.push_back(2 + 20);
+	indices.push_back(3 + 20);*/
+
+	CSkybox *box = new CSkybox(skyboxShader, &projection, &view);
+	drawObject.insert(drawObject.begin(), box);
+
+}
+
 void CAppEditer::addGridLine()
 {
 	for (int i = -50; i < 51; i++)
@@ -162,8 +249,6 @@ void CAppEditer::addGridLine()
 		CLinewidth1 *linwidth2 = new CLinewidth1(vec3((float)i, 0, -50), vec3((float)i, 0, 50), lineShader, &projection, &view);
 		drawObject.push_back(linwidth2);
 	}
-
-
 }
 
 void CAppEditer::addModel()
@@ -184,6 +269,51 @@ void CAppEditer::addModel()
 	p2->update();*/
 }
 
+void CAppEditer::addseleAxis()
+{
+	Eigen::Vector3f min_(0, 0, 0);
+	Eigen::Vector3f max_(5, 5, 5);
+	CArrowsAxis *p1 = new CArrowsAxis(min_, Eigen::Vector3f(min_(0), min_(1), max_(2)), lineShader, &projection, &view);
+	p1->color = glm::vec4(0, 0, 1, 1);
+	CArrowsAxis *p2 = new CArrowsAxis(min_, Eigen::Vector3f(min_(0), max_(1), min_(2)), lineShader, &projection, &view);
+	p2->color = glm::vec4(0, 1, 0, 1);
+	CArrowsAxis *p3 = new CArrowsAxis(min_, Eigen::Vector3f(max_(0), min_(1), min_(2)), lineShader, &projection, &view);
+	p3->color = glm::vec4(1, 0, 0, 1);
+	p1->mseleArrowsType = ESeleArrowsType::eZArrow;
+	p2->mseleArrowsType = ESeleArrowsType::eYArrow;
+	p3->mseleArrowsType = ESeleArrowsType::eXArrow;
+
+	mselelaxis.push_back(p1);
+	mselelaxis.push_back(p2);
+	mselelaxis.push_back(p3);
+	drawObject.push_back(p1);
+	drawObject.push_back(p2);
+	drawObject.push_back(p3);
+}
+
+void CAppEditer::addAxis()
+{
+	Eigen::Vector3f min_(0, 0, 0);
+	Eigen::Vector3f max_(50, 50,50 );
+	CArrowsAxis *p1 = new CArrowsAxis(min_, Eigen::Vector3f(min_(0), min_(1), max_(2)), lineShader, &projection, &view);
+	p1->color = glm::vec4(0, 0, 1, 1);
+	CArrowsAxis *p2 = new CArrowsAxis(min_, Eigen::Vector3f(min_(0), max_(1), min_(2)), lineShader, &projection, &view);
+	p2->color = glm::vec4(0, 1, 0, 1);
+	CArrowsAxis *p3 = new CArrowsAxis(min_, Eigen::Vector3f(max_(0), min_(1), min_(2)), lineShader, &projection, &view);
+	p3->color = glm::vec4(1, 0, 0, 1);
+
+	p1->DrawAlwaydepthTest = false;
+	p2->DrawAlwaydepthTest = false;
+	p3->DrawAlwaydepthTest = false;
+	p1->actorType = EActorType::eGlobalAixs;
+	p2->actorType = EActorType::eGlobalAixs;
+	p3->actorType = EActorType::eGlobalAixs;
+
+	drawObject.push_back(p1);
+	drawObject.push_back(p2);
+	drawObject.push_back(p3);
+}
+
 void CAppEditer::addPoint()
 {
 	//samperPoint.push_back({ 2,3.4 });
@@ -200,10 +330,42 @@ void CAppEditer::Load()
 void CAppEditer::Unload()
 {
 }
-
+void CAppEditer::eventAxis()
+{
+	for (auto item : mselelaxis)
+	{
+		if (item->isSelected)
+		{
+			CArrowsAxis *arrowp = (CArrowsAxis *)item;
+			vec3 nowWPos = calcPlaneIntersectPoint(vec2(ImGui::GetMousePos().x, ImGui::GetMousePos().y),
+				arrowp->model->postion - camera->Position,
+				camera->Position, vec3(0));
+			vec3 lastWPos = calcPlaneIntersectPoint(vec2(lastPos.x, lastPos.y), arrowp->model->postion - camera->Position,
+				camera->Position, vec3(0));
+			if (arrowp->mseleArrowsType == ESeleArrowsType::eXArrow)
+			{
+				arrowp->model->postion = arrowp->model->postion + vec3(nowWPos.x - lastWPos.x, 0, 0);
+			}
+			else if (arrowp->mseleArrowsType == ESeleArrowsType::eYArrow)
+			{
+				arrowp->model->postion = arrowp->model->postion + vec3(0, nowWPos.y - lastWPos.y, 0);
+			}
+			else if (arrowp->mseleArrowsType == ESeleArrowsType::eZArrow)
+			{
+				arrowp->model->postion = arrowp->model->postion + vec3(0, 0, nowWPos.z - lastWPos.z);
+			}
+			arrowp->model->update();
+			mselelaxis[0]->postion = arrowp->model->postion; mselelaxis[1]->postion = arrowp->model->postion; mselelaxis[2]->postion = arrowp->model->postion;
+			mselelaxis[0]->update(); mselelaxis[1]->update(); mselelaxis[2]->update();
+		}
+	}
+}
 void CAppEditer::Update()
 {
 	ImGuiIO& io = ImGui::GetIO();
+	static bool moveAxiseActive = false;
+	static bool showSeleAxiesActived = false;
+	static CObject* showSAeleAxiesPara = nullptr;
 
 	if (io.KeysDown[GLFW_KEY_W])
 		camera->ProcessKeyboard(FORWARD, deltaTime);
@@ -218,8 +380,7 @@ void CAppEditer::Update()
 	if (io.KeysDown[GLFW_KEY_E])
 		camera->ProcessKeyboard(UP, deltaTime);
 
-	static  ImVec2 lastPos;
-
+	
 	if (ImGui::IsMouseDown(ImGuiMouseButton_Right))
 	{
 		float xoffset = ImGui::GetMousePos().x - lastPos.x;
@@ -227,7 +388,27 @@ void CAppEditer::Update()
 
 		camera->ProcessMouseMovement(xoffset, yoffset);
 	}
-	lastPos = ImGui::GetMousePos();
+	
+	if (ImGui::IsMouseDown(ImGuiMouseButton_Left))
+	{
+		float xoffset = ImGui::GetMousePos().x - lastPos.x;
+		float yoffset = lastPos.y - ImGui::GetMousePos().y;
+		bool moveFlag = (xoffset != 0) || (yoffset != 0);
+		if (moveAxiseActive && moveFlag)
+		{
+			eventAxis();
+		}
+	}
+	if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+	{
+		moveAxiseActive = false;
+
+		if(showSeleAxiesActived)
+		{
+			showSeleAxiesActived = false;
+			showseleAixs(showSAeleAxiesPara);
+		}
+	}
 	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
 		glm::vec3 posWorld =  getScreenWordPos({ ImGui::GetMousePos().x, ImGui::GetMousePos().y });
@@ -236,41 +417,60 @@ void CAppEditer::Update()
 			&projection, &view);
 		drawObject.push_back(line);
 		
+		bool noneIsSelet = true;
 		for (auto item : drawObject)
 		{
-			if (item->actorType == EActorType::eModel)
+			if (item->actorType == EActorType::eModel|| item->actorType== EActorType::eSeleAixs)
 			{
-				Model *p = (Model *)item;
-				float distens = 0.0f;
-				bool flag = Geomery::TestRayAABBInterSection(camera->Position, glm::normalize(posWorld - camera->Position),
-					vec3(item->boundingboxMin.x(), item->boundingboxMin.y(), item->boundingboxMin.z()),
-					vec3(item->boundingboxMax.x(), item->boundingboxMax.y(), item->boundingboxMax.z()), item->modelMatrix);
-				if (flag)
+				if (item->isHide == false)
 				{
-					for (auto itemAcrrows : p->drawArrowAxis)
+					bool flag = Geomery::TestRayAABBInterSection(camera->Position, glm::normalize(posWorld - camera->Position),
+						vec3(item->boundingboxMin.x(), item->boundingboxMin.y(), item->boundingboxMin.z()),
+						vec3(item->boundingboxMax.x(), item->boundingboxMax.y(), item->boundingboxMax.z()), item->modelMatrix);
+					item->isSelected = flag;
+					if (flag)
 					{
-						bool flag = Geomery::TestRayAABBInterSection(camera->Position, glm::normalize(posWorld - camera->Position),
-							vec3(itemAcrrows->boundingboxMin.x(), itemAcrrows->boundingboxMin.y(), itemAcrrows->boundingboxMin.z()),
-							vec3(itemAcrrows->boundingboxMax.x(), itemAcrrows->boundingboxMax.y(), itemAcrrows->boundingboxMax.z()), itemAcrrows->modelMatrix);
-						if (flag )
+						if (noneIsSelet)noneIsSelet = !noneIsSelet;
+						if (item->actorType == EActorType::eModel)
 						{
-							cout << "heello\n";
+							showSeleAxiesActived = true;
+							showSAeleAxiesPara = item;
+							
+						}
+						if (item->actorType == EActorType::eSeleAixs)
+						{
+							moveAxiseActive = true;
 						}
 					}
-
 				}
-
 			}
-
 		}
-		
-
-		
+		if (noneIsSelet) hideSeleAixs();
 		//boost::thread my_thread_1([]() {while (1) { std::cout << "hello\n"; }});
-
-
 	}
+	
+	lastPos = ImGui::GetMousePos();
+}
 
+void CAppEditer::showseleAixs(CObject * model)
+{
+	for (auto item : mselelaxis)
+	{
+		CArrowsAxis *axisP = (CArrowsAxis *)item;
+		axisP->model = model;
+		axisP->postion = model->postion;
+		axisP->isHide = false;
+		axisP->update();
+	}
+}
+
+void CAppEditer::hideSeleAixs()
+{
+	for (auto item : mselelaxis)
+	{
+		CArrowsAxis *axisP = (CArrowsAxis *)item;
+		axisP->isHide = true;
+	}
 }
 
 void CAppEditer::Draw()
@@ -344,3 +544,24 @@ glm::vec3 CAppEditer::getScreenWordPos(glm::vec2 pos)
 
 	return xyz;	
 }
+
+vec3 CAppEditer::calcPlaneIntersectPoint(glm::vec2 mousePos, vec3 normal, vec3 sPoint, vec3 point1Plane)
+{
+	vec3 ret;
+	vec3 endpoint =  getScreenWordPos(mousePos);
+	vec3 dirV = endpoint - sPoint;
+	float dDN = glm::dot(dirV, normal);
+	if (dDN < 0.00000001f && dDN > -0.00000001f)
+	{
+		return vec3(0.0f);
+	}
+
+	float t;
+	t = glm::dot((point1Plane - sPoint), normal) / dDN;
+	ret = sPoint + t * dirV;
+
+	return ret;
+}
+
+
+

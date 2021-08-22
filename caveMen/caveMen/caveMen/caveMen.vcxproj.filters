@@ -108,6 +108,9 @@
     <ClInclude Include="CArrowsAxis.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CSkybox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\imgui\imgui.cpp">
@@ -168,6 +171,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CArrowsAxis.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CSkybox.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -276,6 +282,12 @@
     </None>
     <None Include="..\..\includes\Eigen\UmfPackSupport">
       <Filter>eigen</Filter>
+    </None>
+    <None Include="..\..\res\shader\skybox.fs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\..\res\shader\skybox.vs">
+      <Filter>shader</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

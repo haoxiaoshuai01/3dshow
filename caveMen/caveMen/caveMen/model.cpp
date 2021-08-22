@@ -50,8 +50,6 @@ Model::Model(string const &path, Shader* shader, Shader* lineshader, glm::mat4 *
 void Model::update()
 {
 	CObject::update();
-	for (auto item : drawArrowAxis)
-		item->modelMatrix = this->modelMatrix;
 	for (auto item : drawLineWidth1s)
 		item->modelMatrix = this->modelMatrix;
 }
@@ -70,12 +68,7 @@ void Model::Draw()
 		
 		item->Draw();
 	}
-	glDepthFunc(GL_ALWAYS);
-	for (auto item : drawArrowAxis)
-	{
-		item->Draw(&modelMatrix);
-	}
-	glDepthFunc(GL_LESS);
+	
 }
 
 void Model::addBox()
@@ -116,19 +109,7 @@ void Model::addBox()
 
 void Model::addAxies()
 {
-	Eigen::Vector3f min_(boundingboxMin[0], boundingboxMin[1], boundingboxMin[2]);
-	Eigen::Vector3f max_(boundingboxMax[0], boundingboxMax[1], boundingboxMax[2]);
-	CArrowsAxis *p1 = new CArrowsAxis(min_, Eigen::Vector3f(min_(0),min_(1), max_(2)),mlineShader,mProject,mLookat);
-	p1->color = glm::vec4(0, 0, 1, 1);
-	CArrowsAxis *p2 = new CArrowsAxis(min_, Eigen::Vector3f(min_(0), max_(1), min_(2)), mlineShader, mProject, mLookat);
-	p2->color = glm::vec4(0, 1, 0, 1);
-
-	CArrowsAxis *p3 = new CArrowsAxis(min_, Eigen::Vector3f(max_(0), min_(1), min_(2)), mlineShader, mProject, mLookat);
-	p3->color = glm::vec4(1, 0, 0, 1);
-
-	drawArrowAxis.push_back(p1);
-	drawArrowAxis.push_back(p2);
-	drawArrowAxis.push_back(p3);
+	
 
 }
 

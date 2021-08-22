@@ -39,12 +39,7 @@ public:
 	void Draw();
 	void addBox();
 	void addAxies();
-	bool isSelet = false;
-	bool isSeletXAxies = false;
-	bool isSeletYAxies = false;
-	bool isSeletZAxies = false;
 	std::vector< CLinewidth1 *> drawLineWidth1s;
-	std::vector< CArrowsAxis *> drawArrowAxis;
  private:
     // loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
     void loadModel(string const &path)
