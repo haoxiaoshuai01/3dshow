@@ -22,6 +22,7 @@ public:
 	void addGridLine();
 	void addModel();
 	void addseleAxis();
+	void addCube();
 	void addAxis();
 	void addPoint();
 	void init();

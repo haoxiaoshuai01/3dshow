@@ -11,6 +11,7 @@
 #include <Eigen/Geometry>
 #include <iostream>
 #include <vector>
+#include "learnopengl/shader_m.h"
 
 enum class EActorType
 {
@@ -19,7 +20,10 @@ enum class EActorType
 	eLine,
 	eSeleAixs,
 	eGlobalAixs,
-	eMesh
+	eMesh,
+	eCube,
+	eCircle,
+	eSkyBox
 };
 class CObject
 {

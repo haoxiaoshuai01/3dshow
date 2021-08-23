@@ -33,6 +33,7 @@ unsigned int loadCubemap(std::vector<std::string> faces)
 CSkybox::CSkybox(Shader*skyboxShader, glm::mat4 *pro, glm::mat4 *view) :
 	mSkyboxShader(skyboxShader),mPro(pro), mView(view)
 {
+	actorType = EActorType::eSkyBox;
 	vertices = {
 		// positions          
 	vec3(-1.0f,  1.0f, -1.0f),

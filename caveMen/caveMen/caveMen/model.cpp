@@ -43,7 +43,6 @@ Model::Model(string const &path, Shader* shader, Shader* lineshader, glm::mat4 *
 
 	genboundingbox(m);
 	addBox();
-	addAxies();
 	update();
 }
 

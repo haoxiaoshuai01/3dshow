@@ -146,6 +146,7 @@
     <ClInclude Include="..\..\includes\learnopengl\shader_m.h" />
     <ClInclude Include="CAppEditer.h" />
     <ClInclude Include="CArrowsAxis.h" />
+    <ClInclude Include="CCube.h" />
     <ClInclude Include="CLIne.h" />
     <ClInclude Include="CMesh.h" />
     <ClInclude Include="CObject.h" />
@@ -169,6 +170,7 @@
     <ClCompile Include="..\..\main.cpp" />
     <ClCompile Include="CAppEditer.cpp" />
     <ClCompile Include="CArrowsAxis.cpp" />
+    <ClCompile Include="CCube.cpp" />
     <ClCompile Include="CLIne.cpp" />
     <ClCompile Include="CMesh.cpp" />
     <ClCompile Include="CObject.cpp" />

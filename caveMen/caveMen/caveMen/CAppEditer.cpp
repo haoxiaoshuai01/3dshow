@@ -19,6 +19,7 @@
 #include <iostream> 
 #include "boost/thread.hpp"
 #include "CSkybox.h"
+#include "CCube.h"
 
 using namespace glm;
 time_t getTimeStamp()
@@ -47,9 +48,10 @@ void CAppEditer::init()
 	addModel();
 	addGridLine();
 	addAxis();
+	addCube();
+
+	//最后绘制 通过深度测试 永远在前方
 	addseleAxis();
-	//addMesh();
-	//addPoint();
 }
 
 CAppEditer::CAppEditer()
@@ -64,87 +66,8 @@ CAppEditer::~CAppEditer()
 
 void CAppEditer::addMesh()
 {
-	/*std::vector<SVertex> vertexVectors;
-	vertexVectors.push_back(SVertex(vec3(-5.0f, -5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(5.0f, -5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(5.0f, 5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(-5.0f, 5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
-
-	vertexVectors.push_back(SVertex(vec3(-5.0f, -5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(5.0f, -5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(5.0f, 5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(-5.0f, 5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
-
-	vertexVectors.push_back(SVertex(vec3(-5.0f, 5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(-5.0f, 5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(-5.0f, -5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(-5.0f, -5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
-
-	vertexVectors.push_back(SVertex(vec3(5.0f, 5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(5.0f, 5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(5.0f, -5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(5.0f, -5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
-
-	vertexVectors.push_back(SVertex(vec3(-5.0f, -5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(5.0f, -5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(5.0f, -5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(-5.0f, -5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
-
-	vertexVectors.push_back(SVertex(vec3(-5.0f, 5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(5.0f, 5.0f, -5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(5.0f, 5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
-	vertexVectors.push_back(SVertex(vec3(-5.0f, 5.0f, 5.0f), vec3(0.5, 0.5, 0.5)));
-
-
-	std::vector<unsigned int> indices;
-	indices.push_back(0);
-	indices.push_back(1);
-	indices.push_back(3);
-	indices.push_back(1);
-	indices.push_back(2);
-	indices.push_back(3);
-
-	indices.push_back(0+4);
-	indices.push_back(1+4);
-	indices.push_back(3+4);
-	indices.push_back(1+4);
-	indices.push_back(2+4);
-	indices.push_back(3+4);
-
-	indices.push_back(0+8);
-	indices.push_back(1+8);
-	indices.push_back(3+8);
-	indices.push_back(1+8);
-	indices.push_back(2+8);
-	indices.push_back(3+8);
-
-	indices.push_back(0+12);
-	indices.push_back(1+12);
-	indices.push_back(3+12);
-	indices.push_back(1+12);
-	indices.push_back(2+12);
-	indices.push_back(3+12);
-
-	indices.push_back(0+16);
-	indices.push_back(1+16);
-	indices.push_back(3+16);
-	indices.push_back(1+16);
-	indices.push_back(2+16);
-	indices.push_back(3+16);
-
-	indices.push_back(0+20);
-	indices.push_back(1+20);
-	indices.push_back(3+20);
-	indices.push_back(1+20);
-	indices.push_back(2+20);
-	indices.push_back(3+20);
-
-	CMesh *mesh = new CMesh(vertexVectors, indices);
-	drawMesh.push_back(mesh);
-	mesh->postion = vec3(15.0f, 0.0f, 0.0f);
-	mesh->update();
-
-	std::vector<SVertex> v;
+	
+	/*std::vector<SVertex> v;
 	v.push_back(SVertex(vec3(-10.0f, 10.0f, 3.0f), vec3(0.5, 0.6, 0.5)));
 	v.push_back(SVertex(vec3(10.0f, 10.0f, 3.0f), vec3(0.5, 0.6, 0.5)));
 	v.push_back(SVertex(vec3(10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5)));
@@ -161,80 +84,7 @@ void CAppEditer::addMesh()
 
 void CAppEditer::addSkyBox()
 {
-	/*std::vector<vec3> vertexVectors;
-	vertexVectors.push_back(vec3(-5.0f, -5.0f, -5.0f));
-	vertexVectors.push_back(vec3(5.0f, -5.0f, -5.0f));
-	vertexVectors.push_back(vec3(5.0f, 5.0f, -5.0f));
-	vertexVectors.push_back(vec3(-5.0f, 5.0f, -5.0f));
-
-	vertexVectors.push_back(vec3(-5.0f, -5.0f, 5.0f));
-	vertexVectors.push_back(vec3(5.0f, -5.0f, 5.0f));
-	vertexVectors.push_back(vec3(5.0f, 5.0f, 5.0f));
-	vertexVectors.push_back(vec3(-5.0f, 5.0f, 5.0f));
-
-	vertexVectors.push_back(vec3(-5.0f, 5.0f, 5.0f));
-	vertexVectors.push_back(vec3(-5.0f, 5.0f, -5.0f));
-	vertexVectors.push_back(vec3(-5.0f, -5.0f, -5.0f));
-	vertexVectors.push_back(vec3(-5.0f, -5.0f, 5.0f));
-
-	vertexVectors.push_back(vec3(5.0f, 5.0f, 5.0f));
-	vertexVectors.push_back(vec3(5.0f, 5.0f, -5.0f));
-	vertexVectors.push_back(vec3(5.0f, -5.0f, -5.0f));
-	vertexVectors.push_back(vec3(5.0f, -5.0f, 5.0f));
-
-	vertexVectors.push_back(vec3(-5.0f, -5.0f, -5.0f));
-	vertexVectors.push_back(vec3(5.0f, -5.0f, -5.0f));
-	vertexVectors.push_back(vec3(5.0f, -5.0f, 5.0f));
-	vertexVectors.push_back(vec3(-5.0f, -5.0f, 5.0f));
-
-	vertexVectors.push_back(vec3(-5.0f, 5.0f, -5.0f));
-	vertexVectors.push_back(vec3(5.0f, 5.0f, -5.0f));
-	vertexVectors.push_back(vec3(5.0f, 5.0f, 5.0f));
-	vertexVectors.push_back(vec3(-5.0f, 5.0f, 5.0f));
-
-	std::vector<unsigned int> indices;
-	indices.push_back(0);
-	indices.push_back(1);
-	indices.push_back(3);
-	indices.push_back(1);
-	indices.push_back(2);
-	indices.push_back(3);
-
-	indices.push_back(0 + 4);
-	indices.push_back(1 + 4);
-	indices.push_back(3 + 4);
-	indices.push_back(1 + 4);
-	indices.push_back(2 + 4);
-	indices.push_back(3 + 4);
-
-	indices.push_back(0 + 8);
-	indices.push_back(1 + 8);
-	indices.push_back(3 + 8);
-	indices.push_back(1 + 8);
-	indices.push_back(2 + 8);
-	indices.push_back(3 + 8);
-
-	indices.push_back(0 + 12);
-	indices.push_back(1 + 12);
-	indices.push_back(3 + 12);
-	indices.push_back(1 + 12);
-	indices.push_back(2 + 12);
-	indices.push_back(3 + 12);
-
-	indices.push_back(0 + 16);
-	indices.push_back(1 + 16);
-	indices.push_back(3 + 16);
-	indices.push_back(1 + 16);
-	indices.push_back(2 + 16);
-	indices.push_back(3 + 16);
-
-	indices.push_back(0 + 20);
-	indices.push_back(1 + 20);
-	indices.push_back(3 + 20);
-	indices.push_back(1 + 20);
-	indices.push_back(2 + 20);
-	indices.push_back(3 + 20);*/
-
+	
 	CSkybox *box = new CSkybox(skyboxShader, &projection, &view);
 	drawObject.insert(drawObject.begin(), box);
 
@@ -289,6 +139,14 @@ void CAppEditer::addseleAxis()
 	drawObject.push_back(p1);
 	drawObject.push_back(p2);
 	drawObject.push_back(p3);
+}
+
+void CAppEditer::addCube()
+{
+	auto cube = new CCube(&projection, &view, meshShader);
+	cube->postion = glm::vec3(5.0f, 2.5f, 0.1f);
+	cube->update();
+	drawObject.push_back(cube);
 }
 
 void CAppEditer::addAxis()
@@ -420,7 +278,9 @@ void CAppEditer::Update()
 		bool noneIsSelet = true;
 		for (auto item : drawObject)
 		{
-			if (item->actorType == EActorType::eModel|| item->actorType== EActorType::eSeleAixs)
+			if (item->actorType == EActorType::eModel||
+				item->actorType == EActorType::eCube
+				|| item->actorType== EActorType::eSeleAixs)
 			{
 				if (item->isHide == false)
 				{
@@ -431,7 +291,8 @@ void CAppEditer::Update()
 					if (flag)
 					{
 						if (noneIsSelet)noneIsSelet = !noneIsSelet;
-						if (item->actorType == EActorType::eModel)
+						if (item->actorType == EActorType::eModel||
+							item->actorType == EActorType::eCube)
 						{
 							showSeleAxiesActived = true;
 							showSAeleAxiesPara = item;
