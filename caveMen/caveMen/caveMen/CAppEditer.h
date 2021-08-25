@@ -12,6 +12,7 @@ class CMesh;
 class CLine;
 class CPointCloud;
 class CLinewidth1;
+class C3DViewPortWidget;
 class CAppEditer
 {
 public:
@@ -29,6 +30,7 @@ public:
 	void Load();
 	void Unload();
 	void Update();
+	void DrawWidget();
 	void showseleAixs(CObject *model);
 	void hideSeleAixs();
 	void Draw();
@@ -39,7 +41,7 @@ private:
 	glm::vec3 calcPlaneIntersectPoint(glm::vec2 mousePos, glm::vec3 normal, glm::vec3 sPoint, glm::vec3 point1Plane);
 	void eventAxis();
 private:
-
+	C3DViewPortWidget *view3dwidget;
 	Camera *camera;
 	Shader *modelShader;
 	Shader *meshShader;

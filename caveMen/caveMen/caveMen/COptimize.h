@@ -6,6 +6,6 @@ class COptimize
 {
 public:
 	COptimize();
-	void solve(std::vector<Point> points, std::vector<int> vectorCoefficient);
+	//void solve(std::vector<Point> points, std::vector<int> vectorCoefficient);
 };
 

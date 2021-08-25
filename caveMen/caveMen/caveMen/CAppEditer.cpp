@@ -20,6 +20,7 @@
 #include "boost/thread.hpp"
 #include "CSkybox.h"
 #include "CCube.h"
+#include "C3DViewPortWidget.h"
 
 using namespace glm;
 time_t getTimeStamp()
@@ -32,6 +33,7 @@ time_t getTimeStamp()
 
 void CAppEditer::init()
 {
+	view3dwidget = new C3DViewPortWidget();
 	camera = new Camera(glm::vec3(0.0f, 3.0f, 20.0f));
 	
 
@@ -220,6 +222,7 @@ void CAppEditer::eventAxis()
 }
 void CAppEditer::Update()
 {
+	
 	ImGuiIO& io = ImGui::GetIO();
 	static bool moveAxiseActive = false;
 	static bool showSeleAxiesActived = false;
@@ -311,6 +314,14 @@ void CAppEditer::Update()
 	}
 	
 	lastPos = ImGui::GetMousePos();
+
+	DrawWidget();
+	
+}
+
+void CAppEditer::DrawWidget()
+{
+	view3dwidget->update();
 }
 
 void CAppEditer::showseleAixs(CObject * model)

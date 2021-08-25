@@ -144,6 +144,7 @@
     <ClInclude Include="..\..\includes\learnopengl\camera.h" />
     <ClInclude Include="..\..\includes\learnopengl\model.h" />
     <ClInclude Include="..\..\includes\learnopengl\shader_m.h" />
+    <ClInclude Include="C3DViewPortWidget.h" />
     <ClInclude Include="CAppEditer.h" />
     <ClInclude Include="CArrowsAxis.h" />
     <ClInclude Include="CCube.h" />
@@ -153,6 +154,7 @@
     <ClInclude Include="COptimize.h" />
     <ClInclude Include="CPointCloud.h" />
     <ClInclude Include="CSkybox.h" />
+    <ClInclude Include="CWidget.h" />
     <ClInclude Include="dataStruct.h" />
     <ClInclude Include="geometry.h" />
     <ClInclude Include="testdata.h" />
@@ -168,6 +170,7 @@
     <ClCompile Include="..\..\imgui\libs\gl3w\GL\gl3w.c" />
     <ClCompile Include="..\..\includes\stb_image.cpp" />
     <ClCompile Include="..\..\main.cpp" />
+    <ClCompile Include="C3DViewPortWidget.cpp" />
     <ClCompile Include="CAppEditer.cpp" />
     <ClCompile Include="CArrowsAxis.cpp" />
     <ClCompile Include="CCube.cpp" />
@@ -177,6 +180,7 @@
     <ClCompile Include="COptimize.cpp" />
     <ClCompile Include="CPointCloud.cpp" />
     <ClCompile Include="CSkybox.cpp" />
+    <ClCompile Include="CWidget.cpp" />
     <ClCompile Include="geometry.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="testdata.cpp" />
