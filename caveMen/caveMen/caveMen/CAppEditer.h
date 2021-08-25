@@ -17,7 +17,10 @@ class CAppEditer
 {
 public:
 	CAppEditer();
+	static CAppEditer * Instance();
+	static CAppEditer *myp;
 	~CAppEditer();
+	void SetupFbo();
 	void addMesh();
 	void addSkyBox();
 	void addGridLine();
@@ -59,6 +62,8 @@ private:
 	ImVec2 lastPos;
 	glm::mat4 projection;
 	glm::mat4 view;
+	unsigned int framebuffer = 0;
+	unsigned int textureColorbuffer = 0;
 	
 };
 
