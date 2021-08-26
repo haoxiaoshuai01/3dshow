@@ -12,6 +12,6 @@ public:
 	void ShowExampleAppDockSpace(bool * p_open);
 	void update();
 	ImGuiID dockspace_id;
-	unsigned int *textureID;
+	unsigned int textureID;
 };
 

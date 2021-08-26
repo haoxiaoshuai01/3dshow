@@ -52,7 +52,7 @@ private:
 	Shader *skyboxShader;
 	std::vector<CObject *> drawObject;
 	std::vector<CObject *> mselelaxis;
-	//std::vector<CMesh *> drawMesh;
+	CMesh * testMesh;
 	//std::vector<CLine *> drawLine;
 	//std::vector<CLinewidth1 *> drawLineWidth1s;
 	
@@ -64,6 +64,8 @@ private:
 	glm::mat4 view;
 	unsigned int framebuffer = 0;
 	unsigned int textureColorbuffer = 0;
+
+	unsigned int testTexture = 0;
 	
 };
 

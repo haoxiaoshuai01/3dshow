@@ -33,12 +33,9 @@ time_t getTimeStamp()
 
 void CAppEditer::init()
 {
-	view3dwidget = new C3DViewPortWidget();
-	view3dwidget->textureID = &textureColorbuffer;
+	
 	camera = new Camera(glm::vec3(0.0f, 3.0f, 20.0f));
 	
-	SetupFbo();
-
 	modelShader = new Shader("../../res/shader/1.model_loading.vs", "../../res/shader/1.model_loading.fs");
 	meshShader = new Shader("../../res/shader/cmesh_shader.vs", "../../res/shader/cmesh_shader.fs");
 	lineShader = new Shader("../../res/shader/line.vs", "../../res/shader/line.fs");
@@ -49,6 +46,12 @@ void CAppEditer::init()
 	// -----------
 	addSkyBox();
 	stbi_set_flip_vertically_on_load(true);
+	SetupFbo();
+	view3dwidget = new C3DViewPortWidget();
+	testTexture = TextureFromFile("awesomeface.png", "../../res/textures");
+	view3dwidget->textureID = textureColorbuffer;
+	
+
 	//addModel();
 	addGridLine();
 	addAxis();
@@ -103,6 +106,22 @@ void CAppEditer::SetupFbo()
 
 void CAppEditer::addMesh()
 {
+
+	//std::vector<SVertex> v;
+	//v.push_back(SVertex(vec3(-10.0f, 10.0f, 3.0f), vec3(0.5, 0.6, 0.5),vec2(0,1) ));
+	//v.push_back(SVertex(vec3(10.0f, 10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(1, 1)));
+	//v.push_back(SVertex(vec3(10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(1, 0)));
+	//v.push_back(SVertex(vec3(-10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(0, 0)));
+
+	//std::vector<unsigned int> indices_;
+	//indices_.push_back(0);
+	//indices_.push_back(1);
+	//indices_.push_back(3);
+	//indices_.push_back(1);
+	//indices_.push_back(2);
+	//indices_.push_back(3);
+
+	//testMesh = new CMesh(v, indices_);
 	
 	/*std::vector<SVertex> v;
 	v.push_back(SVertex(vec3(-10.0f, 10.0f, 3.0f), vec3(0.5, 0.6, 0.5)));
@@ -399,7 +418,24 @@ void CAppEditer::Draw()
 	{
 		itemModel->Draw();
 	}
+
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	/*glEnable(GL_DEPTH_TEST);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	modelShader->use();
+	modelShader->setMat4("projection", projection);
+	modelShader->setMat4("view", view);
+	modelShader->setMat4("model", testMesh->modelMatrix);
+	glActiveTexture(GL_TEXTURE0);
+	modelShader->setInt("texture_diffuse1", 0);
+	glBindTexture(GL_TEXTURE_2D, testTexture);
+	testMesh->Draw();*/
+
+	
+	//glActiveTexture(GL_TEXTURE0);
+
 	//meshShader->use();
 	//meshShader->setMat4("projection", projection);
 	//meshShader->setMat4("view", view);
