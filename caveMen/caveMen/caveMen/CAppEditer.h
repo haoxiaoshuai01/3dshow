@@ -50,6 +50,7 @@ private:
 	Shader *meshShader;
 	Shader *lineShader;
 	Shader *skyboxShader;
+	Shader *meshBillboardShader;
 	std::vector<CObject *> drawObject;
 	std::vector<CObject *> mselelaxis;
 	CMesh * testMesh;

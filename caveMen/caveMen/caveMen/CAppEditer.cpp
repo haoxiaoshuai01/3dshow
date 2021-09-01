@@ -40,7 +40,9 @@ void CAppEditer::init()
 	meshShader = new Shader("../../res/shader/cmesh_shader.vs", "../../res/shader/cmesh_shader.fs");
 	lineShader = new Shader("../../res/shader/line.vs", "../../res/shader/line.fs");
 	skyboxShader = new Shader("../../res/shader/skybox.vs", "../../res/shader/skybox.fs");
-	
+	meshBillboardShader = new Shader("../../res/shader/cmesh_Billboard_shader.vs", 
+		"../../res/shader/cmesh_Billboard_shader.gs",
+		"../../res/shader/cmesh_Billboard_shader.fs");
 	
 	// load models
 	// -----------

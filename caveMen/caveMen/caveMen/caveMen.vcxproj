@@ -217,6 +217,9 @@
     <None Include="..\..\includes\Eigen\UmfPackSupport" />
     <None Include="..\..\res\shader\1.model_loading.fs" />
     <None Include="..\..\res\shader\1.model_loading.vs" />
+    <None Include="..\..\res\shader\cmesh_Billboard_shader.fs" />
+    <None Include="..\..\res\shader\cmesh_Billboard_shader.gs" />
+    <None Include="..\..\res\shader\cmesh_Billboard_shader.vs" />
     <None Include="..\..\res\shader\cmesh_shader.fs" />
     <None Include="..\..\res\shader\cmesh_shader.vs" />
     <None Include="..\..\res\shader\line.fs" />
