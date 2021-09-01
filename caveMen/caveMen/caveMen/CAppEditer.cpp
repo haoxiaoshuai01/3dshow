@@ -53,7 +53,6 @@ void CAppEditer::init()
 	testTexture = TextureFromFile("awesomeface.png", "../../res/textures");
 	view3dwidget->textureID = textureColorbuffer;
 	
-
 	//addModel();
 	addGridLine();
 	addAxis();
@@ -197,6 +196,11 @@ void CAppEditer::addseleAxis()
 	drawObject.push_back(p1);
 	drawObject.push_back(p2);
 	drawObject.push_back(p3);
+}
+
+void CAppEditer::addBilboard()
+{
+	
 }
 
 void CAppEditer::addCube()

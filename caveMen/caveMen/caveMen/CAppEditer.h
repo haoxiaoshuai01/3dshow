@@ -26,6 +26,7 @@ public:
 	void addGridLine();
 	void addModel();
 	void addseleAxis();
+	void addBilboard();
 	void addCube();
 	void addAxis();
 	void addPoint();
@@ -40,6 +41,8 @@ public:
 	glm::vec3 getScreenWordPos(glm::vec2 pos);
 	int windowsW;
 	int windowsH;
+	glm::mat4 projection;
+	glm::mat4 view;
 private:
 	glm::vec3 calcPlaneIntersectPoint(glm::vec2 mousePos, glm::vec3 normal, glm::vec3 sPoint, glm::vec3 point1Plane);
 	void eventAxis();
@@ -61,8 +64,7 @@ private:
 	float deltaTime = 0.0f;
 	float lastFrame = 0.0f;
 	ImVec2 lastPos;
-	glm::mat4 projection;
-	glm::mat4 view;
+
 	unsigned int framebuffer = 0;
 	unsigned int textureColorbuffer = 0;
 
