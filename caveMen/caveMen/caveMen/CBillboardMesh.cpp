@@ -17,10 +17,11 @@ void CBillboardMesh::Draw()
 	mshader->setMat4("projection", CAppEditer::Instance()->projection);
 	mshader->setMat4("view", CAppEditer::Instance()->view);
 	mshader->setMat4("model", modelMatrix);
-
+	
 	glBindVertexArray(VAO);
-	glDrawElements(GL_POINTS, indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+
 }
 
 void CBillboardMesh::setupMesh()
@@ -49,8 +50,8 @@ void CBillboardMesh::setupMesh()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(SVertex), (void*)offsetof(SVertex, Color));
 
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(SVertex), (void*)offsetof(SVertex, TexCoords));
+	//glEnableVertexAttribArray(2);
+	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(SVertex), (void*)offsetof(SVertex, TexCoords));
 
 	glBindVertexArray(0);
 }

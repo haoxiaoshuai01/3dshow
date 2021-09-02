@@ -87,7 +87,7 @@ CCube::CCube( glm::mat4 * pro, glm::mat4 * view,Shader *shader):
 		i++;
 
 	}
-	std::cout << m << "\n";
+	//std::cout << m << "\n";
 	genboundingbox(m);
 }
 

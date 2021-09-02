@@ -32,7 +32,6 @@ time_t getTimeStamp()
 	return timestamp;
 }
 
-
 void CAppEditer::init()
 {
 	
@@ -43,11 +42,9 @@ void CAppEditer::init()
 	lineShader = new Shader("../../res/shader/line.vs", "../../res/shader/line.fs");
 	skyboxShader = new Shader("../../res/shader/skybox.vs", "../../res/shader/skybox.fs");
 	meshBillboardShader = new Shader("../../res/shader/cmesh_Billboard_shader.vs", 
-		"../../res/shader/cmesh_Billboard_shader.gs",
-		"../../res/shader/cmesh_Billboard_shader.fs");
-	
-	// load models
-	// -----------
+		"../../res/shader/cmesh_Billboard_shader.fs",
+		"../../res/shader/cmesh_Billboard_shader.gs");
+
 	addSkyBox();
 	stbi_set_flip_vertically_on_load(true);
 	SetupFbo();
@@ -143,10 +140,8 @@ void CAppEditer::addMesh()
 
 void CAppEditer::addSkyBox()
 {
-	
 	CSkybox *box = new CSkybox(skyboxShader, &projection, &view);
 	drawObject.insert(drawObject.begin(), box);
-
 }
 
 void CAppEditer::addGridLine()
@@ -206,13 +201,13 @@ void CAppEditer::addBilboard()
 	v.push_back(SVertex(vec3(-10.0f, 10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(0, 1)));
 	v.push_back(SVertex(vec3(10.0f, 10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(1, 1)));
 	v.push_back(SVertex(vec3(10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(1, 0)));
-	v.push_back(SVertex(vec3(-10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(0, 0)));
+	//v.push_back(SVertex(vec3(-10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(0, 0)));
 
 	std::vector<unsigned int> indices_;
 	indices_.push_back(0);
 	indices_.push_back(1);
 	indices_.push_back(2);
-	indices_.push_back(3);
+	//indices_.push_back(3);
 
 
 	CBillboardMesh *p = new CBillboardMesh(v,indices_);
@@ -427,9 +422,9 @@ void CAppEditer::Draw()
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-	//std::cout << deltaTime;
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	// don't forget to enable shader before setting uniforms
 	
 	// view/projection transformations

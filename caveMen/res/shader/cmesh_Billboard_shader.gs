@@ -1,6 +1,6 @@
 #version 330 core
-layout (points) in;
-layout (triangle_strip, max_vertices = 5) out;
+layout (triangles) in;
+layout (triangle_strip, max_vertices = 4) out;
 
 in VS_OUT {
     vec3 color;
@@ -8,23 +8,20 @@ in VS_OUT {
 
 out vec3 fColor;
 
-void build_house(vec4 position)
-{    
-    fColor = gs_in[0].color; // gs_in[0] since there's only one input vertex
-    gl_Position = position + vec4(-10.0, -10.0, 10.0, 0.0); // 1:bottom-left   
-    EmitVertex();   
-    gl_Position = position + vec4( 10.0, -10.0, 10.0, 0.0); // 2:bottom-right
-    EmitVertex();
-    gl_Position = position + vec4(-10.0,  10.0,10.0, 0.0); // 3:top-left
-    EmitVertex();
-    gl_Position = position + vec4( 10.0, 10.0, 10.0, 0.0); // 4:top-right
-    EmitVertex();
-  //  gl_Position = position + vec4( 0.0,  20.0,10.0, 0.0); // 5:top
- //   fColor = vec3(1.0, 1.0, 1.0);
- //   EmitVertex();
-    EndPrimitive();
-}
 
 void main() {    
-    build_house(gl_in[0].gl_Position);
+
+	fColor = gs_in[0].color; 
+    gl_Position = gl_in[0].gl_Position ; 
+    EmitVertex();   
+	fColor = gs_in[1].color; 
+    gl_Position = gl_in[1].gl_Position ;
+    EmitVertex();
+	fColor = gs_in[2].color; 
+    gl_Position = gl_in[2].gl_Position ;
+    EmitVertex();
+	fColor = gs_in[2].color; 
+    gl_Position = vec4(-10.0f, -10.0f, 3.0f,1.0f);
+    EmitVertex();
+    EndPrimitive();
 }
