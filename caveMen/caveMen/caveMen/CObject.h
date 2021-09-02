@@ -23,7 +23,8 @@ enum class EActorType
 	eMesh,
 	eCube,
 	eCircle,
-	eSkyBox
+	eSkyBox,
+	eBillBoard
 };
 unsigned int TextureFromFile(const char *path, const std::string &directory, bool gamma = false);
 class CObject

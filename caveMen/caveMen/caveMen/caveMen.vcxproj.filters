@@ -120,6 +120,9 @@
     <ClInclude Include="C3DViewPortWidget.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CBillboardMesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\imgui\imgui.cpp">
@@ -192,6 +195,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="C3DViewPortWidget.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CBillboardMesh.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

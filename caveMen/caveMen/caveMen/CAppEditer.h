@@ -43,6 +43,7 @@ public:
 	int windowsH;
 	glm::mat4 projection;
 	glm::mat4 view;
+	Shader *meshBillboardShader;
 private:
 	glm::vec3 calcPlaneIntersectPoint(glm::vec2 mousePos, glm::vec3 normal, glm::vec3 sPoint, glm::vec3 point1Plane);
 	void eventAxis();
@@ -53,7 +54,7 @@ private:
 	Shader *meshShader;
 	Shader *lineShader;
 	Shader *skyboxShader;
-	Shader *meshBillboardShader;
+
 	std::vector<CObject *> drawObject;
 	std::vector<CObject *> mselelaxis;
 	CMesh * testMesh;

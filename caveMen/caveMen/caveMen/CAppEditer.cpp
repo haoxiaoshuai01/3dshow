@@ -21,6 +21,8 @@
 #include "CSkybox.h"
 #include "CCube.h"
 #include "C3DViewPortWidget.h"
+#include "CBillboardMesh.h"
+
 
 using namespace glm;
 time_t getTimeStamp()
@@ -57,7 +59,7 @@ void CAppEditer::init()
 	addGridLine();
 	addAxis();
 	addCube();
-	
+	addBilboard();
 
 	//最后绘制 通过深度测试 永远在前方
 	addseleAxis();
@@ -200,7 +202,21 @@ void CAppEditer::addseleAxis()
 
 void CAppEditer::addBilboard()
 {
-	
+	std::vector<SVertex> v;
+	v.push_back(SVertex(vec3(-10.0f, 10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(0, 1)));
+	v.push_back(SVertex(vec3(10.0f, 10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(1, 1)));
+	v.push_back(SVertex(vec3(10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(1, 0)));
+	v.push_back(SVertex(vec3(-10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(0, 0)));
+
+	std::vector<unsigned int> indices_;
+	indices_.push_back(0);
+	indices_.push_back(1);
+	indices_.push_back(2);
+	indices_.push_back(3);
+
+
+	CBillboardMesh *p = new CBillboardMesh(v,indices_);
+	drawObject.push_back(p);
 }
 
 void CAppEditer::addCube()
