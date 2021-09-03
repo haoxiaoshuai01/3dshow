@@ -17,11 +17,13 @@ void main() {
 	fColor = gs_in[1].color; 
     gl_Position = gl_in[1].gl_Position ;
     EmitVertex();
+	
 	fColor = gs_in[2].color; 
+    gl_Position = gl_in[2].gl_Position +vec4(-0.5, 0, 0,1.0f);
+    EmitVertex();
+
+	/*fColor = gs_in[2].color; 
     gl_Position = gl_in[2].gl_Position ;
-    EmitVertex();
-	fColor = gs_in[2].color; 
-    gl_Position = vec4(-10.0f, -10.0f, 3.0f,1.0f);
-    EmitVertex();
+    EmitVertex();*/
     EndPrimitive();
 }

@@ -100,12 +100,12 @@ CSkybox::CSkybox(Shader*skyboxShader, glm::mat4 *pro, glm::mat4 *view) :
 
 	std::vector<std::string> faces
 	{
-		("../../res/textures/skybox/right.jpg"),
-		("../../res/textures/skybox/left.jpg"),
-		("../../res/textures/skybox/top.jpg"),
-		("../../res/textures/skybox/bottom.jpg"),
-		("../../res/textures/skybox/front.jpg"),
-		("../../res/textures/skybox/back.jpg")
+		("../../../res/textures/skybox/right.jpg"),
+		("../../../res/textures/skybox/left.jpg"),
+		("../../../res/textures/skybox/top.jpg"),
+		("../../../res/textures/skybox/bottom.jpg"),
+		("../../../res/textures/skybox/front.jpg"),
+		("../../../res/textures/skybox/back.jpg")
 	};
 	cubemapTexture = loadCubemap(faces);
 

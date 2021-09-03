@@ -37,19 +37,19 @@ void CAppEditer::init()
 	
 	camera = new Camera(glm::vec3(0.0f, 3.0f, 20.0f));
 	
-	modelShader = new Shader("../../res/shader/1.model_loading.vs", "../../res/shader/1.model_loading.fs");
-	meshShader = new Shader("../../res/shader/cmesh_shader.vs", "../../res/shader/cmesh_shader.fs");
-	lineShader = new Shader("../../res/shader/line.vs", "../../res/shader/line.fs");
-	skyboxShader = new Shader("../../res/shader/skybox.vs", "../../res/shader/skybox.fs");
-	meshBillboardShader = new Shader("../../res/shader/cmesh_Billboard_shader.vs", 
-		"../../res/shader/cmesh_Billboard_shader.fs",
-		"../../res/shader/cmesh_Billboard_shader.gs");
+	modelShader = new Shader("../../../res/shader/1.model_loading.vs", "../../../res/shader/1.model_loading.fs");
+	meshShader = new Shader("../../../res/shader/cmesh_shader.vs", "../../../res/shader/cmesh_shader.fs");
+	lineShader = new Shader("../../../res/shader/line.vs", "../../../res/shader/line.fs");
+	skyboxShader = new Shader("../../../res/shader/skybox.vs", "../../../res/shader/skybox.fs");
+	meshBillboardShader = new Shader("../../../res/shader/cmesh_Billboard_shader.vs", 
+		"../../../res/shader/cmesh_Billboard_shader.fs",
+		"../../../res/shader/cmesh_Billboard_shader.gs");
 
 	addSkyBox();
 	stbi_set_flip_vertically_on_load(true);
 	SetupFbo();
 	view3dwidget = new C3DViewPortWidget();
-	testTexture = TextureFromFile("awesomeface.png", "../../res/textures");
+	testTexture = TextureFromFile("awesomeface.png", "../../../res/textures");
 	view3dwidget->textureID = textureColorbuffer;
 	
 	//addModel();
