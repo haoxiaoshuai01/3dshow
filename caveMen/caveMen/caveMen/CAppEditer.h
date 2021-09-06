@@ -48,12 +48,13 @@ public:
 	Shader *meshShader;
 	Shader *lineShader;
 	Shader *skyboxShader;
+	Camera *camera;
 private:
 	glm::vec3 calcPlaneIntersectPoint(glm::vec2 mousePos, glm::vec3 normal, glm::vec3 sPoint, glm::vec3 point1Plane);
 	void eventAxis();
 private:
 	C3DViewPortWidget *view3dwidget;
-	Camera *camera;
+	
 
 	std::vector<CObject *> drawObject;
 	std::vector<CObject *> mselelaxis;
@@ -69,7 +70,7 @@ private:
 	unsigned int framebuffer = 0;
 	unsigned int textureColorbuffer = 0;
 
-	unsigned int testTexture = 0;
+	//unsigned int testTexture = 0;
 	
 };
 

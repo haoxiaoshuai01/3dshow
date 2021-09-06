@@ -1,10 +1,11 @@
 #include "CBillboardMesh.h"
+#include "learnopengl/camera.h"
 
-
-CBillboardMesh::CBillboardMesh(std::vector<SVertex> vertices, std::vector<unsigned int> indices)
+CBillboardMesh::CBillboardMesh(std::vector<SVertex> vertices, std::vector<unsigned int> indices, unsigned int textureId_)
 {
 	this->vertices = vertices;
 	this->indices = indices;
+	textureID = textureId_;
 	this->actorType = EActorType::eBillBoard;
 	setupMesh();
 }
@@ -17,10 +18,21 @@ void CBillboardMesh::Draw()
 	mshader->setMat4("projection", CAppEditer::Instance()->projection);
 	mshader->setMat4("view", CAppEditer::Instance()->view);
 	mshader->setMat4("model", modelMatrix);
+	mshader->setVec3("gCameraPos", CAppEditer::Instance()->camera->Position);
+	mshader->setVec3("gCameraUP", CAppEditer::Instance()->camera->Up);
+	vec3 up = CAppEditer::Instance()->camera->Up;
 	
+	glActiveTexture(GL_TEXTURE0);
+	mshader->setInt("texture_diffuse1", 0);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+
 	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_POINTS, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+
+	glActiveTexture(GL_TEXTURE0);
+	
+
 
 }
 

@@ -49,7 +49,7 @@ void CAppEditer::init()
 	stbi_set_flip_vertically_on_load(true);
 	SetupFbo();
 	view3dwidget = new C3DViewPortWidget();
-	testTexture = TextureFromFile("awesomeface.png", "../../../res/textures");
+	
 	view3dwidget->textureID = textureColorbuffer;
 	
 	//addModel();
@@ -199,22 +199,23 @@ void CAppEditer::addBilboard()
 {
 	std::vector<SVertex> v;
 	v.push_back(SVertex(vec3(-10.0f, 10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(0, 1)));
-	v.push_back(SVertex(vec3(10.0f, 10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(1, 1)));
-	v.push_back(SVertex(vec3(10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(1, 0)));
-	v.push_back(SVertex(vec3(-10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(0, 0)));
+	//v.push_back(SVertex(vec3(10.0f, 10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(1, 1)));
+	//v.push_back(SVertex(vec3(10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(1, 0)));
+	//v.push_back(SVertex(vec3(-10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(0, 0)));
 
 	std::vector<unsigned int> indices_;
 	indices_.push_back(0);
-	indices_.push_back(1);
-	indices_.push_back(2);
+	//indices_.push_back(1);
+	//indices_.push_back(2);
 
-	indices_.push_back(2);
-	indices_.push_back(3);
-	indices_.push_back(0);
+	//indices_.push_back(2);
+	//indices_.push_back(3);
+	//indices_.push_back(0);
 
-
-	CBillboardMesh *p = new CBillboardMesh(v,indices_);
+	unsigned int  testTexture = TextureFromFile("awesomeface.png", "../../../res/textures");
+	CBillboardMesh *p = new CBillboardMesh(v,indices_, testTexture);
 	drawObject.push_back(p);
+
 }
 
 void CAppEditer::addCube()
