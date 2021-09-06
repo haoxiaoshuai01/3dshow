@@ -201,13 +201,16 @@ void CAppEditer::addBilboard()
 	v.push_back(SVertex(vec3(-10.0f, 10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(0, 1)));
 	v.push_back(SVertex(vec3(10.0f, 10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(1, 1)));
 	v.push_back(SVertex(vec3(10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(1, 0)));
-	//v.push_back(SVertex(vec3(-10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(0, 0)));
+	v.push_back(SVertex(vec3(-10.0f, -10.0f, 3.0f), vec3(0.5, 0.6, 0.5), vec2(0, 0)));
 
 	std::vector<unsigned int> indices_;
 	indices_.push_back(0);
 	indices_.push_back(1);
 	indices_.push_back(2);
-	//indices_.push_back(3);
+
+	indices_.push_back(2);
+	indices_.push_back(3);
+	indices_.push_back(0);
 
 
 	CBillboardMesh *p = new CBillboardMesh(v,indices_);
