@@ -123,6 +123,9 @@
     <ClInclude Include="CBillboardMesh.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CShowScreenMesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\imgui\imgui.cpp">
@@ -198,6 +201,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CBillboardMesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CShowScreenMesh.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -320,6 +326,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="..\..\res\shader\cmesh_Billboard_shader.fs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\..\res\shader\aftertreatment_shader.vs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\..\res\shader\aftertreatment_shader.fs">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

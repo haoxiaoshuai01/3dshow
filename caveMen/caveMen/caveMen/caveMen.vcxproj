@@ -154,6 +154,7 @@
     <ClInclude Include="CObject.h" />
     <ClInclude Include="COptimize.h" />
     <ClInclude Include="CPointCloud.h" />
+    <ClInclude Include="CShowScreenMesh.h" />
     <ClInclude Include="CSkybox.h" />
     <ClInclude Include="CWidget.h" />
     <ClInclude Include="dataStruct.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="COptimize.cpp" />
     <ClCompile Include="CPointCloud.cpp" />
+    <ClCompile Include="CShowScreenMesh.cpp" />
     <ClCompile Include="CSkybox.cpp" />
     <ClCompile Include="CWidget.cpp" />
     <ClCompile Include="geometry.cpp" />
@@ -219,6 +221,8 @@
     <None Include="..\..\includes\Eigen\UmfPackSupport" />
     <None Include="..\..\res\shader\1.model_loading.fs" />
     <None Include="..\..\res\shader\1.model_loading.vs" />
+    <None Include="..\..\res\shader\aftertreatment_shader.fs" />
+    <None Include="..\..\res\shader\aftertreatment_shader.vs" />
     <None Include="..\..\res\shader\cmesh_Billboard_shader.fs" />
     <None Include="..\..\res\shader\cmesh_Billboard_shader.gs" />
     <None Include="..\..\res\shader\cmesh_Billboard_shader.vs" />

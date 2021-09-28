@@ -22,7 +22,7 @@
 #include "CCube.h"
 #include "C3DViewPortWidget.h"
 #include "CBillboardMesh.h"
-
+#include "CShowScreenMesh.h"
 
 using namespace glm;
 time_t getTimeStamp()
@@ -44,20 +44,23 @@ void CAppEditer::init()
 	meshBillboardShader = new Shader("../../../res/shader/cmesh_Billboard_shader.vs", 
 		"../../../res/shader/cmesh_Billboard_shader.fs",
 		"../../../res/shader/cmesh_Billboard_shader.gs");
+	aftertreatmentShader = new Shader("../../../res/shader/aftertreatment_shader.vs",
+		"../../../res/shader/aftertreatment_shader.fs");
+	
 
+	view3dwidget = new C3DViewPortWidget();
+	view3dwidget->textureID = &finalScreenTexture;
+	showAfterMesh = new CShowScreenMesh(&screenTexture);
 	addSkyBox();
 	stbi_set_flip_vertically_on_load(true);
+	
 	SetupFbo();
-	view3dwidget = new C3DViewPortWidget();
-	
-	view3dwidget->textureID = textureColorbuffer;
-	
+
 	//addModel();
 	addGridLine();
 	addAxis();
 	addCube();
 	addBilboard();
-
 	//最后绘制 通过深度测试 永远在前方
 	addseleAxis();
 }
@@ -65,6 +68,7 @@ void CAppEditer::init()
 CAppEditer::CAppEditer()
 {
 	myp = this;
+	
 }
 CAppEditer *CAppEditer::myp = nullptr;
  CAppEditer * CAppEditer::Instance()
@@ -79,28 +83,56 @@ CAppEditer::~CAppEditer()
 
 void CAppEditer::SetupFbo()
 {
-	// framebuffer configuration
-   // -------------------------
-
-	glGenFramebuffers(1, &framebuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-	// create a color attachment texture
-	
-	glGenTextures(1, &textureColorbuffer);
-	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowsW, windowsH, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
-	// create a renderbuffer object for depth and stencil attachment (we won't be sampling these)
+	// configure MSAA framebuffer
+	// --------------------------
+	glGenFramebuffers(1, &multiSampleFramebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, multiSampleFramebuffer);
+	// create a multisampled color attachment texture
+	glGenTextures(1, &textureColorBufferMultiSampled);
+	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, textureColorBufferMultiSampled);
+	glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, GL_RGB, windowsW, windowsH, GL_TRUE);
+	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, textureColorBufferMultiSampled, 0);
+	// create a (also multisampled) renderbuffer object for depth and stencil attachments
 	unsigned int rbo;
 	glGenRenderbuffers(1, &rbo);
 	glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, windowsW, windowsH); // use a single renderbuffer object for both a depth AND stencil buffer.
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo); // now actually attach it
-																								  // now that we actually created the framebuffer and added all attachments we want to check if it is actually complete now
+	glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH24_STENCIL8, windowsW, windowsH);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << endl;
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// configure second post-processing framebuffer
+
+	glGenFramebuffers(1, &multiSampleToIntermediateFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, multiSampleToIntermediateFBO);
+	// create a color attachment texture
+	glGenTextures(1, &screenTexture);
+	glBindTexture(GL_TEXTURE_2D, screenTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowsW, windowsH, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, screenTexture, 0);	// we only need a color buffer
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		cout << "ERROR::FRAMEBUFFER:: Intermediate framebuffer is not complete!" << endl;
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	glGenFramebuffers(1, &finalFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, finalFBO);
+	// create a color attachment texture
+	glGenTextures(1, &finalScreenTexture);
+	glBindTexture(GL_TEXTURE_2D, finalScreenTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowsW, windowsH, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, finalScreenTexture, 0);	// we only need a color buffer
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		cout << "ERROR::FRAMEBUFFER:: Intermediate framebuffer is not complete!" << endl;
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -425,7 +457,7 @@ void CAppEditer::Draw()
 	float currentFrame = glfwGetTime();
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
-	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, multiSampleFramebuffer);
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -439,7 +471,16 @@ void CAppEditer::Draw()
 	{
 		itemModel->Draw();
 	}
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, multiSampleFramebuffer);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, multiSampleToIntermediateFBO);
+	glBlitFramebuffer(0, 0, windowsW, windowsH, 0, 0, windowsW, windowsH, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
+	glBindFramebuffer(GL_FRAMEBUFFER,finalFBO);
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST);
+	showAfterMesh->Draw();
+	
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	/*glEnable(GL_DEPTH_TEST);

@@ -193,7 +193,7 @@ void C3DViewPortWidget::update()
 	{
 		ImGui::Begin("view 3d");
 		ImGuiWindow* window = GImGui->CurrentWindow;
-		ImGui::Image((void *)(intptr_t)textureID, 
+		ImGui::Image((void *)(intptr_t)(*textureID), 
 			ImVec2(window->ContentRegionRect.GetWidth(), window->ContentRegionRect.GetHeight()),
 			ImVec2(0,1),ImVec2(1,0));
 

@@ -4,6 +4,7 @@
 #include <vector>
 #include "CObject.h"
 #include "imgui.h"
+
 time_t getTimeStamp();
 class Camera; 
 class Shader;
@@ -13,6 +14,7 @@ class CLine;
 class CPointCloud;
 class CLinewidth1;
 class C3DViewPortWidget;
+class CShowScreenMesh;
 class CAppEditer
 {
 public:
@@ -39,6 +41,7 @@ public:
 	void hideSeleAixs();
 	void Draw();
 	glm::vec3 getScreenWordPos(glm::vec2 pos);
+
 	int windowsW;
 	int windowsH;
 	glm::mat4 projection;
@@ -48,13 +51,14 @@ public:
 	Shader *meshShader;
 	Shader *lineShader;
 	Shader *skyboxShader;
+	Shader *aftertreatmentShader;
 	Camera *camera;
 private:
 	glm::vec3 calcPlaneIntersectPoint(glm::vec2 mousePos, glm::vec3 normal, glm::vec3 sPoint, glm::vec3 point1Plane);
 	void eventAxis();
 private:
 	C3DViewPortWidget *view3dwidget;
-	
+	CShowScreenMesh *showAfterMesh;
 
 	std::vector<CObject *> drawObject;
 	std::vector<CObject *> mselelaxis;
@@ -67,10 +71,13 @@ private:
 	float lastFrame = 0.0f;
 	ImVec2 lastPos;
 
-	unsigned int framebuffer = 0;
-	unsigned int textureColorbuffer = 0;
-
+	unsigned int multiSampleFramebuffer = 0;
+	unsigned int textureColorBufferMultiSampled = 0;
+	unsigned int multiSampleToIntermediateFBO;
+	unsigned int screenTexture;
+	unsigned int finalFBO;
+	unsigned int finalScreenTexture;
 	//unsigned int testTexture = 0;
-	
+		
 };
 
