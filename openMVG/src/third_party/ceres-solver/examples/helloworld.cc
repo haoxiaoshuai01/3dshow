@@ -67,10 +67,10 @@ int main(int argc, char** argv) {
   // Set up the only cost function (also known as residual). This uses
   // auto-differentiation to obtain the derivative (jacobian).
   CostFunction* cost_function =
-      new AutoDiffCostFunction<CostFunctor, 1, 1>(new CostFunctor);
+	  new AutoDiffCostFunction<CostFunctor, 1, 1>(new CostFunctor);
   problem.AddResidualBlock(cost_function, NULL, &x);
 
-  // Run the solver!
+  //// Run the solver!
   Solver::Options options;
   options.minimizer_progress_to_stdout = true;
   Solver::Summary summary;
@@ -78,6 +78,6 @@ int main(int argc, char** argv) {
 
   std::cout << summary.BriefReport() << "\n";
   std::cout << "x : " << initial_x
-            << " -> " << x << "\n";
+           << " -> " << x << "\n";
   return 0;
 }
