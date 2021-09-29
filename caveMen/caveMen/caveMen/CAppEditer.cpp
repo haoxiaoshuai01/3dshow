@@ -23,6 +23,7 @@
 #include "C3DViewPortWidget.h"
 #include "CBillboardMesh.h"
 #include "CShowScreenMesh.h"
+#include "CAppRepository.h"
 
 using namespace glm;
 time_t getTimeStamp()
@@ -51,9 +52,10 @@ void CAppEditer::init()
 	view3dwidget = new C3DViewPortWidget();
 	view3dwidget->textureID = &finalScreenTexture;
 	showAfterMesh = new CShowScreenMesh(&screenTexture);
+
 	addSkyBox();
 	stbi_set_flip_vertically_on_load(true);
-	
+	CAppRepository::Instance();
 	SetupFbo();
 
 	//addModel();

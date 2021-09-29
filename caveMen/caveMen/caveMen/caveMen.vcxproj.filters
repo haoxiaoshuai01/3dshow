@@ -126,6 +126,9 @@
     <ClInclude Include="CShowScreenMesh.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CAppRepository.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\imgui\imgui.cpp">
@@ -204,6 +207,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CShowScreenMesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CAppRepository.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,4 +1,5 @@
 #include "CShowScreenMesh.h"
+#include "CAppRepository.h"
 //float quadVertices[] = {   // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
 //	 positions   // texCoords
 //	-1.0f,  1.0f,  0.0f, 1.0f,
@@ -45,6 +46,7 @@ void CShowScreenMesh::Draw()
 {
 	CAppEditer::Instance()->aftertreatmentShader->use();
 	CAppEditer::Instance()->aftertreatmentShader->setInt("screenTexture", 0);
+	CAppEditer::Instance()->aftertreatmentShader->setInt("type", (int)(CAppRepository::Instance()->aftertreatmentType));
 	// draw mesh
 	glBindVertexArray(VAO);
 	glActiveTexture(GL_TEXTURE0);

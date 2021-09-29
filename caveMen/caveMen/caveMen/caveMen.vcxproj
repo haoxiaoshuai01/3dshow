@@ -146,6 +146,7 @@
     <ClInclude Include="..\..\includes\learnopengl\shader_m.h" />
     <ClInclude Include="C3DViewPortWidget.h" />
     <ClInclude Include="CAppEditer.h" />
+    <ClInclude Include="CAppRepository.h" />
     <ClInclude Include="CArrowsAxis.h" />
     <ClInclude Include="CBillboardMesh.h" />
     <ClInclude Include="CCube.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="..\..\main.cpp" />
     <ClCompile Include="C3DViewPortWidget.cpp" />
     <ClCompile Include="CAppEditer.cpp" />
+    <ClCompile Include="CAppRepository.cpp" />
     <ClCompile Include="CArrowsAxis.cpp" />
     <ClCompile Include="CBillboardMesh.cpp" />
     <ClCompile Include="CCube.cpp" />
