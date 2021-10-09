@@ -44,6 +44,8 @@ public:
 
 	int windowsW;
 	int windowsH;
+	int viewPortW;
+	int viewPortH;
 	glm::mat4 projection;
 	glm::mat4 view;
 	Shader *meshBillboardShader;

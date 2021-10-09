@@ -193,9 +193,23 @@ void C3DViewPortWidget::update()
 	{
 		ImGui::Begin("view 3d");
 		ImGuiWindow* window = GImGui->CurrentWindow;
+		float w = window->ContentRegionRect.GetWidth();
+		float h = window->ContentRegionRect.GetHeight();
+
+
 		ImGui::Image((void *)(intptr_t)(*textureID), 
-			ImVec2(window->ContentRegionRect.GetWidth(), window->ContentRegionRect.GetHeight()),
+			ImVec2(w, h),
 			ImVec2(0,1),ImVec2(1,0));
+
+		ImVec2 maxImage = ImGui::GetItemRectMax();
+		ImVec2 minImage = ImGui::GetItemRectMin();
+		ImVec2 wh =  ImGui::GetItemRectSize();
+
+		CAppEditer::Instance()->viewPortW = wh.x;
+		CAppEditer::Instance()->viewPortH = wh.y;
+		mouseRelativePos = ImVec2(ImGui::GetMousePos().x - minImage.x, ImGui::GetMousePos().y - minImage.y);
+
+		
 
 		ImGui::End();
 	}
@@ -206,7 +220,4 @@ void C3DViewPortWidget::update()
 		isInit = false;
 		setLayout();
 	}
-
-
-
 }

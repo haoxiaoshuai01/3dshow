@@ -198,7 +198,8 @@ void CAppEditer::addModel()
 	p->eulerAngle = vec3(45.0f, 0.0f,0.0f);
 	//p->showBox();
 	p->update();
-	
+		
+
 	//Model*p2 = new Model(*p);
 	//drawModel.push_back(p2);
 	/*p2->postion = glm::vec3(-5.0f, 0.0f, 0.0f);
@@ -254,10 +255,12 @@ void CAppEditer::addBilboard()
 
 void CAppEditer::addCube()
 {
+
 	auto cube = new CCube(&projection, &view, meshShader);
-	cube->postion = glm::vec3(5.0f, 2.5f, 0.1f);
+	cube->postion = glm::vec3(0, 2.5f, 0);
 	cube->update();
 	drawObject.push_back(cube);
+
 }
 
 void CAppEditer::addAxis()
@@ -306,7 +309,7 @@ void CAppEditer::eventAxis()
 		if (item->isSelected)
 		{
 			CArrowsAxis *arrowp = (CArrowsAxis *)item;
-			vec3 nowWPos = calcPlaneIntersectPoint(vec2(ImGui::GetMousePos().x, ImGui::GetMousePos().y),
+			vec3 nowWPos = calcPlaneIntersectPoint(vec2(view3dwidget->mouseRelativePos.x, view3dwidget->mouseRelativePos.y),
 				arrowp->model->postion - camera->Position,
 				camera->Position, vec3(0));
 			vec3 lastWPos = calcPlaneIntersectPoint(vec2(lastPos.x, lastPos.y), arrowp->model->postion - camera->Position,
@@ -353,16 +356,16 @@ void CAppEditer::Update()
 	
 	if (ImGui::IsMouseDown(ImGuiMouseButton_Right))
 	{
-		float xoffset = ImGui::GetMousePos().x - lastPos.x;
-		float yoffset = lastPos.y - ImGui::GetMousePos().y;
+		float xoffset = view3dwidget->mouseRelativePos.x - lastPos.x;
+		float yoffset = lastPos.y - view3dwidget->mouseRelativePos.y;
 
 		camera->ProcessMouseMovement(xoffset, yoffset);
 	}
 	
 	if (ImGui::IsMouseDown(ImGuiMouseButton_Left))
 	{
-		float xoffset = ImGui::GetMousePos().x - lastPos.x;
-		float yoffset = lastPos.y - ImGui::GetMousePos().y;
+		float xoffset = view3dwidget->mouseRelativePos.x - lastPos.x;
+		float yoffset = lastPos.y - view3dwidget->mouseRelativePos.y;
 		bool moveFlag = (xoffset != 0) || (yoffset != 0);
 		if (moveAxiseActive && moveFlag)
 		{
@@ -381,7 +384,7 @@ void CAppEditer::Update()
 	}
 	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
-		glm::vec3 posWorld =  getScreenWordPos({ ImGui::GetMousePos().x, ImGui::GetMousePos().y });
+		glm::vec3 posWorld =  getScreenWordPos({ view3dwidget->mouseRelativePos.x, view3dwidget->mouseRelativePos.y });
 		
 		CLinewidth1 *line = new CLinewidth1(vec3(camera->Position.x, camera->Position.y, camera->Position.z), posWorld, lineShader,
 			&projection, &view);
@@ -422,7 +425,7 @@ void CAppEditer::Update()
 		//boost::thread my_thread_1([]() {while (1) { std::cout << "hello\n"; }});
 	}
 	
-	lastPos = ImGui::GetMousePos();
+	lastPos = view3dwidget->mouseRelativePos;
 
 	DrawWidget();
 	
@@ -466,7 +469,7 @@ void CAppEditer::Draw()
 	// don't forget to enable shader before setting uniforms
 	
 	// view/projection transformations
-	projection = glm::perspective(glm::radians(camera->Zoom), (float)windowsW / (float)windowsH, 0.1f, 1000.0f);
+	projection = glm::perspective(glm::radians(camera->Zoom), viewPortH ? ((float)viewPortW / (float)viewPortH):0, 0.1f, 1000.0f);
 	view = camera->GetViewMatrix();
 
 	for (auto &itemModel : drawObject)
@@ -533,9 +536,8 @@ void CAppEditer::Draw()
 
 glm::vec3 CAppEditer::getScreenWordPos(glm::vec2 pos)
 {
-
-	float x = (2.0f * pos.x) / windowsW - 1.0f;
-	float y = 1.0f - (2.0f * pos.y / windowsH);
+	float x = (2.0f * pos.x) / viewPortW - 1.0f;
+	float y = 1.0f - (2.0f * pos.y / viewPortH);
 	float z = 1.0f;
 	vec3 ray_nds = vec3(x, y, z);
 	vec4 ray_clip = vec4(ray_nds.x, ray_nds.y, ray_nds.z, 1.0);

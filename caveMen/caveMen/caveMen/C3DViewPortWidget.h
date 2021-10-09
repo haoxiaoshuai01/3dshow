@@ -12,6 +12,7 @@ public:
 	void ShowExampleAppDockSpace(bool * p_open);
 	void update();
 	ImGuiID dockspace_id;
+	ImVec2 mouseRelativePos;
 	unsigned int *textureID;
 };
 

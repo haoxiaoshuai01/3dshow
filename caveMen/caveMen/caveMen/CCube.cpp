@@ -1,80 +1,91 @@
 #include "CCube.h"
-
+#define N 2
 CCube::CCube( glm::mat4 * pro, glm::mat4 * view,Shader *shader):
 	mshader(shader),mview(view),mpro(pro)
 {
 	actorType = EActorType::eCube;
-	vertices.push_back(SVertex(vec3(-1.0f, -1.0f, -1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(1.0f, -1.0f, -1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(1.0f, 1.0f, -1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(-1.0f, 1.0f, -1.0f), vec3(0.7, 0.7, 0.7)));
 
-	vertices.push_back(SVertex(vec3(-1.0f, -1.0f, 1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(1.0f, -1.0f, 1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(1.0f, 1.0f, 1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(-1.0f, 1.0f, 1.0f), vec3(0.7, 0.7, 0.7)));
+	vec3  color(0.7, 0.7, 0.7);
+	for (int i = 0; i < 2; i++)
+	{
+		for (int j = 0; j < N; j++)
+		{
+			vertices.push_back(SVertex(vec3(-1.0f, -1.0f, -1.0f)+vec3(i * 5,0,j * 5), color));
+			vertices.push_back(SVertex(vec3(1.0f, -1.0f, -1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(1.0f, 1.0f, -1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(-1.0f, 1.0f, -1.0f) + vec3(i * 5, 0, j * 5), color));
 
-	vertices.push_back(SVertex(vec3(-1.0f, 1.0f, 1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(-1.0f, 1.0f, -1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(-1.0f, -1.0f, -1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(-1.0f, -1.0f, 1.0f), vec3(0.7, 0.7, 0.7)));
+			vertices.push_back(SVertex(vec3(-1.0f, -1.0f, 1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(1.0f, -1.0f, 1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(1.0f, 1.0f, 1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(-1.0f, 1.0f, 1.0f) + vec3(i * 5, 0, j * 5), color));
 
-	vertices.push_back(SVertex(vec3(1.0f, 1.0f, 1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(1.0f, 1.0f, -1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(1.0f, -1.0f, -1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(1.0f, -1.0f, 1.0f), vec3(0.7, 0.7, 0.7)));
+			vertices.push_back(SVertex(vec3(-1.0f, 1.0f, 1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(-1.0f, 1.0f, -1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(-1.0f, -1.0f, -1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(-1.0f, -1.0f, 1.0f) + vec3(i * 5, 0, j * 5), color));
 
-	vertices.push_back(SVertex(vec3(-1.0f, -1.0f, -1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(1.0f, -1.0f, -1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(1.0f, -1.0f, 1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(-1.0f, -1.0f, 1.0f), vec3(0.7, 0.7, 0.7)));
+			vertices.push_back(SVertex(vec3(1.0f, 1.0f, 1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(1.0f, 1.0f, -1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(1.0f, -1.0f, -1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(1.0f, -1.0f, 1.0f) + vec3(i * 5, 0, j * 5), color));
 
-	vertices.push_back(SVertex(vec3(-1.0f, 1.0f, -1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(1.0f, 1.0f, -1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(1.0f, 1.0f, 1.0f), vec3(0.7, 0.7, 0.7)));
-	vertices.push_back(SVertex(vec3(-1.0f, 1.0f, 1.0f), vec3(0.7, 0.7, 0.7)));
+			vertices.push_back(SVertex(vec3(-1.0f, -1.0f, -1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(1.0f, -1.0f, -1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(1.0f, -1.0f, 1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(-1.0f, -1.0f, 1.0f) + vec3(i * 5, 0, j * 5), color));
 
-	indices.push_back(0);
-	indices.push_back(3);
-	indices.push_back(2);
-	indices.push_back(2);
-	indices.push_back(1);
-	indices.push_back(0);
+			vertices.push_back(SVertex(vec3(-1.0f, 1.0f, -1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(1.0f, 1.0f, -1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(1.0f, 1.0f, 1.0f) + vec3(i * 5, 0, j * 5), color));
+			vertices.push_back(SVertex(vec3(-1.0f, 1.0f, 1.0f) + vec3(i * 5, 0, j * 5), color));
 
-	indices.push_back(0 + 4);
-	indices.push_back(1 + 4);
-	indices.push_back(2 + 4);
-	indices.push_back(2 + 4);
-	indices.push_back(3 + 4);
-	indices.push_back(0 + 4);
+			int id = i * N + j;
+			indices.push_back(0 + id);
+			indices.push_back(3 + id);
+			indices.push_back(2 + id);
+			indices.push_back(2 + id);
+			indices.push_back(1 + id);
+			indices.push_back(0 + id);
 
-	indices.push_back(0 + 8);
-	indices.push_back(1 + 8);
-	indices.push_back(2 + 8);
-	indices.push_back(2 + 8);
-	indices.push_back(3 + 8);
-	indices.push_back(0 + 8);
+			indices.push_back(0 + 4 + id);
+			indices.push_back(1 + 4 + id);
+			indices.push_back(2 + 4 + id);
+			indices.push_back(2 + 4 + id);
+			indices.push_back(3 + 4 + id);
+			indices.push_back(0 + 4 + id);
 
-	indices.push_back(0 + 12);
-	indices.push_back(3 + 12);
-	indices.push_back(2 + 12);
-	indices.push_back(2 + 12);
-	indices.push_back(1 + 12);
-	indices.push_back(0 + 12);
+			indices.push_back(0 + 8 + id);
+			indices.push_back(1 + 8 + id);
+			indices.push_back(2 + 8 + id);
+			indices.push_back(2 + 8 + id);
+			indices.push_back(3 + 8 + id);
+			indices.push_back(0 + 8 + id);
 
-	indices.push_back(0 + 16);
-	indices.push_back(1 + 16);
-	indices.push_back(2 + 16);
-	indices.push_back(2 + 16);
-	indices.push_back(3 + 16);
-	indices.push_back(0 + 16);
+			indices.push_back(0 + 12 + id);
+			indices.push_back(3 + 12 + id);
+			indices.push_back(2 + 12 + id);
+			indices.push_back(2 + 12 + id);
+			indices.push_back(1 + 12 + id);
+			indices.push_back(0 + 12 + id);
 
-	indices.push_back(0 + 20);
-	indices.push_back(3 + 20);
-	indices.push_back(2 + 20);
-	indices.push_back(2 + 20);
-	indices.push_back(1 + 20);
-	indices.push_back(0 + 20);
+			indices.push_back(0 + 16 + id);
+			indices.push_back(1 + 16 + id);
+			indices.push_back(2 + 16 + id);
+			indices.push_back(2 + 16 + id);
+			indices.push_back(3 + 16 + id);
+			indices.push_back(0 + 16 + id);
+
+			indices.push_back(0 + 20 + id);
+			indices.push_back(3 + 20 + id);
+			indices.push_back(2 + 20 + id);
+			indices.push_back(2 + 20 + id);
+			indices.push_back(1 + 20 + id);
+			indices.push_back(0 + 20 + id);
+		}
+	}
+
+	
 	setupMesh();
 	Eigen::Matrix<float, Eigen::Dynamic, 3> m;
 	m.resize(vertices.size(),3);
@@ -100,11 +111,11 @@ void CCube::Draw()
 
 	// draw mesh
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
-	glDisable(GL_CULL_FACE);
+	//glDisable(GL_CULL_FACE);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
