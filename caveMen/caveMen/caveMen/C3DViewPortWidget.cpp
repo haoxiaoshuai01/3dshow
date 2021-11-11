@@ -188,6 +188,11 @@ void C3DViewPortWidget::update()
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		
 		ImGui::InputInt("afterType", (int *)&(CAppRepository::Instance()->aftertreatmentType));
+		if (ImGui::Checkbox("begin move", &beginMove))
+		{
+			if(moveFunction)
+				moveFunction();
+		}
 		ImGui::End();
 	}
 	{

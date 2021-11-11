@@ -8,7 +8,7 @@ public:
 	CPointCloud(std::vector<glm::vec2>  postions);
 	void updateVectorCloud();
 	void Draw();
-	std::vector<glm::vec2>  postions;
+	
 	float z = 3.01f;
 	//// mesh Data
 	std::vector<SVertex>       vertices;

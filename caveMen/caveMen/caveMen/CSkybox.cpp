@@ -35,7 +35,7 @@ CSkybox::CSkybox(Shader*skyboxShader, glm::mat4 *pro, glm::mat4 *view) :
 {
 	actorType = EActorType::eSkyBox;
 	vertices = {
-		// positions          
+	// positions          
 	vec3(-1.0f,  1.0f, -1.0f),
 	vec3(-1.0f, -1.0f, -1.0f),
 	vec3(1.0f, -1.0f, -1.0f),

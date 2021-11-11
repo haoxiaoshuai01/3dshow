@@ -191,7 +191,7 @@ void CAppEditer::addGridLine()
 
 void CAppEditer::addModel()
 {
-	Model*p = new Model("../../res/objects/backpack/backpack.obj",modelShader,lineShader,&projection,&view);
+	Model*p = new Model("../../../res/objects/women/untitled.fbx",modelShader,lineShader,&projection,&view);
 	drawObject.push_back(p);
 	p->postion = glm::vec3(-5.0f, 2.5f, 0.1f);
 	//p->S = vec3(0.5f, 1.0f, 0.5f);
@@ -255,12 +255,10 @@ void CAppEditer::addBilboard()
 
 void CAppEditer::addCube()
 {
-
 	auto cube = new CCube(&projection, &view, meshShader);
 	cube->postion = glm::vec3(0, 2.5f, 0);
 	cube->update();
 	drawObject.push_back(cube);
-
 }
 
 void CAppEditer::addAxis()
@@ -411,7 +409,14 @@ void CAppEditer::Update()
 						{
 							showSeleAxiesActived = true;
 							showSAeleAxiesPara = item;
-							
+							selectObjects.clear();
+							selectObjects.push_back(item);
+							view3dwidget->moveFunction = [item]() {
+								CCube * p = dynamic_cast<CCube *>(item);
+								p->isActivedMove = true;
+								p->beginPosition = p->postion;
+								p->endPosition = p->postion + vec3(10,0,0);
+							};
 						}
 						if (item->actorType == EActorType::eSeleAixs)
 						{
@@ -428,6 +433,9 @@ void CAppEditer::Update()
 	lastPos = view3dwidget->mouseRelativePos;
 
 	DrawWidget();
+	
+	
+	
 	
 }
 

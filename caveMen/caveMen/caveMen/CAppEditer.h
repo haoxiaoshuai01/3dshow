@@ -65,6 +65,8 @@ private:
 	std::vector<CObject *> drawObject;
 	std::vector<CObject *> mselelaxis;
 	CMesh * testMesh;
+	std::vector<CObject *> selectObjects;
+	bool modelMoveActived;
 	//std::vector<CLine *> drawLine;
 	//std::vector<CLinewidth1 *> drawLineWidth1s;
 	

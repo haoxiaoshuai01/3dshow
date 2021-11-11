@@ -20,5 +20,9 @@ public:
 	glm::mat4 *mpro;
 	glm::mat4 *mview;
 	Shader * mshader;
+
+	bool isActivedMove = false;
+	vec3 beginPosition;
+	vec3 endPosition;
 };
 

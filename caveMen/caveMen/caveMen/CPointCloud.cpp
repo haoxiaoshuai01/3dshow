@@ -1,15 +1,15 @@
 #include "CPointCloud.h"
 
-CPointCloud::CPointCloud(std::vector<glm::vec2>  postions)
+CPointCloud::CPointCloud()
 {
-	this->postions = postions;
+	//this->postions = postions;
 	updateVectorCloud();
 	setupMesh();
 }
 
 void CPointCloud::updateVectorCloud()
 {
-	int triangleAmount = 15;
+	/*int triangleAmount = 15;
 	float radius = 0.05f;
 	float rad360 = 2 * glm::pi<float>();
 	for (int iPos=0; iPos <postions.size(); iPos++)
@@ -38,7 +38,7 @@ void CPointCloud::updateVectorCloud()
 			}
 		}
 
-	}
+	}*/
 }
 
 void CPointCloud::Draw()
@@ -64,10 +64,10 @@ void CPointCloud::setupMesh()
 	// A great thing about structs is that their memory layout is sequential for all its items.
 	// The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
 	// again translates to 3/2 floats which translates to a byte array.
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(SVertex), &vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(SVertex), &vertices[0], GL_DYNAMIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_DYNAMIC_DRAW);
 
 	// set the vertex attribute pointers
 	// vertex Positions

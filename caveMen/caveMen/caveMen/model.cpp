@@ -64,10 +64,8 @@ void Model::Draw()
 
 	for (auto item : drawLineWidth1s)
 	{
-		
 		item->Draw();
 	}
-	
 }
 
 void Model::addBox()
@@ -111,4 +109,9 @@ void Model::addAxies()
 	
 
 }
+
+void Model::getScene()
+{
+}
+	
 
