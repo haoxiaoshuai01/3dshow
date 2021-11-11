@@ -5,7 +5,7 @@ class CPointCloud :
 	public CObject
 {
 public:
-	CPointCloud(std::vector<glm::vec2>  postions);
+	CPointCloud();
 	void updateVectorCloud();
 	void Draw();
 	
