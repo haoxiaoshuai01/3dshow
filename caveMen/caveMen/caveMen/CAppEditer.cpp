@@ -5,7 +5,7 @@
 #include <learnopengl/shader_m.h>
 #include <learnopengl/camera.h>
 #include <learnopengl/model.h>
-#include "stb_image.h"
+#include "stb/stb_image.h"
 #include "CMesh.h"
 #include <iostream>
 #include <imgui.h>
@@ -24,6 +24,7 @@
 #include "CBillboardMesh.h"
 #include "CShowScreenMesh.h"
 #include "CAppRepository.h"
+#include "stb/stb_image_write.h"
 
 using namespace glm;
 time_t getTimeStamp()
@@ -493,6 +494,19 @@ void CAppEditer::Draw()
 	glClear(GL_COLOR_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
 	showAfterMesh->Draw();
+	
+	//int w = windowsW;
+	//int h = windowsH;
+	//unsigned char * data = new unsigned char[w * h * 4];
+
+	//glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+	/*stbi_flip_vertically_on_write(true);
+	stbi_write_jpg("hellomyfile.jpg",w,h,4,data,100);
+	stbi_flip_vertically_on_write(false);*/
+
+
+	//delete[] data;
 	
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

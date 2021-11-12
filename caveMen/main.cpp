@@ -108,7 +108,7 @@ int main(int, char**)
 	editerP->windowsW = widthW;
 	app = editerP;
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1); // Enable vsync
+    glfwSwapInterval(0); // Enable vsync
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     // Initialize OpenGL loader
