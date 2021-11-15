@@ -26,6 +26,7 @@
 #include "CAppRepository.h"
 #include "stb/stb_image_write.h"
 
+
 using namespace glm;
 time_t getTimeStamp()
 {
@@ -495,6 +496,7 @@ void CAppEditer::Draw()
 	glDisable(GL_DEPTH_TEST);
 	showAfterMesh->Draw();
 	
+	CImageProcessOpengl
 	//int w = windowsW;
 	//int h = windowsH;
 	//unsigned char * data = new unsigned char[w * h * 4];
